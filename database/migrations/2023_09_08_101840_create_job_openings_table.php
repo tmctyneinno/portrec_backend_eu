@@ -13,19 +13,27 @@ return new class extends Migration
     {
         Schema::create('job_openings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("company_id")->references("id")->on("companies")->onDelete("cascade");
-            $table->string("employment_type_id");
-            $table->string("type_id");
-            $table->string("salary_range")->nullable();
-            $table->string("category_id");
+            $table->foreignId('recruiter_id')->constrained();
+            $table->foreignId("company_id")->constrained();
+            $table->string('title')->nullable();
+            $table->string('job_functions')->nullable();
+            $table->string('qualifications')->nullable();
+            $table->string('location')->nullable();
+            $table->string("work_type_id")->constrained();
+            $table->text("experience");
+            $table->double('min_salary')->nullable();
+            $table->double('max_salary')->nullable();
+            $table->dateTime('deadline')->nullable();
+            $table->string("title");
+            $table->text("description");
             $table->integer("total_view")->default(0);
             $table->string("required_skills");
-            $table->text("job_description");
-            $table->text("responsibilities");
-            $table->text("qaulifications");
             $table->text("other_qualification")->nullable();
             $table->json("benefits")->nullable();
             $table->timestamps();
+            // $table->string("employment_type_id");
+            // $table->string("category_id");
+            // $table->text("responsibilities");
         });
     }
 

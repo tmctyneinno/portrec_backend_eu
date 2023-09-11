@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_resumes', function (Blueprint $table) {
+        Schema::create('menus', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("user_id")->references("id")->on("users")->onDelete("cascade");
-            $table->string("doc_url")->nullable();
-            $table->string("doc_name")->nullable();
+            $table->string('name')->nullable();
+            $table->string('slug')->nullable();
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_resumes');
+        Schema::dropIfExists('menus');
     }
 };

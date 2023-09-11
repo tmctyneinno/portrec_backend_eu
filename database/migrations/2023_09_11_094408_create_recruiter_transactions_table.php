@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_resumes', function (Blueprint $table) {
+        Schema::create('recruiter_transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("user_id")->references("id")->on("users")->onDelete("cascade");
-            $table->string("doc_url")->nullable();
-            $table->string("doc_name")->nullable();
+            $table->foreignId('recruiter_id')->constrained();
+            $table->string('ref')->nullable();
+            $table->string('payment_ref')->nullable();
+            $table->double('amount')->nullable();
+            $table->string('reason')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_resumes');
+        Schema::dropIfExists('recruiter_transactions');
     }
 };
