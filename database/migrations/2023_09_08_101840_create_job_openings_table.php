@@ -28,7 +28,7 @@ return new class extends Migration
             $table->text("description");
             $table->integer("total_view")->default(0);
             $table->string("required_skills");
-            $table->text("other_qualification")->nullable();
+            $table->text("other_qualifications")->nullable();
             $table->json("benefits")->nullable();
             $table->timestamps();
             // $table->string("employment_type_id");

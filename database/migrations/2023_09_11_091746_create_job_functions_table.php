@@ -14,14 +14,14 @@ return new class extends Migration
     {
         Schema::create('job_functions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('industries_id');
+            $table->unsignedInteger('industry_id');
             // $table->foreignId('industries_id')->constrained();
             $table->string('name')->nullable();
             $table->timestamps();
         });
 
         $data = [
-            "industries_id" => "1",
+            "industry_id" => "1",
             "name" => "Fullstack Developer"
         ];
         DB::table('job_functions')->insert($data);
