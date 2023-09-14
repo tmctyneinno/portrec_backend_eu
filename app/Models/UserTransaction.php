@@ -10,4 +10,9 @@ class UserTransaction extends Model
 {
     use HasFactory, SoftDeletes;
     protected $fillable = ['user_id', 'ref', 'payment_ref', 'amount', 'reason'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

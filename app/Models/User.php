@@ -41,4 +41,59 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function userTransactions()
+    {
+        return $this->hasMany(UserTransaction::class);
+    }
+
+    public function userSubscriptions()
+    {
+        return $this->hasMany(UserSubscriber::class);
+    }
+
+    public function userResume()
+    {
+        return $this->hasMany(UserResume::class);
+    }
+
+    public function interview()
+    {
+        return $this->hasMany(Interview::class);
+    }
+
+    public function jobApplication()
+    {
+        return $this->hasMany(Candidate::class);
+    }
+
+    public function userEducation()
+    {
+        return $this->hasMany(Education::class);
+    }
+
+    public function applicationAnswer()
+    {
+        return $this->hasManyThrough(ApplicationAnswer::class, Application::class, "user_id", "application_id", "id", "id");
+    }
+
+    public function coverLetters()
+    {
+        return $this->hasMany(CoverLetter::class);
+    }
+
+    public function workExperience()
+    {
+        return $this->hasMany(WorkExperience::class);
+    }
+
+    public function userSkills()
+    {
+        return $this->hasManyThrough(AcquiredSkill::class, Skill::class, "user_id", "skill_id", "id", "id");
+    }
+
+    public function userSUbscription()
+    {
+        return $this->hasOneThrough(UserSubscriber::class, UserSubscription::class, "user_id", "user_subscription_id", "id", "id");
+    }
 }

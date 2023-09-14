@@ -10,4 +10,14 @@ class ApplicationQualification extends Model
 {
     use HasFactory, SoftDeletes;
     protected $fillable = ['recruiter_id', 'job_id', 'questions'];
+
+    public function recruiter()
+    {
+        return $this->belongsTo(Recruiter::class);
+    }
+
+    public function  job()
+    {
+        return $this->belongsTo(JobOpening::class, "job_id", "id");
+    }
 }
