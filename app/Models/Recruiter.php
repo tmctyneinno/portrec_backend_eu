@@ -16,7 +16,7 @@ class Recruiter extends Model
 
     // public function recruiterJobs()
     // {
-        
+
     // }
 
     public function recruiterSubscriptions()
@@ -31,6 +31,6 @@ class Recruiter extends Model
 
     public function recruiterCompany()
     {
-        return $this->belongsTo(Company::class);
+        return $this->hasMany(Company::class);
     }
 }

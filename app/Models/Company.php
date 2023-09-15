@@ -15,7 +15,7 @@ class Company extends Model
 
     public function recruiters()
     {
-        return $this->hasMany(Recruiter::class);
+        return $this->belongsTo(Recruiter::class);
     }
 
     public function companyType()
