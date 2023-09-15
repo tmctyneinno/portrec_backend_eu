@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Symfony\Component\HttpKernel\Profiler\Profile;
 
 class User extends Authenticatable
 {
@@ -42,6 +43,16 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function profilePic()
+    {
+        return $this->hasOne(ProfilePicture::class);
+    }
+
+    public function userEducation()
+    {
+        return $this->hasMany(Education::class);
+    }
+
     public function userTransactions()
     {
         return $this->hasMany(UserTransaction::class);
@@ -67,14 +78,19 @@ class User extends Authenticatable
         return $this->hasMany(Candidate::class);
     }
 
-    public function userEducation()
-    {
-        return $this->hasMany(Education::class);
-    }
-
     public function applicationAnswer()
     {
         return $this->hasManyThrough(ApplicationAnswer::class, Application::class, "user_id", "application_id", "id", "id");
+    }
+
+    public function applications()
+    {
+        return $this->hasMany(Application::class);
+    }
+
+    public function userJobApplications()
+    {
+        return $this->hasMany(UserJobApplication::class, "job_id", "id");
     }
 
     public function coverLetters()
@@ -95,5 +111,15 @@ class User extends Authenticatable
     public function userSUbscription()
     {
         return $this->hasOneThrough(UserSubscriber::class, UserSubscription::class, "user_id", "user_subscription_id", "id", "id");
+    }
+
+    public function portfolios()
+    {
+        return $this->hasMany(Portfolio::class);
+    }
+
+    public function userAwards()
+    {
+        return $this->hasMany(Award::class);
     }
 }

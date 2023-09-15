@@ -12,4 +12,22 @@ class Recruiter extends Model
     protected $fillable = ['name', 'email', 'password', 'phone', 'location', 'recruiter_level'];
 
     protected $hidden = ['password'];
+
+
+    public function recruiterJobs()
+    {
+    }
+
+    public function recruiterSubscriptions()
+    {
+    }
+
+    public function recruiterTransactions()
+    {
+    }
+
+    public function recruiterCompany()
+    {
+        return $this->belongsTo(Company::class);
+    }
 }

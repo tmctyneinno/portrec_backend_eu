@@ -12,4 +12,14 @@ class Company extends Model
     protected $fillable = [
         'recruiter_id', 'name', 'cac', 'company_type_id', 'company_industry', 'website', 'address', 'phone', 'email', 'logo', 'image', 'description'
     ];
+
+    public function recruiters()
+    {
+        return $this->hasMany(Recruiter::class);
+    }
+
+    public function companyType()
+    {
+        return $this->belongsTo(CompanyType::class);
+    }
 }
