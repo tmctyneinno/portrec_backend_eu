@@ -14,16 +14,19 @@ class Recruiter extends Model
     protected $hidden = ['password'];
 
 
-    public function recruiterJobs()
-    {
-    }
+    // public function recruiterJobs()
+    // {
+        
+    // }
 
     public function recruiterSubscriptions()
     {
+        return $this->hasMany(RecruiterSubscription::class);
     }
 
     public function recruiterTransactions()
     {
+        return $this->hasMany(RecruiterTransaction::class);
     }
 
     public function recruiterCompany()

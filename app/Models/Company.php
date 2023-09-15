@@ -22,4 +22,9 @@ class Company extends Model
     {
         return $this->belongsTo(CompanyType::class);
     }
+
+    public function jobs()
+    {
+        return $this->hasMany(JobOpening::class);
+    }
 }
