@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('award_title');
             $table->string('award_type');
             $table->string('issue_date');
+            $table->timestamp("deleted_at")->nullable();
             $table->timestamps();
         });
     }

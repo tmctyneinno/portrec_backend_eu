@@ -19,6 +19,7 @@ return new class extends Migration
             $table->dateTime('end_date')->nullable();
             $table->integer('status')->nullable()->comment('1 = active, -1 = cancel, 0 =active');
             $table->integer('is_paid')->nullable();
+            $table->timestamp("deleted_at")->nullable();
             $table->timestamps();
         });
     }

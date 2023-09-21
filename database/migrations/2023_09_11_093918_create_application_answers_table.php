@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('application_id')->nullable();
             $table->text('questions')->nullable();
             $table->string('answers')->nullable();
+            $table->timestamp("deleted_at")->nullable();
             $table->timestamps();
         });
     }

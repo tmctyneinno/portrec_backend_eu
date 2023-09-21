@@ -12,9 +12,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('awards_types', function (Blueprint $table) {
+        Schema::create('award_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->timestamp("deleted_at")->nullable();
             $table->timestamps();
         });
 

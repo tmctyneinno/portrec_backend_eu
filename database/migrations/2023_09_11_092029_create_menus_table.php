@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('slug')->nullable();
             $table->integer('status')->default(0);
+            $table->timestamp("deleted_at")->nullable();
             $table->timestamps();
         });
     }

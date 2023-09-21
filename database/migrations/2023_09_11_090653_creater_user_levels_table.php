@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('user_levels', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
+            $table->timestamp("deleted_at")->nullable();
             $table->timestamps();
         });
     }

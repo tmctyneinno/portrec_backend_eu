@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string("end_time");
             $table->string("note");
             $table->string("event_type_id");
+            $table->timestamp("deleted_at")->nullable();
             $table->timestamps();
         });
     }

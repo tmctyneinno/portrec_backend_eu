@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string("instagram");
             $table->string("image_path");
             $table->string("password");
+            $table->timestamp("deleted_at")->nullable();
             $table->timestamps();
         });
     }

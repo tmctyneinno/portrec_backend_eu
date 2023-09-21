@@ -16,6 +16,7 @@ return new class extends Migration
             $table->text('image_url');
             $table->foreignId('portfolio_id')->constrained();
             $table->foreignId('user_id')->constrained();
+            $table->timestamp("deleted_at")->nullable();
             $table->timestamps();
         });
     }

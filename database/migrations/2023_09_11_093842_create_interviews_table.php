@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('location')->nullable();
             $table->dateTime('interview_date')->nullable();
             $table->string('status')->nullable();
+            $table->timestamp("deleted_at")->nullable();
             $table->timestamps();
         });
     }

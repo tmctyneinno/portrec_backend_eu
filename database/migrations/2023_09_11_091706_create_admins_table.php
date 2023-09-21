@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('admin_type')->default('recruiter');
             $table->string('admin_level')->default(0);
             $table->string('image_path')->nullable();
+            $table->timestamp("deleted_at")->nullable();
             $table->timestamps();
         });
     }

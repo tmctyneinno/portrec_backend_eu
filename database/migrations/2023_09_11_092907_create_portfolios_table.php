@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('project_solution')->nullable();
             $table->text('project_url')->nullable();
             $table->text('images')->nullable();
+            $table->timestamp("deleted_at")->nullable();
             $table->timestamps();
         });
     }

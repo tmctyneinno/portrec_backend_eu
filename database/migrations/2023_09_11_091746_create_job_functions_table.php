@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedInteger('industry_id');
             // $table->foreignId('industries_id')->constrained();
             $table->string('name')->nullable();
+            $table->timestamp("deleted_at")->nullable();
             $table->timestamps();
         });
 

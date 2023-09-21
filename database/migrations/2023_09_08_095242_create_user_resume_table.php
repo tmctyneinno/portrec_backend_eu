@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId("user_id")->references("id")->on("users")->onDelete("cascade");
             $table->string("doc_url")->nullable();
             $table->string("doc_name")->nullable();
+            $table->timestamp("deleted_at")->nullable();
             $table->timestamps();
         });
     }

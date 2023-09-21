@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('recruiter_id')->nullable();
             $table->foreignId('job_id')->nullable();
             $table->text('questions')->nullable();
+            $table->timestamp("deleted_at")->nullable();
             $table->timestamps();
         });
     }

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string("load");
             $table->string("allowance");
             $table->string("others");
+            $table->timestamp("deleted_at")->nullable();
             $table->timestamps();
         });
     }

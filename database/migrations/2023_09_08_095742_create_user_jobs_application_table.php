@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string("resume_link");
             $table->text("cover_letter")->nullable();
             $table->string("cover_letter_link")->nullable();
+            $table->timestamp("deleted_at")->nullable();
             $table->timestamps();
         });
     }

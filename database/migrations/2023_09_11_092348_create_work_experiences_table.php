@@ -26,6 +26,7 @@ return new class extends Migration
             $table->foreignId('work_type_id')->constrained();
             $table->text('description')->nullable();
             $table->integer('status')->default(0);
+            $table->timestamp("deleted_at")->nullable();
             $table->timestamps();
         });
     }

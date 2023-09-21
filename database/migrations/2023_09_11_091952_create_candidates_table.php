@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('professional_headline')->nullable();
             $table->string('years_experience')->nullable();
             $table->string('experience_level')->nullable();
+            $table->timestamp("deleted_at")->nullable();
             $table->timestamps();
         });
     }

@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('acquired_skills', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('skill_id')->constrained();
+        Schema::table('users', function (Blueprint $table) {
             $table->timestamp("deleted_at")->nullable();
-            $table->timestamps();
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('acquired_skills');
+        Schema::table('users', function (Blueprint $table) {
+            //
+        });
     }
 };

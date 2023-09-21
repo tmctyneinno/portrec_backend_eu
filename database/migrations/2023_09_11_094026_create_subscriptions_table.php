@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('duration')->nullable();
             $table->integer('period')->nullable();
             $table->double('amount')->nullable();
+            $table->timestamp("deleted_at")->nullable();
             $table->timestamps();
         });
     }

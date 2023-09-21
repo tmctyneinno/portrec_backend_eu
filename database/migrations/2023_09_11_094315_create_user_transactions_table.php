@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('payment_ref')->nullable();
             $table->double('amount')->nullable();
             $table->string('reason')->nullable();
+            $table->timestamp("deleted_at")->nullable();
             $table->timestamps();
         });
     }

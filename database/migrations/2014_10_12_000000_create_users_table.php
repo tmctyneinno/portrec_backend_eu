@@ -36,7 +36,6 @@ return new class extends Migration
             $table->text("about_me")->nullable();
             $table->text("skills")->nullable();
             $table->string("industries_id")->nullable();
-            $table->string("title")->nullable();
             $table->string("role")->nullable();
             $table->string('password');
             $table->timestamp('email_verified_at')->nullable();
