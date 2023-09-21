@@ -11,13 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_job_applications', function (Blueprint $table) {
+        Schema::create('events', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("job_id")->references("id")->on("users");
-            $table->string("status")->default("pending");
-            $table->string("resume_link");
-            $table->text("cover_letter")->nullable();
-            $table->string("cover_letter_link")->nullable();
+            $table->string("title");
+            $table->string("address");
+            $table->string("start_date");
+            $table->string("end_date");
+            $table->string("start_time");
+            $table->string("end_time");
+            $table->string("note");
+            $table->string("event_type_id");
             $table->timestamps();
         });
     }
@@ -27,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_job_applications');
+        Schema::dropIfExists('events');
     }
 };

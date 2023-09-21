@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_job_applications', function (Blueprint $table) {
+        Schema::create('payroles', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("job_id")->references("id")->on("users");
-            $table->string("status")->default("pending");
-            $table->string("resume_link");
-            $table->text("cover_letter")->nullable();
-            $table->string("cover_letter_link")->nullable();
+            $table->string("employee_id");
+            $table->string("basic_salary");
+            $table->string("house_rent_allowance");
+            $table->string("tax");
+            $table->string("load");
+            $table->string("allowance");
+            $table->string("others");
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_job_applications');
+        Schema::dropIfExists('payroles');
     }
 };
