@@ -40,6 +40,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'recruiter' => [
+            'driver' => 'session',
+            'provider' => 'recruiters',
+        ]
     ],
 
     /*
@@ -64,6 +69,10 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
+        "recruiters" => [
+            "driver" => 'eloquent',
+            "model" => App\Models\Recruiter::class
+        ]
 
         // 'users' => [
         //     'driver' => 'database',
@@ -93,6 +102,13 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        'recruiters' => [
+            'provider' => 'recruiters',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,
