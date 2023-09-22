@@ -25,7 +25,7 @@ class Handler extends ExceptionHandler
     {
         $this->renderable(function (Throwable $e, $request) {
             if ($request->is("api/*")) {
-                return response(["error" => "Object not found", "code" => $e->getCode()], 500);
+                return response(["error" => "Object not found", "code" => $e->getCode()], 404);
             }
         });
     }
