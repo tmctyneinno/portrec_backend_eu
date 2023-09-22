@@ -23,8 +23,10 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        $this->renderable(function (Throwable $e, $request) {
+            if ($request->is("api/*")) {
+                return response(["error" => "Object not found", "code" => $e->getCode()], 500);
+            }
         });
     }
 }

@@ -27,5 +27,5 @@ Route::prefix("user")->group(function () {
 
 Route::prefix("recruiter")->group(function () {
     Route::post("signup", [RecruiterAuthController::class, "signup"]);
-    Route::post("sigin", [RecruiterAuthController::class, "signin"]);
+    Route::post("sigin", [RecruiterAuthController::class, "sigin"]);
 });
