@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('job_openings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('recruiter_id')->constrained();
-            $table->foreignId("company_id")->constrained();
+            // $table->foreignId('recruiter_id')->constrained();
+            // $table->foreignId("company_id")->constrained();
             $table->string('title');
             $table->text("description");
             $table->string("required_skills");
-            $table->string("job_type_id")->constrained();
+            // $table->string("job_type_id")->constrained();
             $table->double('min_salary')->nullable();
             $table->double('max_salary')->nullable();
             $table->string('job_functions')->nullable();

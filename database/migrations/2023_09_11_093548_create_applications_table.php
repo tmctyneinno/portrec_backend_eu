@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('applications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('job_id')->constrained();
+            // $table->foreignId('user_id')->constrained();
+            // $table->foreignId('job_id')->constrained();
             $table->integer('cv_id')->nullable();
             $table->integer('cover_letter_id')->nullable();
             $table->text('portfolio_links')->nullable();
