@@ -2,7 +2,17 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Session\TokenMismatchException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Exception\MethodNotAllowedException;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -18,6 +28,10 @@ class Handler extends ExceptionHandler
         'password_confirmation',
     ];
 
+    public function res($err, $code)
+    {
+        return response(["status" => $code, "error" => $err], $code);
+    }
     /**
      * Register the exception handling callbacks for the application.
      */
@@ -25,7 +39,44 @@ class Handler extends ExceptionHandler
     {
         $this->renderable(function (Throwable $e, $request) {
             if ($request->is("api/*")) {
-                return response(["error" => "Object not found", "code" => $e->getCode()], 404);
+                if ($e instanceof ModelNotFoundException) {
+                    return $this->res("model does not exist", 404);
+                }
+
+                if ($e instanceof AuthenticationException) {
+                    return $this->res("user not found", 404);
+                }
+
+                if ($e instanceof AuthorizationException) {
+                    return $this->res("You are not authorized", 401);
+                }
+
+                if ($e instanceof RouteNotFoundException) {
+                    return $this->res("The specified URL cannot be found", 404);
+                }
+                if ($e instanceof NotFoundHttpException) {
+                    return $this->res("not found", 404);
+                }
+
+                if ($e instanceof MethodNotAllowedException) {
+                    return $this->res("The specified method for the requests is invalid", 405);
+                }
+
+                if ($e instanceof MethodNotAllowedHttpException) {
+                    return $this->res("The specified method for the requests is invalid", 405);
+                }
+
+                if ($e instanceof HttpException) {
+                    return $this->res($e->getMessage(), $e->getStatusCode());
+                }
+
+                if ($e instanceof QueryException) {
+                    return $this->res("Cannot remove this resource permanently. It is related with another resource", 409);
+                }
+
+                if ($e instanceof TokenMismatchException) {
+                    return $this->res("invalid user", 405);
+                }
             }
         });
     }

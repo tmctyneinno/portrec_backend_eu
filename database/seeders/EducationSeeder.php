@@ -2,19 +2,22 @@
 
 namespace Database\Seeders;
 
-use App\Models\Recruiter;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-class RecruiterSeeder extends Seeder
+class EducationSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Recruiter::factory(500)->create();
+        $data = [
+            "user_id" => rand(1, 500),
+            "institution" => Str::random(12),
+            "qaulification" => Str::random(5),
+
+        ];
     }
 }

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Company;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class CompanySeeder extends Seeder
 {
@@ -13,8 +14,6 @@ class CompanySeeder extends Seeder
      */
     public function run(): void
     {
-        Company::insert([
-            'recruiter_id' => 1,
-        ]);
+        Company::factory(500)->create();
     }
 }

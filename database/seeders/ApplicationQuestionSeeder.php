@@ -2,19 +2,18 @@
 
 namespace Database\Seeders;
 
-use App\Models\Recruiter;
+use App\Models\ApplicationQuestion;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-class RecruiterSeeder extends Seeder
+class ApplicationQuestionSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Recruiter::factory(500)->create();
+        ApplicationQuestion::factory(200)->create();
     }
 }
