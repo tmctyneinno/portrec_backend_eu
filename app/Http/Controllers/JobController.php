@@ -11,10 +11,10 @@ use Illuminate\Http\Request;
 
 class JobController extends BaseController
 {
-    public $jc = "jobs as total";
+    public $jc = "jobs as total_jobs";
     public function showJobs()
     {
-        $allJobs = JobOpening::with(["recruiter:id,name,email,phone", "company", "jobType", "title"])->take(1)->get();
+        $allJobs = JobOpening::with(["recruiter:id,name,email,phone", "company", "jobType", "title"])->paginate(15);
         return $this->successMessage($allJobs);
     }
 
