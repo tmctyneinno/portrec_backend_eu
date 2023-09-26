@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use BadMethodCallException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -68,6 +69,10 @@ class Handler extends ExceptionHandler
 
                 if ($e instanceof HttpException) {
                     return $this->res($e->getMessage(), $e->getStatusCode());
+                }
+
+                if ($e instanceof BadMethodCallException) {
+                    return $this->res("method does not exist", 404);
                 }
 
                 if ($e instanceof QueryException) {

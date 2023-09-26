@@ -25,8 +25,8 @@ class JobOpeningFactory extends Factory
             "required_skills" => Str::random(10),
             "job_functions" => rand(1, 10),
             "recruiter_id" => rand(1, 500),
-            // "company_id" => rand(1, 500),
-            "job_type_id" => rand(1, 500),
+            "company_id" => rand(1, 500),
+            "job_type_id" => rand(1, 5),
             "experience" => Str::random(100)
         ];
     }

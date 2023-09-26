@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\RecruiterAuthController;
 use App\Http\Controllers\Auth\UserAuthController;
+use App\Http\Controllers\JobController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,4 +29,12 @@ Route::prefix("user")->group(function () {
 Route::prefix("recruiter")->group(function () {
     Route::post("signup", [RecruiterAuthController::class, "signup"]);
     Route::post("sigin", [RecruiterAuthController::class, "sigin"]);
+});
+
+Route::prefix("job")->group(function () {
+    Route::get("all", [JobController::class, "showJobs"]);
+    Route::get("categories", [JobController::class, "jobCategories"]);
+    Route::get("types", [JobController::class, "jobTypes"]);
+    Route::get("functions/{id?}", [JobController::class, "jobFunctions"]);
+    Route::get("/{id}", [JobController::class, "jobDetails"]);
 });

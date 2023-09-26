@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class JobFunction extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
     protected $fillable = ['industry_id', 'name'];
+
+    public  function jobs()
+    {
+        return $this->hasMany(JobOpening::class, "job_functions", "id");
+    }
 }
