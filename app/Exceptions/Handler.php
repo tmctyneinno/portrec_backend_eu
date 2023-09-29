@@ -15,6 +15,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Throwable;
+use UnexpectedValueException;
 
 class Handler extends ExceptionHandler
 {
@@ -82,6 +83,12 @@ class Handler extends ExceptionHandler
                 if ($e instanceof TokenMismatchException) {
                     return $this->res("invalid user", 405);
                 }
+
+                if ($e instanceof UnexpectedValueException) {
+                    return $this->res("permission denied", 405);
+                }
+
+                return $this->res("server error", 500);
             }
         });
     }
