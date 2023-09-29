@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\RecruiterAuthController;
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\UserProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +25,31 @@ use Illuminate\Support\Facades\Route;
 Route::prefix("user")->group(function () {
     Route::post("signup", [UserAuthController::class, "signup"]);
     Route::post("sigin", [UserAuthController::class, "signin"]);
+    Route::middleware("auth:sanctum")->group(function () {
+        Route::get("profile", [UserProfileController::class, "myProfile"]);
+        Route::put("profile", [UserProfileController::class, "updateProfile"]);
+        Route::post("profile/picture", [UserProfileController::class, "uploadProfileImage"]);
+        Route::put("profile/picture/{id}", [UserProfileController::class, "updateProfilePicture"]);
+
+        Route::post("skill", [UserProfileController::class, "skill"]);
+        Route::put("skill/{id}", [UserProfileController::class, "updateSkill"]);
+
+        Route::post("education", [UserProfileController::class, "education"]);
+        Route::put("education/{id}", [UserProfileController::class, "updateEducation"]);
+        Route::delete("education/{id}", [UserProfileController::class, "deleteEducation"]);
+
+        Route::post("resume", [UserProfileController::class, "uploadResume"]);
+        Route::delete("resume/{id}", [UserProfileController::class, "uploadResume"]);
+
+        Route::post("cover-letter", [UserProfileController::class, "writeCoverLetter"]);
+        Route::post("cover-letter/upload", [UserProfileController::class, "uploadCoverLetter"]);
+        Route::put("cover-letter/{id}", [UserProfileController::class, "updateCoverLetter"]);
+        Route::delete("cover-letter/{id}", [UserProfileController::class, "deleteCoverLetter"]);
+
+        Route::post("experience", [UserProfileController::class, "workExperience"]);
+        Route::put("experience/{id}", [UserProfileController::class, "updateExperience"]);
+        Route::delete("cover-letter/{id}", [UserProfileController::class, "deleteExperience"]);
+    });
 });
 
 Route::prefix("recruiter")->group(function () {

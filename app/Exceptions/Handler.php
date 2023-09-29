@@ -76,9 +76,9 @@ class Handler extends ExceptionHandler
                     return $this->res("method does not exist", 404);
                 }
 
-                if ($e instanceof QueryException) {
-                    return $this->res("Cannot remove this resource permanently. It is related with another resource", 409);
-                }
+                // if ($e instanceof QueryException) {
+                //     return $this->res("Cannot remove this resource permanently. It is related with another resource", 409);
+                // }
 
                 if ($e instanceof TokenMismatchException) {
                     return $this->res("invalid user", 405);
@@ -88,7 +88,7 @@ class Handler extends ExceptionHandler
                     return $this->res("permission denied", 405);
                 }
 
-                return $this->res("server error", 500);
+                // return $this->res("server error", 500);
             }
         });
     }

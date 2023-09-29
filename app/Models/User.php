@@ -42,14 +42,14 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function profilePic()
+    public function profile_pic()
     {
         return $this->hasOne(ProfilePicture::class);
     }
 
-    public function userEducation()
+    public function education()
     {
-        return $this->hasMany(Education::class);
+        return $this->hasMany(Education::class, "user_id", "id");
     }
 
     public function userTransactions()
@@ -62,7 +62,7 @@ class User extends Authenticatable
         return $this->hasMany(UserSubscriber::class);
     }
 
-    public function userResume()
+    public function resume()
     {
         return $this->hasMany(UserResume::class);
     }
@@ -92,12 +92,12 @@ class User extends Authenticatable
         return $this->hasMany(UserJobApplication::class, "job_id", "id");
     }
 
-    public function coverLetters()
+    public function cover_letters()
     {
         return $this->hasMany(CoverLetter::class);
     }
 
-    public function workExperience()
+    public function experience()
     {
         return $this->hasMany(WorkExperience::class);
     }
@@ -107,7 +107,7 @@ class User extends Authenticatable
         return $this->hasManyThrough(AcquiredSkill::class, Skill::class, "user_id", "skill_id", "id", "id");
     }
 
-    public function userSUbscription()
+    public function userSubscription()
     {
         return $this->hasOneThrough(UserSubscriber::class, UserSubscription::class, "user_id", "user_subscription_id", "id", "id");
     }
