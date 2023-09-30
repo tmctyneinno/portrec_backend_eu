@@ -151,6 +151,7 @@ class UserProfileController extends BaseController
 
         $request['doc_url'] = $resp;
         $request['user_id'] = $userId;
+
         $upload = CoverLetter::create($request->all());
         return $this->successMessage($upload);
     }
