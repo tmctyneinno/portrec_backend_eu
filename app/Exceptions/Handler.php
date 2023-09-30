@@ -56,6 +56,7 @@ class Handler extends ExceptionHandler
                 if ($e instanceof RouteNotFoundException) {
                     return $this->res("The specified URL cannot be found", 404);
                 }
+
                 if ($e instanceof NotFoundHttpException) {
                     return $this->res("not found", 404);
                 }
@@ -76,9 +77,9 @@ class Handler extends ExceptionHandler
                     return $this->res("method does not exist", 404);
                 }
 
-                // if ($e instanceof QueryException) {
-                //     return $this->res("Cannot remove this resource permanently. It is related with another resource", 409);
-                // }
+                if ($e instanceof QueryException) {
+                    return $this->res("Cannot remove this resource permanently. It is related with another resource", 409);
+                }
 
                 if ($e instanceof TokenMismatchException) {
                     return $this->res("invalid user", 405);
@@ -88,7 +89,7 @@ class Handler extends ExceptionHandler
                     return $this->res("permission denied", 405);
                 }
 
-                // return $this->res("server error", 500);
+                return $this->res("server error", 500);
             }
         });
     }

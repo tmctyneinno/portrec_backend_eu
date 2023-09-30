@@ -29,7 +29,7 @@ Route::prefix("user")->group(function () {
         Route::get("profile", [UserProfileController::class, "myProfile"]);
         Route::put("profile", [UserProfileController::class, "updateProfile"]);
         Route::post("profile/picture", [UserProfileController::class, "uploadProfileImage"]);
-        Route::put("profile/picture/{id}", [UserProfileController::class, "updateProfilePicture"]);
+        Route::post("profile/picture/{id}", [UserProfileController::class, "uploadProfileImage"]);
 
         Route::post("skill", [UserProfileController::class, "skill"]);
         Route::put("skill/{id}", [UserProfileController::class, "updateSkill"]);
