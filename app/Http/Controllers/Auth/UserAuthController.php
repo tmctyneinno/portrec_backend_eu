@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 
 class UserAuthController extends AuthController
 {
-
     public function signup(Request $request)
     {
         $req["name"] = $request->fullName;

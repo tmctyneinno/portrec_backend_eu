@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix("user")->group(function () {
     Route::post("signup", [UserAuthController::class, "signup"]);
-    Route::post("sigin", [UserAuthController::class, "signin"]);
+    Route::post("login", [UserAuthController::class, "signin"]);
     Route::middleware("auth:sanctum")->group(function () {
         Route::get("profile", [UserProfileController::class, "myProfile"]);
         Route::put("profile", [UserProfileController::class, "updateProfile"]);
@@ -54,7 +54,7 @@ Route::prefix("user")->group(function () {
 
 Route::prefix("recruiter")->group(function () {
     Route::post("signup", [RecruiterAuthController::class, "signup"]);
-    Route::post("sigin", [RecruiterAuthController::class, "sigin"]);
+    Route::post("login", [RecruiterAuthController::class, "sigin"]);
 });
 
 Route::prefix("job")->group(function () {
