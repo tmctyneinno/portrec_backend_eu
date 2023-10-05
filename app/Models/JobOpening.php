@@ -32,7 +32,7 @@ class JobOpening extends Model
         return $this->belongsTo(Recruiter::class);
     }
 
-    public function title()
+    public function sub_category()
     {
         return $this->belongsTo(JobFunction::class, "job_functions", "id");
     }
