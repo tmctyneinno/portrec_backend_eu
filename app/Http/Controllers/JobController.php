@@ -8,6 +8,7 @@ use App\Models\JobFunction;
 use App\Models\JobOpening;
 use App\Models\WorkType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class JobController extends BaseController
 {
@@ -19,7 +20,10 @@ class JobController extends BaseController
             $latestJobs = $query->take(8)->get();
             return $this->successMessage($latestJobs);
         }
-        $allJobs = $query->paginate(15);
+        $allJobs = $query->take(1)->get();
+
+
+        // $allJobs = $query->take(1)->paginate(15);
         return $this->successMessage($allJobs);
     }
 

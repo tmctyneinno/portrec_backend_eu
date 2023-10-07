@@ -27,9 +27,9 @@ return new class extends Migration
             $table->string('location')->nullable();
             $table->text("experience");
             $table->integer("total_view")->default(0);
-            $table->text("other_qualifications")->nullable();
+            $table->json("other_qualifications")->nullable();
             $table->json("benefits")->nullable();
-            $table->json("status")->nullable();
+            $table->string("status")->default(0);
             $table->timestamps();
             // $table->string("employment_type_id");
             // $table->string("category_id");
