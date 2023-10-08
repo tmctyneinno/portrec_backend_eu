@@ -21,6 +21,8 @@ class JobController extends BaseController
             $latestJobs = $query->take(8)->get();
             // this line is for development purpose only 
             $latestJobs->each(function ($data) {
+                $category = Industry::where("id", $data->sub_category->id)->first(['name', 'id']);
+                $data->category = $category;
                 $data->company->country = Str::random(8);
                 $data->company->city = Str::random(8);
                 return $data;
@@ -31,6 +33,8 @@ class JobController extends BaseController
         $allJobs = $query->paginate(10);
         // for development purpose only
         $allJobs->getCollection()->transform(function ($data) {
+            $category = Industry::where("id", $data->sub_category->id)->first(['name', 'id']);
+            $data->category = $category;
             $data->company->country = Str::random(8);
             $data->company->city = Str::random(8);
             return $data;
