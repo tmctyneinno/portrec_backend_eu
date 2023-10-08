@@ -15,10 +15,23 @@ class JobController extends BaseController
     public $jc = "jobs as total_jobs";
     public function showJobs($type = null)
     {
-        $query = JobOpening::with(["recruiter:id,name,email,phone", "company", "jobType", "sub_category"])->latest();
+        $query = JobOpening::with(["recruiter:id,name,email,phone", "company", "jobType", "sub_category"]);
 
-        if ($type === "latest" || $type = "similar") {
-            $latestJobs = $query->take(8)->get();
+        if (!$type) {
+            $allJobs = $query->paginate(10);
+            // for development purpose only
+            $allJobs->getCollection()->transform(function ($data) {
+                $category = Industry::where("id", $data->sub_category->id)->first(['name', 'id']);
+                $data->category = $category;
+                $data->company->country = Str::random(8);
+                $data->company->city = Str::random(8);
+                return $data;
+            });
+            return $this->successMessage($allJobs);
+        }
+
+        if ($type === "latest" || $type === "similar") {
+            $latestJobs = $query->take(2)->latest()->get();
             // this line is for development purpose only 
             $latestJobs->each(function ($data) {
                 $category = Industry::where("id", $data->sub_category->id)->first(['name', 'id']);
@@ -29,17 +42,6 @@ class JobController extends BaseController
             });
             return $this->successMessage($latestJobs);
         }
-
-        $allJobs = $query->paginate(10);
-        // for development purpose only
-        $allJobs->getCollection()->transform(function ($data) {
-            $category = Industry::where("id", $data->sub_category->id)->first(['name', 'id']);
-            $data->category = $category;
-            $data->company->country = Str::random(8);
-            $data->company->city = Str::random(8);
-            return $data;
-        });
-        return $this->successMessage($allJobs);
     }
 
     public function jobCategories($id = null)
