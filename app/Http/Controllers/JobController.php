@@ -16,14 +16,25 @@ class JobController extends BaseController
     public function showJobs($type = null)
     {
         $query = JobOpening::with(["recruiter:id,name,email,phone", "company", "jobType", "sub_category"])->latest();
-        if ($type === "latest") {
+
+        if ($type === "latest" || $type = "similar") {
             $latestJobs = $query->take(8)->get();
+            // this line is for development purpose only 
+            $latestJobs->each(function ($data) {
+                $data->company->country = Str::random(8);
+                $data->company->city = Str::random(8);
+                return $data;
+            });
             return $this->successMessage($latestJobs);
         }
-        $allJobs = $query->take(1)->get();
 
-
-        // $allJobs = $query->take(1)->paginate(15);
+        $allJobs = $query->paginate(10);
+        // for development purpose only
+        $allJobs->getCollection()->transform(function ($data) {
+            $data->company->country = Str::random(8);
+            $data->company->city = Str::random(8);
+            return $data;
+        });
         return $this->successMessage($allJobs);
     }
 
@@ -72,7 +83,11 @@ class JobController extends BaseController
 
     public function jobDetails($id)
     {
-        $job = JobOpening::where("id", $id)->with("questions")->first();
+        $job = JobOpening::where("id", $id)->with(["questions", "sub_category", "jobType", "company"])->first();
+        $category = Industry::where("id", $job->sub_category->id)->first(['name', 'id']);
+        $job->category = $category;
+        $job->company->city = Str::random(8);
+        $job->company->country = Str::random(8);
         return $this->successMessage($job);
     }
 
