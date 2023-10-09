@@ -27,7 +27,7 @@ class UserAuthController extends AuthController
         $req['password'] = $request->password;
 
         $login = $this->login($req);
-        if (!$login) abort(404);
+        if (!$login) return $this->errorMessage("invalid email or password", 404);
         if (is_string($login) || !$login)
             abort(404, $login);
 
