@@ -24,7 +24,6 @@ class JobController extends BaseController
     public function showJobs(Request $request, $type = null, $id = null)
     {
         $query = JobOpening::with(["recruiter:id,name,email,phone", "company", "jobType", "sub_category"]);
-
         $query = JobOpening::with(["recruiter:id,name,email,phone", "company", "jobType", "sub_category"]);
 
         if (!$type) {
