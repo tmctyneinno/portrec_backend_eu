@@ -45,8 +45,9 @@ class AuthController extends BaseController
     {
         $authenticate = auth($auth)->attempt(["email" => $request['email'], "password" => $request['password']]);
         if (!$authenticate) {
-            return "invalid username or password";
+            return "invalid email or password";
         }
+
         /** 
          * @var  \App\Models\User; 
          * @var  \App\Models\Recruiter; 

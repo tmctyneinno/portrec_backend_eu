@@ -27,9 +27,8 @@ class UserAuthController extends AuthController
         $req['password'] = $request->password;
 
         $login = $this->login($req);
-        if (!$login) return $this->errorMessage("invalid email or password", 404);
         if (is_string($login) || !$login)
-            abort(404, $login);
+            return $this->errorMessage($login, 404);
 
         $token = $login->createToken("portrecToken")->plainTextToken;
         return $this->successMessage(["token" => $token], "login success");
