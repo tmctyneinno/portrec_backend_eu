@@ -58,7 +58,7 @@ Route::prefix("recruiter")->group(function () {
 });
 
 Route::prefix("job")->group(function () {
-    Route::get("all/{type?}", [JobController::class, "showJobs"]);
+    Route::get("all/{type?}/{id?}", [JobController::class, "showJobs"]);
     Route::get("categories/{id?}", [JobController::class, "jobCategories"]);
     Route::get("types/{id?}", [JobController::class, "jobTypes"]);
     Route::get("functions/{id?}", [JobController::class, "jobFunctions"]);
