@@ -40,57 +40,57 @@ class Handler extends ExceptionHandler
     public function register(): void
     {
         $this->renderable(function (Throwable $e, $request) {
-            if ($request->is("api/*")) {
-                if ($e instanceof ModelNotFoundException) {
-                    return $this->res("model does not exist", 404);
-                }
+            // if ($request->is("api/*")) {
+            //     if ($e instanceof ModelNotFoundException) {
+            //         return $this->res("model does not exist", 404);
+            //     }
 
-                if ($e instanceof AuthenticationException) {
-                    return $this->res("user not found", 404);
-                }
+            //     if ($e instanceof AuthenticationException) {
+            //         return $this->res("user not found", 404);
+            //     }
 
-                if ($e instanceof AuthorizationException) {
-                    return $this->res("You are not authorized", 401);
-                }
+            //     if ($e instanceof AuthorizationException) {
+            //         return $this->res("You are not authorized", 401);
+            //     }
 
-                if ($e instanceof RouteNotFoundException) {
-                    return $this->res($e->getMessage(), 404);
-                }
+            //     if ($e instanceof RouteNotFoundException) {
+            //         return $this->res($e->getMessage(), 404);
+            //     }
 
-                if ($e instanceof NotFoundHttpException) {
-                    return $this->res("not found", 404);
-                }
+            //     if ($e instanceof NotFoundHttpException) {
+            //         return $this->res("not found", 404);
+            //     }
 
-                if ($e instanceof MethodNotAllowedException) {
-                    return $this->res("The url you are using is not allowed ", 405);
-                }
+            //     if ($e instanceof MethodNotAllowedException) {
+            //         return $this->res("The url you are using is not allowed ", 405);
+            //     }
 
-                if ($e instanceof MethodNotAllowedHttpException) {
-                    return $this->res("The http specified method for the requests is invalid", 405);
-                }
+            //     if ($e instanceof MethodNotAllowedHttpException) {
+            //         return $this->res("The http specified method for the requests is invalid", 405);
+            //     }
 
-                if ($e instanceof HttpException) {
-                    return $this->res($e->getMessage(), $e->getStatusCode());
-                }
+            //     if ($e instanceof HttpException) {
+            //         return $this->res($e->getMessage(), $e->getStatusCode());
+            //     }
 
-                if ($e instanceof BadMethodCallException) {
-                    return $this->res("method does not exist", 404);
-                }
+            //     if ($e instanceof BadMethodCallException) {
+            //         return $this->res("method does not exist", 404);
+            //     }
 
-                if ($e instanceof QueryException) {
-                    return $this->res("Cannot remove this resource permanently. It is related with another resource", 409);
-                }
+            //     if ($e instanceof QueryException) {
+            //         return $this->res("Cannot remove this resource permanently. It is related with another resource", 409);
+            //     }
 
-                if ($e instanceof TokenMismatchException) {
-                    return $this->res("invalid user", 405);
-                }
+            //     if ($e instanceof TokenMismatchException) {
+            //         return $this->res("invalid user", 405);
+            //     }
 
-                if ($e instanceof UnexpectedValueException) {
-                    return $this->res("permission denied", 405);
-                }
+            //     if ($e instanceof UnexpectedValueException) {
+            //         return $this->res("permission denied", 405);
+            //     }
 
-                return $this->res($e->getMessage(), 500);
-            }
+            //     return $this->res($e->getMessage(), 500);
+            // }
         });
     }
 }
