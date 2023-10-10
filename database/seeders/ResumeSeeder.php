@@ -2,23 +2,23 @@
 
 namespace Database\Seeders;
 
-use App\Models\Education;
+use App\Models\UserResume;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
-class EducationSeeder extends Seeder
+class ResumeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Education::insert([
+        UserResume::insert([
             "user_id" => 1,
-            "institution" => Str::random(12),
-            "qualification" => "B.sc",
+            "doc_url" => "www.resume.com",
+            "doc_name" => Str::random(10)
         ]);
-        Education::factory(500)->create();
+        UserResume::factory(100)->create();
     }
 }

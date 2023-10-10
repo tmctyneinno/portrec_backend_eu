@@ -22,7 +22,7 @@ class EducationFactory extends Factory
         return [
             "user_id" => rand(1, 500),
             "institution" => Str::random(12),
-            "qualification" => Str::random(5),
+            "qualification" => "B.sc",
         ];
     }
 }

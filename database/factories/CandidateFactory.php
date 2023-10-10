@@ -21,12 +21,12 @@ class CandidateFactory extends Factory
     public function definition(): array
     {
         return [
-            "user_id"  => rand(1, 500),
+            "user_id"  => rand(1, 51),
             "phone" => rand(111111111, 999999999),
             "professional_headline" => Str::random("100"),
-            "availabity_id" => rand(1, 5),
-            "salary_expeectation" => rand(100, 1000),
-            "job_function_id" => rand(1, 50),
+            "availability_id" => rand(1, 5),
+            "salary_expectation" => rand(100, 1000),
+            "job_function_id" => rand(1, 11),
             "years_Experience" => rand(1, 10)
         ];
     }

@@ -18,7 +18,10 @@ class UserJobApplicationFactory extends Factory
     public function definition(): array
     {
         return [
-            "name" => Str::random(8)
+            "job_id" => rand(1, 50),
+            "resume_link" => "www.example.com",
+            "cover_letter_link" => "www.example.com",
+            "cover_letter" => Str::excerpt("cover letter")
         ];
     }
 }
