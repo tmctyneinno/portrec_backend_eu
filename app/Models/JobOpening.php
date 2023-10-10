@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class JobOpening extends Model
 {
     use HasFactory;
-    protected $fillable = ['recruiter_id', 'company_id', 'title', 'job_functions', 'qualification', 'location', 'work_type_id', 'experience', 'min_salary', 'max_salary', 'deadline', 'title', 'description', 'total_view', 'required_skills', 'other_qualifications', 'benefits'];
+    protected $fillable = ['recruiter_id', 'company_id', 'title', 'job_functions', 'qualification', 'location', 'job_level_id', 'experience', 'min_salary', 'max_salary', 'deadline', 'title', 'description', 'total_view', 'required_skills', 'other_qualifications', 'benefits'];
 
     protected $hidden = [
         "recruiter_id",
@@ -30,6 +30,11 @@ class JobOpening extends Model
     public function recruiter()
     {
         return $this->belongsTo(Recruiter::class);
+    }
+
+    public function level()
+    {
+        return $this->belongsTo(JobLevel::class);
     }
 
     public function sub_category()

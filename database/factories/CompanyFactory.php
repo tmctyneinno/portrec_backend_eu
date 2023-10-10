@@ -19,10 +19,14 @@ class CompanyFactory extends Factory
      */
     public function definition(): array
     {
+
         return [
             'recruiter_id' => 1,
             "industry_id" => rand(1, 500),
             "company_type_id" => rand(1, 40),
+            "company_size_id" => rand(1, 6),
+            "country_id" => rand(1, 120),
+            "city" => Str::random(20),
             "name" => Str::random(8),
             "description" => Str::random(200),
             "address" => Str::random(40),

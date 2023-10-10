@@ -42,8 +42,13 @@ return [
         ],
 
         'recruiter' => [
-            'driver' => 'session',
+            'driver' => 'sanctum',
             'provider' => 'recruiters',
+        ],
+
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
         ]
     ],
 
@@ -69,9 +74,15 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
+
         "recruiters" => [
             "driver" => 'eloquent',
             "model" => App\Models\Recruiter::class
+        ],
+
+        "admins" => [
+            "driver" => 'eloquent',
+            "model" => App\Models\Admin::class
         ]
 
         // 'users' => [

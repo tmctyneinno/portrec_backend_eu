@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('recruiters', function (Blueprint $table) {
-            $table->timestamp("deleted_at")->nullable();
+        Schema::table('companies', function (Blueprint $table) {
+            $table->string("company_size_id");
+            $table->string("country_id")->nullable();
+            $table->string("city")->nullable();
         });
     }
 
@@ -21,8 +23,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // Schema::table('recruiters', function (Blueprint $table) {
-        //     //
-        // });
+        Schema::table('company', function (Blueprint $table) {
+            //
+        });
     }
 };

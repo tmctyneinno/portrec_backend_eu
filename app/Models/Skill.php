@@ -9,5 +9,5 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Skill extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $fillable = ['name', 'slug', 'user_id'];
+    protected $fillable = ['name', 'slug'];
 }

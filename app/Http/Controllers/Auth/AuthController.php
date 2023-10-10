@@ -41,16 +41,20 @@ class AuthController extends BaseController
             return Recruiter::create($request);
     }
 
-    public function login($request, $auth = null)
+    public function login($request, $auth = "")
     {
         $authenticate = auth($auth)->attempt(["email" => $request['email'], "password" => $request['password']]);
+        // dd($auth);
+        // dd($authenticate);
         if (!$authenticate) {
             return "invalid email or password";
         }
 
+
         /** 
          * @var  \App\Models\User; 
          * @var  \App\Models\Recruiter; 
+         * @var  \App\Models\Admin; 
          */
         $user = auth($auth)->user();
         return $user;

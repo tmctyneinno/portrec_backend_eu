@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('recruiters', function (Blueprint $table) {
-            $table->timestamp("deleted_at")->nullable();
+        Schema::table('skills', function (Blueprint $table) {
+            $table->dropConstrainedForeignId("user_id");
+            // $table->dropColumn("user_id");
         });
     }
 
@@ -21,8 +22,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // Schema::table('recruiters', function (Blueprint $table) {
-        //     //
-        // });
+        Schema::table('skills', function (Blueprint $table) {
+        });
     }
 };

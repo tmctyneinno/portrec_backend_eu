@@ -4,7 +4,6 @@ use App\Http\Controllers\Auth\RecruiterAuthController;
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\UserProfileController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -50,18 +49,4 @@ Route::prefix("user")->group(function () {
         Route::put("experience/{id}", [UserProfileController::class, "updateExperience"]);
         Route::delete("cover-letter/{id}", [UserProfileController::class, "deleteExperience"]);
     });
-});
-
-Route::prefix("recruiter")->group(function () {
-    Route::post("signup", [RecruiterAuthController::class, "signup"]);
-    Route::post("login", [RecruiterAuthController::class, "sigin"]);
-});
-
-Route::prefix("job")->group(function () {
-    Route::get("all/{type?}/{id?}", [JobController::class, "showJobs"]);
-    Route::get("categories/{id?}", [JobController::class, "jobCategories"]);
-    Route::get("types/{id?}", [JobController::class, "jobTypes"]);
-    Route::get("functions/{id?}", [JobController::class, "jobFunctions"]);
-    Route::get("salary/{from}/{to}", [JobController::class, "jobSalaryRansge"]);
-    Route::get("/{id}", [JobController::class, "jobDetails"]);
 });

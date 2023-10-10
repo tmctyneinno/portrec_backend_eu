@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Base\BaseController;
 use App\Models\Industry;
 use App\Models\JobFunction;
+use App\Models\JobLevel;
 use App\Models\JobOpening;
 use App\Models\WorkType;
 use Illuminate\Http\Request;
@@ -143,5 +144,34 @@ class JobController extends BaseController
         if ($from > $to) return $this->errorMessage("min value cannot be greater than max value");
         $allJobs = JobOpening::with(["recruiter:id,name,email,phone", "company", "jobType", "sub_category"])->where("min_salary", "<", $from)->where("max_salary", ">", $to)->get();
         return $this->successMessage($allJobs);
+    }
+
+    public function jobLevels($id = null)
+    {
+        if (!$id) {
+            $joblevel = JobLevel::withCount($this->jc)->get();
+            return $this->successMessage($joblevel);
+        }
+        $joblevel = JobLevel::findorfail($id);
+        $jobs = $joblevel->jobs()->paginate(10);
+        return $this->successMessage([
+            "type" => $joblevel,
+            "jobs" => $jobs
+        ]);
+    }
+
+    public function jobSearch(Request $request)
+    {
+        $title = $request->get("title");
+        $location = $request->get("location");
+        $query = JobOpening::with(["recruiter:id,name,email,phone", "company", "jobType", "sub_category"]);
+
+        if ($title)
+            $query->where("title", "like", "%" .  $title . "%");
+        if ($location)
+            $query->where("location",  "like",  "%" . $location . "%");
+
+        $search = $query->paginate(10);
+        return $this->successMessage($search);
     }
 }
