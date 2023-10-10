@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class JobOpening extends Model
 {
     use HasFactory;
-    protected $fillable = ['recruiter_id', 'company_id', 'title', 'job_functions', 'qualification', 'location', 'job_level_id', 'experience', 'min_salary', 'max_salary', 'deadline', 'title', 'description', 'total_view', 'required_skills', 'other_qualifications', 'benefits'];
+    protected $fillable = ['recruiter_id', 'company_id', 'title', 'job_functions', 'qualification', 'location', 'job_level_id', 'experience', 'min_salary', 'max_salary', 'deadline', 'title', 'description', 'total_view', 'required_skills', 'other_qualifications', 'benefits', "city"];
 
     protected $hidden = [
         "recruiter_id",
