@@ -15,9 +15,15 @@ class RecruiterAuthController extends AuthController
         $req['phone'] = $request->phone;
 
         $create = $this->create($req, "recruiter");
-        if (is_string($create) || $create['error'])
+        if (is_string($create) || $create['validation']) {
+            $errors = $create['errors'];
+            $email = $errors["email"][0];
+            $phone = $errors["phone"][0];
+
+            if ($email == "The email has already been taken." || $email == "The phone has already been taken.") $this->errorMessage($create, 209);
+
             return $this->errorMessage($create);
-        return $this->successMessage($create, "success", 201);
+        }
     }
 
     public function signin(Request $request)
@@ -27,7 +33,7 @@ class RecruiterAuthController extends AuthController
 
         $login = $this->login($req, "recruiter");
         if (is_string($login))
-            return $this->errorMessage($login);
+            return $this->errorMessage($login, 401);
         $token = $login->createToken("recruiterPortreToken")->plainTextToken;
         return $this->successMessage(["token" => $token], "login");
     }

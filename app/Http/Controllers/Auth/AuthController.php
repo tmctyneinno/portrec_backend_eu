@@ -26,7 +26,8 @@ class AuthController extends BaseController
         if ($validateEmail->fails()) {
             return [
                 "error" => true,
-                "errors" => $validateEmail->errors()
+                "validation" => "fail",
+                "errors" => $validateEmail->errors()->getMessages()
             ];
         }
         $password = bcrypt($request['password']);
