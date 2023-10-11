@@ -17,10 +17,10 @@ class RecruiterAuthController extends AuthController
         $create = $this->create($req, "recruiter");
         if (is_string($create) || $create['validation']) {
             $errors = $create['errors'];
-            $email = $errors["email"][0];
-            $phone = $errors["phone"][0];
+            $email = $errors["email"][0] ?? "";
+            $phone = $errors["phone"][0] ?? "";
 
-            if ($email == "The email has already been taken." || $email == "The phone has already been taken.") $this->errorMessage($create, 209);
+            if ($email == "The email has already been taken." || $phone == "The phone has already been taken.") $this->errorMessage($create, 209);
 
             return $this->errorMessage($create);
         }
