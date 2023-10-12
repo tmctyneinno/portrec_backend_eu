@@ -130,7 +130,6 @@ class JobController extends BaseController
 
     public function jobDetails($id)
     {
-
         $job = JobOpening::where("id", $id)->with(["questions", "sub_category", "jobType", "company"])->first();
         $category = Industry::where("id", $job->sub_category->id)->first(['name', 'id']);
         $job->category = $category;

@@ -35,10 +35,6 @@ class UserProfileController extends BaseController
 
     public function myProfile()
     {
-        $user = Auth::user();
-        $associations = ["experience", "cover_letters", "resume", "profile_pic", "education"];
-        $profile = User::with($associations)->find($user->id);
-        return $this->successMessage($profile, "profile updated", 201);
     }
 
     public function updateProfile(Request $request)
