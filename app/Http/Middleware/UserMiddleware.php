@@ -16,7 +16,7 @@ class UserMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $user = $request->user();
+        $user = auth()->user();
         if (!$user) {
             return response()->json([
                 'error' => 'Unauthenticated.',
