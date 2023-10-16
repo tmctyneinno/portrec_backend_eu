@@ -89,7 +89,7 @@ class Handler extends ExceptionHandler
                     return $this->res("permission denied", 405);
                 }
 
-                return $this->res($e->getMessage(), 500);
+                return $this->res($e, 500);
             }
         });
     }

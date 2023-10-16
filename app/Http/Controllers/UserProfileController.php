@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helper\FileUpload;
 use App\Http\Controllers\Base\BaseController;
+use App\Http\Requests\UserUpdateRequest;
 use App\Models\AcquiredSkill;
 use App\Models\CoverLetter;
 use App\Models\Education;
@@ -41,13 +42,14 @@ class UserProfileController extends BaseController
         return $this->successMessage($result);
     }
 
-    public function updateProfile(Request $request)
+    public function updateProfile(UserUpdateRequest $request)
     {
-        $not_allowed = ["password", "industries_id", "email", "user_level_id"];
+        $validate = $request->validated();
+
         $id = $this->userID()->id;
 
-        User::where("id", $id)->update($request->except($not_allowed));
-        return $this->successMessage($request->except($not_allowed), "profile updated", 201);
+        User::where("id", $id)->update($validate);
+        return $this->successMessage("user updated succes", "profile updated", 201);
     }
 
     public function uploadProfileImage(Request $request, $id = "")
@@ -59,9 +61,7 @@ class UserProfileController extends BaseController
         if ($resp instanceof Response) return $resp;
 
         if (!$id) {
-            $request['image'] = $resp;
-            $request['user_id'] = $userId;
-            $upload = ProfilePicture::create($request->all());
+            $upload = ProfilePicture::create(["user_id" => $userId, "image" => $resp]);
             return $this->successMessage($upload);
         }
 

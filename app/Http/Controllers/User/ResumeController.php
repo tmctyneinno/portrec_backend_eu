@@ -19,10 +19,10 @@ class ResumeController extends BaseController
         $resp = FileUpload::uploadFile($request->file("file"), "resume");
         if ($resp instanceof Response) return $resp;
 
-        $request['doc_url'] = $resp;
-        $request['user_id'] = $userId;
-        $request['doc_name'] = $request->name ?? "";
-        $upload = UserResume::create($request->all());
+        $req['doc_url'] = $resp;
+        $req['user_id'] = $userId;
+        $req['doc_name'] = $request->name ?? "";
+        $upload = UserResume::create($req);
         return $this->successMessage($upload);
     }
 

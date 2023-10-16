@@ -3,16 +3,20 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\AuthRequest;
+use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
 
 class RecruiterAuthController extends AuthController
 {
-    public function signup(Request $request)
+    public function signup(UserRequest $request)
     {
-        $req["name"] = $request->fullName;
-        $req['email'] = $request->email;
-        $req['password'] = $request->password;
-        $req['phone'] = $request->phone;
+        $validation = $request->validated();
+
+        $req["name"] = $validation['fullName'];
+        $req['email'] = $validation['email'];
+        $req['password'] = $validation['password'];
+        $req['phone'] = $validation['phone'];
 
         $create = $this->create($req, "recruiter");
         if (is_string($create) || $create['validation']) {

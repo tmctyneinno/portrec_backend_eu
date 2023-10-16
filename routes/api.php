@@ -4,6 +4,10 @@ use App\Http\Controllers\Auth\RecruiterAuthController;
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\Skill\SkillController;
+use App\Http\Controllers\User\CoverLetterController;
+use App\Http\Controllers\User\EducationController;
+use App\Http\Controllers\User\ResumeController;
+use App\Http\Controllers\User\WorkExperienceController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,25 +35,25 @@ Route::prefix("user")->group(function () {
         Route::post("profile/picture", [UserProfileController::class, "uploadProfileImage"]);
         Route::post("profile/picture/{id}", [UserProfileController::class, "uploadProfileImage"]);
 
-        Route::post("skill", [UserProfileController::class, "skill"]);
-        Route::put("skill/{id}", [UserProfileController::class, "updateSkill"]);
-        Route::get("skill", [UserProfileController::class, "getSkills"]);
+        Route::post("skill", [SkillController::class, "skill"]);
+        Route::put("skill/{id}", [SkillController::class, "updateSkill"]);
+        Route::get("skill", [SkillController::class, "getSkills"]);
 
-        Route::post("education", [UserProfileController::class, "education"]);
-        Route::put("education/{id}", [UserProfileController::class, "updateEducation"]);
-        Route::delete("education/{id}", [UserProfileController::class, "deleteEducation"]);
+        Route::post("education", [EducationController::class, "education"]);
+        Route::put("education/{id}", [EducationController::class, "updateEducation"]);
+        Route::delete("education/{id}", [EducationController::class, "deleteEducation"]);
 
-        Route::post("resume", [UserProfileController::class, "uploadResume"]);
-        Route::delete("resume/{id}", [UserProfileController::class, "uploadResume"]);
+        Route::post("resume", [ResumeController::class, "uploadResume"]);
+        Route::delete("resume/{id}", [ResumeController::class, "uploadResume"]);
 
-        Route::post("cover-letter", [UserProfileController::class, "writeCoverLetter"]);
-        Route::post("cover-letter/upload", [UserProfileController::class, "uploadCoverLetter"]);
-        Route::put("cover-letter/{id}", [UserProfileController::class, "updateCoverLetter"]);
-        Route::delete("cover-letter/{id}", [UserProfileController::class, "deleteCoverLetter"]);
+        Route::post("cover-letter", [CoverLetterController::class, "writeCoverLetter"]);
+        Route::post("cover-letter/upload", [CoverLetterController::class, "uploadCoverLetter"]);
+        Route::put("cover-letter/{id}", [CoverLetterController::class, "updateCoverLetter"]);
+        Route::delete("cover-letter/{id}", [CoverLetterController::class, "deleteCoverLetter"]);
 
-        Route::post("experience", [UserProfileController::class, "workExperience"]);
-        Route::put("experience/{id}", [UserProfileController::class, "updateExperience"]);
-        Route::delete("experience/{id}", [UserProfileController::class, "deleteExperience"]);
+        Route::post("experience", [WorkExperienceController::class, "workExperience"]);
+        Route::put("experience/{id}", [WorkExperienceController::class, "updateExperience"]);
+        Route::delete("experience/{id}", [WorkExperienceController::class, "deleteExperience"]);
     });
 });
 

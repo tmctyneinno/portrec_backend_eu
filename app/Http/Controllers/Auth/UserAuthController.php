@@ -3,17 +3,18 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-
+use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
 
 class UserAuthController extends AuthController
 {
-    public function signup(Request $request)
+    public function signup(UserRequest $request)
     {
-        $req["name"] = $request->fullName;
-        $req['email'] = $request->email;
-        $req['password'] = $request->password;
+        $validation = $request->validated();
 
+        $req["name"] = $validation['fullName'];
+        $req['email'] = $validation['email'];
+        $req['password'] = $validation['password'];
 
         $create = $this->create($req);
         if (is_string($create) || $create['validation']) {
