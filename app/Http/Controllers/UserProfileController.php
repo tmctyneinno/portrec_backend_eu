@@ -113,6 +113,14 @@ class UserProfileController extends BaseController
     public function updateEducation(Request $request, $id)
     {
         $userId = $this->userID()->id;
+        if ($request->start_date) {
+            $start = Carbon::parse($request->start_date);
+            $request['start_date'] = $start->format("Y-m-d H:i:s");
+        }
+        if ($request->end_date) {
+            $end = Carbon::parse($request->end_date);
+            $request['end_date'] = $end->format("Y-m-d H:i:s");
+        }
         $edu = Education::where($this->condition($id, $userId))->update($request->all());
         return $this->successMessage($edu);
     }
