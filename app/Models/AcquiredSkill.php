@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AcquiredSkill extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
     protected $fillable = ['user_id',  'skill_id'];
 
     public function skill()
@@ -16,3 +16,5 @@ class AcquiredSkill extends Model
         $this->belongsTo(Skill::class);
     }
 }
+
+// skill_id 

@@ -84,10 +84,16 @@ class UserProfileController extends BaseController
         return $this->successMessage($skill, "success", 201);
     }
 
-    public function getSkills(Request $request)
+    public function getSkills()
     {
         $userId = $this->userID()->id;
-        $skills = AcquiredSkill::with('skill')->where(['user_id' => $userId])->get();
+        $skills = AcquiredSkill::where(['user_id' => $userId])->get();
+
+        $skills->each(function ($sk) {
+            $sk['skill'] = Skill::where("id", $sk->skill_id)->first();
+            return $sk;
+        });
+
         return $this->successMessage($skills, "success");
     }
 
