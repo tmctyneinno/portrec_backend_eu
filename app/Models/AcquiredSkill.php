@@ -10,4 +10,9 @@ class AcquiredSkill extends Model
 {
     use HasFactory, SoftDeletes;
     protected $fillable = ['user_id',  'skill_id'];
+
+    public function skill()
+    {
+        $this->belongsTo(Skill::class);
+    }
 }

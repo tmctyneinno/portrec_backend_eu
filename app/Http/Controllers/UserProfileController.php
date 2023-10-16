@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helper\FileUpload;
 use App\Http\Controllers\Base\BaseController;
+use App\Models\AcquiredSkill;
 use App\Models\CoverLetter;
 use App\Models\Education;
 use App\Models\Portfolio;
@@ -35,6 +36,9 @@ class UserProfileController extends BaseController
 
     public function myProfile()
     {
+        $id = $this->userID()->id;
+        $result = User::with(['profile_pic', 'education', 'resume', 'cover_letters'])->find($id);
+        return $this->successMessage($result);
     }
 
     public function updateProfile(Request $request)
@@ -69,15 +73,22 @@ class UserProfileController extends BaseController
     {
         $id = $this->userID()->id;
         $request['user_id'] = $id;
-        $skill = Skill::create($request->all());
+        $skill = AcquiredSkill::create($request->all());
         return $this->successMessage($skill, "success", 201);
     }
 
     public function updateSkill(Request $request, $id)
     {
         $userId = $this->userID()->id;
-        $skill = Skill::where($this->condition($id, $userId))->update($request->except("user_id"));
+        $skill = AcquiredSkill::where($this->condition($id, $userId))->update($request->except("user_id"));
         return $this->successMessage($skill, "success", 201);
+    }
+
+    public function getSkills(Request $request)
+    {
+        $userId = $this->userID()->id;
+        $skills = AcquiredSkill::with('skill')->where(['user_id' => $userId])->get();
+        return $this->successMessage($skills, "success");
     }
 
     public function education(Request $request)

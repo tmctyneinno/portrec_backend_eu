@@ -18,7 +18,7 @@ class SkillFactory extends Factory
     public function definition(): array
     {
         return [
-            "name" => rand(1, 200)
+            "name" => Str::random(10)
         ];
     }
 }
