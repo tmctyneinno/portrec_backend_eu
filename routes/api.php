@@ -49,7 +49,7 @@ Route::prefix("user")->group(function () {
 
         Route::post("experience", [UserProfileController::class, "workExperience"]);
         Route::put("experience/{id}", [UserProfileController::class, "updateExperience"]);
-        Route::delete("cover-letter/{id}", [UserProfileController::class, "deleteExperience"]);
+        Route::delete("experience/{id}", [UserProfileController::class, "deleteExperience"]);
     });
 });
 
