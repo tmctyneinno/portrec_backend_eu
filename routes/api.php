@@ -8,6 +8,7 @@ use App\Http\Controllers\User\CoverLetterController;
 use App\Http\Controllers\User\EducationController;
 use App\Http\Controllers\User\ResumeController;
 use App\Http\Controllers\User\WorkExperienceController;
+use App\Http\Controllers\User\PortolioController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -54,6 +55,13 @@ Route::prefix("user")->group(function () {
         Route::post("experience", [WorkExperienceController::class, "workExperience"]);
         Route::put("experience/{id}", [WorkExperienceController::class, "updateExperience"]);
         Route::delete("experience/{id}", [WorkExperienceController::class, "deleteExperience"]);
+
+        Route::post("portfolio", [PortolioController::class, "portfolio"]);
+        Route::get("portfolio", [PortolioController::class, "getPortfolio"]);
+        Route::put("portfolio", [PortolioController::class, "updatePortfolio"]);
+        Route::delete("portfolio/{id}", [PortolioController::class, "deletePortfolio"]);
+        Route::post("portfolio/image", [PortolioController::class, "uploadProjectImage"]);
+        Route::delete("portfolio/image/{id}", [PortolioController::class, "deletePortfolioImage"]);
     });
 });
 

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\User\Trait;
 
 trait UserTrait
 {
-	public function UserID($type = "update")
+	public function userID($type = "update")
 	{
 		$user = auth()->user();
 		$this->authorize($type, $user);

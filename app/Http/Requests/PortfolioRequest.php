@@ -11,7 +11,7 @@ class PortfolioRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class PortfolioRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "project_title" => "sometimes",
+            "project_role" => "sometimes",
+            "project_task" => "sometimes",
+            "project_solution" => "sometimes",
+            "project_url" => "sometimes",
         ];
     }
 }

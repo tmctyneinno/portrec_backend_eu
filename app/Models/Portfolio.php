@@ -10,4 +10,9 @@ class Portfolio extends Model
 {
     use HasFactory, SoftDeletes;
     protected $fillable = ['user_id', 'project_title', 'project_role', 'projecct_task', 'project_solution', 'project_url', 'images'];
+
+    public function images()
+    {
+        $this->hasMany(PortfolioImage::class);
+    }
 }
