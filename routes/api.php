@@ -3,7 +3,7 @@
 use App\Http\Controllers\Auth\RecruiterAuthController;
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\JobController;
-use App\Http\Controllers\Skill\SkillController;
+use App\Http\Controllers\User\SkillController;
 use App\Http\Controllers\User\CoverLetterController;
 use App\Http\Controllers\User\EducationController;
 use App\Http\Controllers\User\ResumeController;
@@ -36,7 +36,7 @@ Route::prefix("user")->group(function () {
         Route::post("profile/picture/{id}", [UserProfileController::class, "uploadProfileImage"]);
 
         Route::post("skill", [SkillController::class, "skill"]);
-        Route::put("skill/{id}", [SkillController::class, "updateSkill"]);
+        Route::delete("skill/{id}", [SkillController::class, "deleteSkill"]);
         Route::get("skill", [SkillController::class, "getSkills"]);
 
         Route::post("education", [EducationController::class, "education"]);

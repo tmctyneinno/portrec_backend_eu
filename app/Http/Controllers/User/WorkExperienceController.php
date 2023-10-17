@@ -15,18 +15,19 @@ class WorkExperienceController extends BaseController
     use UserTrait;
     public function workExperience(ExperienceRequest $request)
     {
-        $request->validated();
+
         $id = $this->userID()->id;
-        $request['user_id'] = $id;
-        $experience = WorkExperience::create($request->all());
+        $validated = $request->validated();
+        $validated['user_id'] = $id;
+        $experience = WorkExperience::create($validated);
         return $this->successMessage($experience);
     }
 
     public function updateExperience(ExperienceUpdateRequest $request, $id)
     {
-        $validated = $request->validated();
-
         $userId = $this->userID()->id;
+        $validated = $request->validated();
+        $validated["user_id"] = $userId;
         WorkExperience::where($this->condition($id, $userId))->update($validated);
         return $this->successMessage("", "", 204);
     }

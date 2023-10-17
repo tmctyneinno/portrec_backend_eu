@@ -23,12 +23,12 @@ class SkillController extends BaseController
         return $this->successMessage($skill, "success", 201);
     }
 
-    public function updateSkill(SkillRequest $request, $id)
+    public function deleteSkill($id)
     {
-        $validate = $request->validated();
+
         $userId = $this->userID()->id;
-        $skill = AcquiredSkill::where($this->condition($id, $userId))->update($request->except("user_id"));
-        return $this->successMessage($skill, "success", 201);
+        $skill = AcquiredSkill::where("id", $id)->where("user_id", $userId)->delete();
+        return $this->successMessage($skill, "success", 204);
     }
 
     public function getSkills()

@@ -22,7 +22,10 @@ class CoverLetterController extends Controller
         $request['doc_url'] = $resp;
         $request['user_id'] = $userId;
 
-        $upload = CoverLetter::create($request->all());
+        $upload = CoverLetter::create([
+            "doc_url" => $resp,
+            "user_id" => $userId
+        ]);
         return $this->successMessage($upload);
     }
 

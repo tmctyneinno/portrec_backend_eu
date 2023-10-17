@@ -11,7 +11,7 @@ class ExperienceRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,7 @@ class ExperienceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "comapany_name" => "required",
+            "company_name" => "required",
             "company_location" => "required",
             "start_date" => "required",
             "end_date" => "sometimes",
@@ -40,7 +40,7 @@ class ExperienceRequest extends FormRequest
     public function messages(): array
     {
         return [
-            "comapany_name.required" => "institution is required",
+            "company_name.required" => "company_name is required",
             "company_location.required" => "qualification is required",
             "start_date.required" => "start date is required",
             "job_title.required" => "job title  is required",

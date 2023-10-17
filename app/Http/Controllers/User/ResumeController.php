@@ -17,6 +17,8 @@ class ResumeController extends BaseController
     {
         $userId = $this->userID()->id;
         $resp = FileUpload::uploadFile($request->file("file"), "resume");
+        dd($resp);
+
         if ($resp instanceof Response) return $resp;
 
         $req['doc_url'] = $resp;

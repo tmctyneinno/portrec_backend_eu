@@ -34,8 +34,8 @@ class EducationRequest extends FormRequest
     {
         return [
             "institution.required" => "institution is required",
-            "qualification.numeric" => "qualification is required",
-            "start_date" => "start date is required",
+            "qualification.required" => "qualification is required",
+            "start_date.required" => "start date is required",
         ];
     }
 }

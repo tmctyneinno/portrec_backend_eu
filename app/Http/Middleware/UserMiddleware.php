@@ -19,7 +19,7 @@ class UserMiddleware
         $user = auth()->user();
         if (!$user) {
             return response()->json([
-                'error' => 'Unauthenticated.',
+                'error' => 'unauthorized.',
             ], 401);
         }
 

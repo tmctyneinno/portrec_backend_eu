@@ -16,22 +16,36 @@ class EducationController extends BaseController
     use UserTrait;
     public function education(EducationRequest $request)
     {
-        $validate = $request->validated();
         $id = $this->userID()->id;
+        $validate = $request->validated();
+
         $request['user_id'] = $id;
         $start = Carbon::parse($request->start_date);
-        $end = Carbon::parse($request->end_date);
+        $end = $validate['end_date'] ? Carbon::parse($validate['end_date']) : null;
 
-        $request['start_date'] = $start->format("Y-m-d H:i:s");
-        $request['end_date'] = $end->format("Y-m-d H:i:s");
+        $validate['start_date'] = $start->format("Y-m-d H:i:s");
+        $validate['end_date'] = $end ? $end->format("Y-m-d H:i:s") : null;
+        $validate['user_id'] = $id;
+
         $edu = Education::create($validate);
         return $this->successMessage($edu);
     }
 
     public function updateEducation(EducationUpdateRequest $request, $id)
     {
-        $validate = $request->validated();
         $userId = $this->userID()->id;
+        $validate = $request->validated();
+
+        if ($validate['start_date']) {
+            $start = Carbon::parse($validate['start_date']);
+            $validate['start_date'] = $start->format("Y-m-d H:i:s");
+        }
+
+        if ($validate['end_date']) {
+            $end = Carbon::parse($validate['end_date']);
+            $validate['start_date'] = $end->format("Y-m-d H:i:s");
+        }
+
         $edu = Education::where($this->condition($id, $userId))->update($validate);
         return $this->successMessage($edu);
     }

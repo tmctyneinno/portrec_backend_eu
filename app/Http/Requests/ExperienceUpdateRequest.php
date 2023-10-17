@@ -11,7 +11,7 @@ class ExperienceUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,11 +22,17 @@ class ExperienceUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "institution" => "sometimes",
-            "qualification" => "sometimes",
+            "company_name" => "sometimes",
+            "company_location" => "sometimes",
             "start_date" => "sometimes",
             "end_date" => "sometimes",
-            "description" => "sometimes"
+            "job_title" => "sometimes",
+            "job_level" => "sometimes",
+            "job_function_id" => "sometimes",
+            "salary_range" => "sometimes",
+            "work_type_id" => "sometimes",
+            "description" => "sometimes",
+            "status" => "sometimes"
         ];
     }
 }
