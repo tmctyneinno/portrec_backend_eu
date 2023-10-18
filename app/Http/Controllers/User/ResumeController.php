@@ -31,8 +31,8 @@ class ResumeController extends BaseController
     {
         $userId =  $this->userID()->id;
         UserResume::where([
-            "id", "=", $id,
-            "user_id", "=",  $userId
+            ["id", "=", $id],
+            ["user_id", "=",  $userId]
         ])->delete();
         return $this->successMessage("", "", 204);
     }

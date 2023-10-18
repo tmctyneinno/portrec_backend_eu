@@ -29,8 +29,11 @@ class UserSeeder extends Seeder
             "linkedin" => "linkedin.com",
             "facebook" => "facebook.com",
             "title" => "Investent Banker",
+            'languages' => json_encode(["yoruba", "spanish"]),
             "skills" => json_encode(["Plumbing", "php", "fulstack"]),
-            "about_me" => Str::excerpt("banker")
+            "about_me" => Str::excerpt("banker"),
+            "instagram" => "instagram.com",
+            "website" => "example.com"
         ]);
 
         User::factory(200)->create();

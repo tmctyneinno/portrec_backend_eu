@@ -38,7 +38,7 @@ class UserProfileController extends BaseController
     public function myProfile()
     {
         $id = $this->userID()->id;
-        $result = User::with(['profile_pic', 'education', 'resume', 'cover_letters'])->find($id);
+        $result = User::with(['profile_pic', 'education', 'resume', 'cover_letters', 'experience'])->find($id);
         return $this->successMessage($result);
     }
 

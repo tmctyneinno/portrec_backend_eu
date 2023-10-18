@@ -19,7 +19,7 @@ class PortolioController extends BaseController
     public function portfolio(PortfolioRequest $request)
     {
         $id = $this->userID()->id;
-        $validate = $request->validated;
+        $validate = $request->validated();
         $validate['user_id'] = $id;
         $portfolio = Portfolio::create($validate);
 
@@ -29,14 +29,22 @@ class PortolioController extends BaseController
     public function deletePortfolio($id)
     {
         $user_id = $this->userID()->id;
-        Portfolio::where(['user_id' => $user_id, "id" => $id]);
+        $del = Portfolio::where([
+            ['user_id', '=', $user_id],
+            ["id", '=', $id]
+        ])->delete();
+
         return $this->successMessage("", "", 204);
     }
 
     public function getPortfolio()
     {
         $id = $this->userID()->id;
-        $portfolio = Portfolio::with("images")->where("user_id", $id);
+        $portfolio = Portfolio::where("user_id", $id)->get();
+        $portfolio->each(function ($dt) {
+            $dt["images"] = PortfolioImage::where("portfolio_id", $dt['id'])->get();
+            return $dt;
+        });
         return $this->successMessage($portfolio);
     }
 
@@ -56,17 +64,18 @@ class PortolioController extends BaseController
         return $this->successMessage($portfolio, "");
     }
 
-    public function updatePortfolio(PortfolioRequest $request)
+    public function updatePortfolio(PortfolioRequest $request, $id)
     {
-        $id = $this->userID()->id;
-        $validate = $request->validated;
-        $portfolio = Portfolio::where("user_id", $id)->where("id", $id)->update($validate);
+        $userId = $this->userID()->id;
+        $validate = $request->validated();
+        $portfolio = Portfolio::where("user_id", $userId)->where("id", $id)->update($validate);
 
-        return $this->successMessage($portfolio, "");
+        return $this->successMessage($portfolio, "successful");
     }
 
     public function deletePortfolioImage($id)
     {
+        $this->userID()->id;
         PortfolioImage::where("id", $id)->delete();
         return $this->successMessage("", "", 204);
     }

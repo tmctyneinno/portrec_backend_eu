@@ -4,11 +4,13 @@ use App\Http\Controllers\Auth\RecruiterAuthController;
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\User\SkillController;
+use App\Http\Controllers\Skill\SkillController as AllSkills;
 use App\Http\Controllers\User\CoverLetterController;
 use App\Http\Controllers\User\EducationController;
 use App\Http\Controllers\User\ResumeController;
 use App\Http\Controllers\User\WorkExperienceController;
 use App\Http\Controllers\User\PortolioController;
+use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,10 +33,10 @@ Route::prefix("user")->group(function () {
     Route::post("signup", [UserAuthController::class, "signup"]);
     Route::post("login", [UserAuthController::class, "signin"]);
     Route::middleware(["auth:sanctum", "login",])->group(function () {
-        Route::get("profile", [UserProfileController::class, "myProfile"]);
-        Route::put("profile", [UserProfileController::class, "updateProfile"]);
-        Route::post("profile/picture", [UserProfileController::class, "uploadProfileImage"]);
-        Route::post("profile/picture/{id}", [UserProfileController::class, "uploadProfileImage"]);
+        Route::get("profile", [ProfileController::class, "myProfile"]);
+        Route::put("profile", [ProfileController::class, "updateProfile"]);
+        Route::post("profile/picture", [ProfileController::class, "uploadProfileImage"]);
+        Route::post("profile/picture/{id}", [ProfileController::class, "uploadProfileImage"]);
 
         Route::post("skill", [SkillController::class, "skill"]);
         Route::delete("skill/{id}", [SkillController::class, "deleteSkill"]);
@@ -58,11 +60,11 @@ Route::prefix("user")->group(function () {
 
         Route::post("portfolio", [PortolioController::class, "portfolio"]);
         Route::get("portfolio", [PortolioController::class, "getPortfolio"]);
-        Route::put("portfolio", [PortolioController::class, "updatePortfolio"]);
+        Route::put("portfolio/{id}", [PortolioController::class, "updatePortfolio"]);
         Route::delete("portfolio/{id}", [PortolioController::class, "deletePortfolio"]);
         Route::post("portfolio/image", [PortolioController::class, "uploadProjectImage"]);
         Route::delete("portfolio/image/{id}", [PortolioController::class, "deletePortfolioImage"]);
     });
 });
 
-Route::get("skills", [SkillController::class, "getSkill"]);
+Route::get("skills", [AllSkills::class, "getSkill"]);
