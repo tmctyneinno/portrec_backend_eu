@@ -86,7 +86,7 @@ class Handler extends ExceptionHandler
                 }
 
                 if ($e instanceof UnexpectedValueException) {
-                    return $this->res("permission denied", 405);
+                    return $this->res("permission denied", 401);
                 }
 
                 return $this->res($e->getMessage(), 500);
