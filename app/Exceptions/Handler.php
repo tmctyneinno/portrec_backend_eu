@@ -85,9 +85,9 @@ class Handler extends ExceptionHandler
                     return $this->res("invalid user", 405);
                 }
 
-                if ($e instanceof UnexpectedValueException) {
-                    return $this->res("permission denied", 401);
-                }
+                // if ($e instanceof UnexpectedValueException) {
+                //     return $this->res("permission denied", 401);
+                // }
 
                 return $this->res($e->getMessage(), 500);
             }

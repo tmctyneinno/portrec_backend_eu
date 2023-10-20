@@ -47,12 +47,12 @@ Route::prefix("user")->group(function () {
         Route::delete("education/{id}", [EducationController::class, "deleteEducation"]);
 
         Route::post("resume", [ResumeController::class, "uploadResume"]);
-        Route::delete("resume/{id}", [ResumeController::class, "uploadResume"]);
+        Route::delete("resume/{id}", [ResumeController::class, "deleteResume"]);
 
         Route::post("cover-letter", [CoverLetterController::class, "writeCoverLetter"]);
-        Route::post("cover-letter/upload", [CoverLetterController::class, "uploadCoverLetter"]);
         Route::put("cover-letter/{id}", [CoverLetterController::class, "updateCoverLetter"]);
         Route::delete("cover-letter/{id}", [CoverLetterController::class, "deleteCoverLetter"]);
+        Route::post("cover-letter/upload", [CoverLetterController::class, "uploadCoverLetter"]);
 
         Route::post("experience", [WorkExperienceController::class, "workExperience"]);
         Route::put("experience/{id}", [WorkExperienceController::class, "updateExperience"]);

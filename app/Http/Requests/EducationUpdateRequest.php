@@ -22,17 +22,11 @@ class EducationUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "comapany_name" => "sometimes",
-            "company_location" => "sometimes",
+            "institution" => "sometimes",
+            "qualification" => "sometimes",
             "start_date" => "sometimes",
             "end_date" => "sometimes",
-            "job_title" => "sometimes",
-            "job_level" => "sometimes",
-            "job_function_id" => "sometimes",
-            "salary_range" => "sometimes",
-            "work_type_id" => "sometimes",
             "description" => "sometimes",
-            "status" => "sometimes"
         ];
     }
 }

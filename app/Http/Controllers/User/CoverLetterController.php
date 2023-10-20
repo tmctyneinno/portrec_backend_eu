@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\User;
 
 use App\Helper\FileUpload;
+use App\Http\Controllers\Base\BaseController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\User\Trait\UserTrait;
 use App\Models\CoverLetter;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class CoverLetterController extends Controller
+class CoverLetterController extends BaseController
 {
     use UserTrait;
 

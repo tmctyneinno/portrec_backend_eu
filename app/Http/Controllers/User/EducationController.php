@@ -21,7 +21,7 @@ class EducationController extends BaseController
 
         $request['user_id'] = $id;
         $start = Carbon::parse($request->start_date);
-        $end = $validate['end_date'] ? Carbon::parse($validate['end_date']) : null;
+        $end = $request->end_date ? Carbon::parse($request->end_date) : null;
 
         $validate['start_date'] = $start->format("Y-m-d H:i:s");
         $validate['end_date'] = $end ? $end->format("Y-m-d H:i:s") : null;
@@ -35,13 +35,12 @@ class EducationController extends BaseController
     {
         $userId = $this->userID()->id;
         $validate = $request->validated();
-
-        if ($validate['start_date']) {
+        if ($request->start_date) {
             $start = Carbon::parse($validate['start_date']);
             $validate['start_date'] = $start->format("Y-m-d H:i:s");
         }
 
-        if ($validate['end_date']) {
+        if ($request->end_date) {
             $end = Carbon::parse($validate['end_date']);
             $validate['start_date'] = $end->format("Y-m-d H:i:s");
         }
