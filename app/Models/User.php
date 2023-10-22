@@ -9,6 +9,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+use function Laravel\Prompts\select;
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
@@ -104,11 +106,6 @@ class User extends Authenticatable
         return $this->hasMany(WorkExperience::class);
     }
 
-    public function userSkills()
-    {
-        return $this->hasManyThrough(AcquiredSkill::class, Skill::class, "user_id", "skill_id", "id", "id");
-    }
-
     public function userSubscription()
     {
         return $this->hasOneThrough(UserSubscriber::class, UserSubscription::class, "user_id", "user_subscription_id", "id", "id");
@@ -122,5 +119,10 @@ class User extends Authenticatable
     public function userAwards()
     {
         return $this->hasMany(Award::class);
+    }
+
+    public function skill()
+    {
+        return $this->hasMany(AcquiredSkill::class)->select("skill_id", 'user_id');
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\Base\BaseController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\User\Trait\UserTrait;
 use App\Models\ProfilePicture;
+use App\Models\Skill;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -20,6 +21,9 @@ class ProfileController extends BaseController
 
         $associations = ["experience", "cover_letters", "resume", "profile_pic", "education"];
         $profile = User::with($associations)->find($user->id);
+        $profile['skills'] = $profile->skill->each(function ($data) {
+            $data["name"] = Skill::find($data['skill_id'])->name;
+        });
         return $this->successMessage($profile, "profile updated", 201);
     }
 
