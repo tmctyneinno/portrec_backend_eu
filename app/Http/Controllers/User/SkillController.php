@@ -27,7 +27,7 @@ class SkillController extends BaseController
     {
 
         $userId = $this->userID()->id;
-        $skill = AcquiredSkill::where("id", $id)->where("user_id", $userId)->delete();
+        $skill = AcquiredSkill::where("skill_id", $id)->where("user_id", $userId)->delete();
         return $this->successMessage($skill, "success", 204);
     }
 
