@@ -29,7 +29,7 @@ class ProfileController extends BaseController
 
     public function updateProfile(Request $request)
     {
-        $not_allowed = ["password", "industries_id", "email", "user_level_id", "user_id"];
+        $not_allowed = ["password", "industries_id", "email", "user_level_id", "user_id", "phone"];
         $id = $this->userID()->id;
 
         User::where("id", $id)->update($request->except($not_allowed));
