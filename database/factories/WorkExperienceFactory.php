@@ -29,7 +29,7 @@ class WorkExperienceFactory extends Factory
                 'job_level' => rand(1, 5),
                 'job_function_id' => rand(1, 5),
                 'work_type_id' => rand(1, 5),
-                'description' => Str::random(200),
+                'description' => fake()->sentences(),
                 'status' => rand(0, 1)
             ];
     }

@@ -28,11 +28,11 @@ class CompanyFactory extends Factory
             "country_id" => rand(1, 120),
             "city" => Str::random(20),
             "name" => Str::random(8),
-            "description" => Str::random(200),
-            "address" => Str::random(40),
-            "website" => Str::random(8) . ".com",
-            "email" => Str::random(8) . "@gmail.com",
-            "image" => "https://picsum.photos/100/100"
+            "description" => fake()->sentences(),
+            "address" => fake()->address(),
+            "website" => fake()->url(),
+            "email" => fake()->unique()->safeEmail(),
+            "image" => fake()->imageUrl()
         ];
     }
 }

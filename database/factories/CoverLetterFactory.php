@@ -19,8 +19,8 @@ class CoverLetterFactory extends Factory
     {
         return [
             "user_id" => rand(1, 51),
-            "doc_url" => "www.resume.com",
-            "content" => Str::random(300)
+            "doc_url" => fake()->url(),
+            "content" => fake()->sentences(150)
         ];
     }
 }

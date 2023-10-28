@@ -7,6 +7,7 @@ use App\Http\Controllers\User\SkillController;
 use App\Http\Controllers\Skill\SkillController as AllSkills;
 use App\Http\Controllers\User\CoverLetterController;
 use App\Http\Controllers\User\EducationController;
+use App\Http\Controllers\User\JobApplicationController;
 use App\Http\Controllers\User\ResumeController;
 use App\Http\Controllers\User\WorkExperienceController;
 use App\Http\Controllers\User\PortolioController;
@@ -64,6 +65,8 @@ Route::prefix("user")->group(function () {
         Route::delete("portfolio/{id}", [PortolioController::class, "deletePortfolio"]);
         Route::post("portfolio/image", [PortolioController::class, "uploadProjectImage"]);
         Route::delete("portfolio/image/{id}", [PortolioController::class, "deletePortfolioImage"]);
+
+        Route::get("jobs/{id?}", [JobApplicationController::class, "myApplication"]);
     });
 });
 

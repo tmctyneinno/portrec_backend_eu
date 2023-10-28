@@ -22,8 +22,8 @@ class CandidateFactory extends Factory
     {
         return [
             "user_id"  => rand(1, 51),
-            "phone" => rand(111111111, 999999999),
-            "professional_headline" => Str::random("100"),
+            "phone" => fake()->phoneNumber(),
+            "professional_headline" => fake()->sentence(100),
             "availability_id" => rand(1, 5),
             "salary_expectation" => rand(100, 1000),
             "job_function_id" => rand(1, 11),

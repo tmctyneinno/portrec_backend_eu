@@ -21,7 +21,8 @@ class RecruiterFactory extends Factory
         return [
             'name' => Str::random(10),
             'email' => Str::random(8) . "@gmail.com",
-            "phone" => rand(111111111, 999999999),
+            "phone" => fake()->phoneNumber(),
+            //  rand(111111111, 999999999),
             "password" => Hash::make("123456"),
         ];
     }

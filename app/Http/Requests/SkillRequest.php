@@ -22,12 +22,12 @@ class SkillRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "skill_id" => "required"
+            "skills" => "required"
         ];
     }
 
     public function messages()
     {
-        return ["skill_id.required" => "skill is required"];
+        return ["skills.required" => "skills is required"];
     }
 }

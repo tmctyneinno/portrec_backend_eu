@@ -7,6 +7,7 @@ use App\Http\Controllers\User\JobApplicationController;
 
 Route::post("apply/{jobId}", [JobApplicationController::class, "applyForJob"])->middleware("auth:sanctum");
 
+
 Route::get("all/{type?}/{id?}", [JobController::class, "showJobs"]);
 Route::get("categories/{id?}", [JobController::class, "jobCategories"]);
 Route::get("types/{id?}", [JobController::class, "jobTypes"]);

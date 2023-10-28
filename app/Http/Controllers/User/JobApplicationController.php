@@ -39,4 +39,18 @@ class JobApplicationController extends BaseController
 
         return $this->successMessage("", "application submitted successfully");
     }
+
+    public function myApplication($id = "")
+    {
+        $user_id = $this->userID()->id;
+        $query = Application::where("user_id", $user_id);
+
+        if (!$id)
+            $query = $query->with("job")->get();
+        else $query =  $query->where("id", $id)->with(["answer", "job", "resume", "cover_letter"])->first();
+
+
+
+        return $this->successMessage($query);
+    }
 }

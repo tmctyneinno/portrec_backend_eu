@@ -18,8 +18,13 @@ class SkillController extends BaseController
     {
         $request->validated();
         $id = $this->userID()->id;
-        $request['user_id'] = $id;
-        $skill = AcquiredSkill::create($request->all());
+        $skills = [];
+        collect($request->skills)
+            ->each(function ($sk) use (&$skills, &$id) {
+                $dt =  ["skill_id" => $sk, "user_id" => $id, "created_at" => now(), "updated_at" => now()];
+                array_push($skills, $dt);
+            });
+        $skill = AcquiredSkill::insert($skills);
         return $this->successMessage($skill, "success", 201);
     }
 
