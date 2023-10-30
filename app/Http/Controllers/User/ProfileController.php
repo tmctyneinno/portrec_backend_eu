@@ -11,6 +11,7 @@ use App\Models\Skill;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends BaseController
 {
@@ -53,5 +54,18 @@ class ProfileController extends BaseController
 
         ProfilePicture::where($this->condition($id, $userId))->update(["image" => $resp]);
         return $this->successMessage($resp);
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $userId = $this->userID()->id;
+        $user = User::find($userId)->first();
+        $oldPassword = Hash::check($request->oldPassword, $user->password);
+        if (!$oldPassword) {
+            return $this->errorMessage("wrong old password");
+        }
+        $user->password = Hash::make($request->newPassword);
+        $user->save();
+        return $this->successMessage("", "password update success");
     }
 }

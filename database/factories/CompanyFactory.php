@@ -28,10 +28,10 @@ class CompanyFactory extends Factory
             "country_id" => rand(1, 120),
             "city" => Str::random(20),
             "name" => Str::random(8),
-            "description" => fake()->sentences(),
+            "description" => fake()->sentence(),
             "address" => fake()->address(),
             "website" => fake()->url(),
-            "email" => fake()->unique()->safeEmail(),
+            "email" => fake()->unique()->companyEmail(),
             "image" => fake()->imageUrl()
         ];
     }

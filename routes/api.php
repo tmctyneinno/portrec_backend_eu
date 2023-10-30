@@ -38,6 +38,7 @@ Route::prefix("user")->group(function () {
         Route::put("profile", [ProfileController::class, "updateProfile"]);
         Route::post("profile/picture", [ProfileController::class, "uploadProfileImage"]);
         Route::post("profile/picture/{id}", [ProfileController::class, "uploadProfileImage"]);
+        Route::put("password", [ProfileController::class, "updatePassword"]);
 
         Route::post("skill", [SkillController::class, "skill"]);
         Route::delete("skill/{id}", [SkillController::class, "deleteSkill"]);

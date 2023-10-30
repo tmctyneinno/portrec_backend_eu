@@ -20,7 +20,7 @@ class CoverLetterFactory extends Factory
         return [
             "user_id" => rand(1, 51),
             "doc_url" => fake()->url(),
-            "content" => fake()->sentences(150)
+            "content" => fake()->sentence()
         ];
     }
 }
