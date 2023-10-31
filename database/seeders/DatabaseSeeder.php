@@ -33,8 +33,9 @@ class DatabaseSeeder extends Seeder
             ProfilePictureSeeder::class,
             SkillSeeder::class,
             UserJobApplicationSeeder::class,
-
-
+            HiringStageSeeder::class,
+            ApplicationSeeder::class,
+            InterviewSeeder::class
             // AdminSeeder::class,
             // CompanySeeder::class,
         ]);

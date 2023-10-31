@@ -41,7 +41,7 @@ class JobOpeningFactory extends Factory
             "benefits" => json_encode($qualification->map(function ($item) {
                 return ["title" => Str::random(8), "icon" => "", "description" => Str::random(100)];
             })),
-            "deadline" => Carbon::now()->addDays(rand(5, 30)),
+            "deadline" => fake()->dateTimeBetween("-1 month", "+1 month"),
             "status" => 0,
             "total_view" => rand(1, 10),
             "capacity" => rand(1, 10),
@@ -50,7 +50,7 @@ class JobOpeningFactory extends Factory
                 return ["title" => $item,  "descriptions" => collect([1, 2, 3, 4])->map(function ($dt) {
                     return Str::random(30);
                 })];
-            }))
+            })),
         ];
     }
 }

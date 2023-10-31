@@ -42,4 +42,9 @@ class UserAuthController extends AuthController
         $token = $login->createToken("portrecToken")->plainTextToken;
         return $this->successMessage(["token" => $token], "login success");
     }
+
+    public function changePassword(Request $request)
+    {
+        
+    }
 }
