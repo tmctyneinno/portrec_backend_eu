@@ -21,7 +21,7 @@ class UserJobApplicationFactory extends Factory
             "job_id" => rand(1, 50),
             "resume_link" => "www.example.com",
             "cover_letter_link" => "www.example.com",
-            "cover_letter" => Str::excerpt("cover letter")
+            "cover_letter" => $this->faker->realText(100,2)
         ];
     }
 }

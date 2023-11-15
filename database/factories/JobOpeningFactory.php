@@ -23,23 +23,23 @@ class JobOpeningFactory extends Factory
         $qualification = collect([1, 2, 3, 4, 5]);
         $responsibility = collect(["Responsibilities", "Who You are", "Nice to have"]);
         return [
-            "title" => Str::random(10),
-            "description" =>  Str::random(400),
+            "title" => $this->faker->realText(30,2),
+            "description" =>  $this->faker->paragraph(4),
             "required_skills" => json_encode($qualification->map(function ($skill, $key) {
-                return ["name" => Str::random(8), "id" => $key];
+                return ["name" => $this->faker->firstName(), "id" => $key];
             })),
             "job_level_id" => rand(1, 5),
-            "location" => Str::random(10),
+            "location" => $this->faker->address(),
             "job_functions" => rand(1, 10),
             "recruiter_id" => rand(1, 500),
             "company_id" => rand(1, 500),
             "country_id" => rand(1, 120),
             "job_type_id" => rand(1, 5),
             "experience" => Str::random(100),
-            "min_salary" => rand(200, 600),
-            "max_salary" => rand(700, 10000),
+            "min_salary" => $this->faker->biasedNumberBetween(2000, 2500),
+            "max_salary" => $this->faker->biasedNumberBetween(2000, 2500),
             "benefits" => json_encode($qualification->map(function ($item) {
-                return ["title" => Str::random(8), "icon" => "", "description" => Str::random(100)];
+                return ["title" => $this->faker->realText(30,2), "icon" => "", "description" => $this->faker->paragraph(2)];
             })),
             "deadline" => fake()->dateTimeBetween("-1 month", "+1 month"),
             "status" => 0,
@@ -48,7 +48,7 @@ class JobOpeningFactory extends Factory
             "total_applied" => rand(1, 5),
             "other_qualifications" => json_encode($responsibility->map(function ($item) {
                 return ["title" => $item,  "descriptions" => collect([1, 2, 3, 4])->map(function ($dt) {
-                    return Str::random(30);
+                    return $this->faker->realText(30,2);
                 })];
             })),
         ];

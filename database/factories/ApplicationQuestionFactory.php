@@ -20,7 +20,7 @@ class ApplicationQuestionFactory extends Factory
         return [
             "recruiter_id" => rand(1, 500),
             "job_id" => rand(1, 500),
-            "questions" => Str::random("20")
+            "questions" => $this->faker->paragraph(4)
         ];
     }
 }
