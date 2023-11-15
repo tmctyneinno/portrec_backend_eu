@@ -25,7 +25,7 @@ class WorkExperienceFactory extends Factory
                 'company_location' => $this->faker->address(),
                 'start_date' => Carbon::now(),
                 'end_date' => Carbon::now(),
-                'job_title' => $this->faker->realText(300,2),
+                'job_title' => $this->faker->realText(50,2),
                 'job_level' => rand(1, 5),
                 'job_function_id' => rand(1, 5),
                 'work_type_id' => rand(1, 5),

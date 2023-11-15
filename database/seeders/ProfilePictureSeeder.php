@@ -13,10 +13,10 @@ class ProfilePictureSeeder extends Seeder
      */
     public function run(): void
     {
-        ProfilePicture::insert([
-            "user_id" => 1,
-            "image" => "https://picsum.photos/100/100"
-        ]);
-        ProfilePicture::factory(200)->create();
+        // ProfilePicture::insert([
+        //     "user_id" => 1,
+        //     "image" => "https://picsum.photos/100/100"
+        // ]);
+        // ProfilePicture::factory(200)->create();
     }
 }

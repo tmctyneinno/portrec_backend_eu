@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
 
 
         $this->call([
-            // UserSeeder::class,
+            UserSeeder::class,
             AvailabilitySeeder::class,
             RecruiterSeeder::class,
             JobFunctionSeeder::class,
@@ -35,9 +35,9 @@ class DatabaseSeeder extends Seeder
             UserJobApplicationSeeder::class,
             HiringStageSeeder::class,
             ApplicationSeeder::class,
-            InterviewSeeder::class
-            // AdminSeeder::class,
-            // CompanySeeder::class,
+            InterviewSeeder::class,
+            AdminSeeder::class,
+            CompanySeeder::class,
         ]);
     }
 }

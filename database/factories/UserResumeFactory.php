@@ -20,9 +20,9 @@ class UserResumeFactory extends Factory
     public function definition(): array
     {
         return [
-            "user_id" => rand(1, 50),
-            "doc_url" => "www.resume.com",
-            "doc_name" => Str::random(10)
+            // "user_id" => rand(1, 50),
+            // "doc_url" => "www.resume.com",
+            // "doc_name" => Str::random(10)
         ];
     }
 }

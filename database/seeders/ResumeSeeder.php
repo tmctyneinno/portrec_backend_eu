@@ -14,11 +14,11 @@ class ResumeSeeder extends Seeder
      */
     public function run(): void
     {
-        UserResume::insert([
-            "user_id" => 1,
-            "doc_url" => "www.resume.com",
-            "doc_name" => Str::random(10)
-        ]);
-        UserResume::factory(100)->create();
+        // UserResume::insert([
+        //     "user_id" => 1,
+        //     "doc_url" => "www.resume.com",
+        //     "doc_name" => Str::random(10)
+        // ]);
+        // UserResume::factory(100)->create();
     }
 }

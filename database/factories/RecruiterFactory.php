@@ -19,8 +19,8 @@ class RecruiterFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => Str::random(10),
-            'email' => Str::random(8) . "@gmail.com",
+            'name' => $this->faker->name(),
+            'email' => $this->faker->email(),
             "phone" => fake()->phoneNumber(),
             //  rand(111111111, 999999999),
             "password" => Hash::make("123456"),
