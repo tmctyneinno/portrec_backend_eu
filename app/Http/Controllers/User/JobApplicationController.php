@@ -4,8 +4,9 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Base\BaseController;
 use App\Http\Controllers\User\Trait\UserTrait;
-use App\Models\Application;
+use App\Models\JobApplication;
 use App\Models\ApplicationAnswer;
+use App\Models\JobApplicationAnswer;
 use Illuminate\Http\Request;
 
 class JobApplicationController extends BaseController
@@ -20,7 +21,7 @@ class JobApplicationController extends BaseController
         $req['cover_letter_id'] = $request->coverLetterId;
         $req['cv_id'] = $request->resumeId;
         $req['applid_date'] = now();
-        $application = Application::create($req);
+        $application = JobApplication::create($req);
 
         $appId = $application->id;
         $answer = $request->answers;
@@ -34,7 +35,7 @@ class JobApplicationController extends BaseController
                 unset($answer[$key]['questionId']);
                 unset($answer[$key]['answer']);
             }
-            ApplicationAnswer::insert($answer);
+            JobApplicationAnswer::insert($answer);
         }
 
         return $this->successMessage("", "application submitted successfully");
@@ -43,7 +44,7 @@ class JobApplicationController extends BaseController
     public function myApplication($id = "")
     {
         $user_id = $this->userID()->id;
-        $query = Application::where("user_id", $user_id);
+        $query = JobApplication::where("user_id", $user_id);
 
         if (!$id)
             $query = $query->with("job")->get();

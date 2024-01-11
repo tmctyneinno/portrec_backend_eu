@@ -37,24 +37,24 @@ class ProfileController extends BaseController
         return $this->successMessage($request->except($not_allowed), "profile updated", 201);
     }
 
-    public function uploadProfileImage(Request $request, $id = "")
-    {
-        $userId = $this->userID()->id;
+    // public function uploadProfileImage(Request $request, $id = "")
+    // {
+    //     $userId = $this->userID()->id;
 
-        $resp = FileUpload::uploadFile($request->file("img"), "profile_pic");
+    //     $resp = FileUpload::uploadFile($request->file("img"), "profile_pic");
 
-        if ($resp instanceof Response) return $resp;
+    //     if ($resp instanceof Response) return $resp;
 
-        if (!$id) {
-            $request['image'] = $resp;
-            $request['user_id'] = $userId;
-            $upload = ProfilePicture::create($request->all());
-            return $this->successMessage($upload);
-        }
+    //     if (!$id) {
+    //         $request['image'] = $resp;
+    //         $request['user_id'] = $userId;
+    //         $upload = ProfilePicture::create($request->all());
+    //         return $this->successMessage($upload);
+    //     }
 
-        ProfilePicture::where($this->condition($id, $userId))->update(["image" => $resp]);
-        return $this->successMessage($resp);
-    }
+    //     ProfilePicture::where($this->condition($id, $userId))->update(["image" => $resp]);
+    //     return $this->successMessage($resp);
+    // }
 
     public function updatePassword(Request $request)
     {

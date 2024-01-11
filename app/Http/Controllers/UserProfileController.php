@@ -8,7 +8,7 @@ use App\Http\Requests\UserUpdateRequest;
 use App\Models\AcquiredSkill;
 use App\Models\CoverLetter;
 use App\Models\Education;
-use App\Models\Portfolio;
+use App\Models\UserPortfolio;
 use App\Models\ProfilePicture;
 use App\Models\Skill;
 use App\Models\User;
@@ -52,22 +52,22 @@ class UserProfileController extends BaseController
         return $this->successMessage("user updated succes", "profile updated", 201);
     }
 
-    public function uploadProfileImage(Request $request, $id = "")
-    {
-        $userId = $this->userID()->id;
+    // public function uploadProfileImage(Request $request, $id = "")
+    // {
+    //     $userId = $this->userID()->id;
 
-        $resp = FileUpload::uploadFile($request->file("img"), "profile_pic");
+    //     $resp = FileUpload::uploadFile($request->file("img"), "profile_pic");
 
-        if ($resp instanceof Response) return $resp;
+    //     if ($resp instanceof Response) return $resp;
 
-        if (!$id) {
-            $upload = ProfilePicture::create(["user_id" => $userId, "image" => $resp]);
-            return $this->successMessage($upload);
-        }
+    //     if (!$id) {
+    //         $upload = ProfilePicture::create(["user_id" => $userId, "image" => $resp]);
+    //         return $this->successMessage($upload);
+    //     }
 
-        ProfilePicture::where($this->condition($id, $userId))->update(["image" => $resp]);
-        return $this->successMessage($resp);
-    }
+    //     ProfilePicture::where($this->condition($id, $userId))->update(["image" => $resp]);
+    //     return $this->successMessage($resp);
+    // }
 
     public function skill(Request $request)
     {
@@ -159,7 +159,7 @@ class UserProfileController extends BaseController
     {
         $id = $this->userID()->id;
         $request['user_id'] = $id;
-        $portfolio = Portfolio::create($request->all());
+        $portfolio = UserPortfolio::create($request->all());
         return $this->successMessage($portfolio, "", 204);
     }
 

@@ -23,23 +23,8 @@ class UserUpdateRequest extends FormRequest
     {
         return [
             "name" =>  "sometimes",
-            "phone" =>    "sometimes",
-            "gender" =>   "sometimes",
-            "dob" =>  "sometimes",
-            "country" =>  "sometimes",
-            "state" =>    "sometimes",
-            "address" =>  "sometimes",
-            "description" =>  "sometimes",
-            "linkedin" =>     "sometimes",
-            "twitter" =>  "sometimes",
-            "facebook" =>     "sometimes",
-            "website" => "sometimes",
-            "instagram" =>   "sometimes",
-            "googleplus" =>   "sometimes",
-            "languages" =>    "sometimes",
-            "title" =>    "sometimes",
-            "location" =>     "sometimes",
-            "about_me" =>     "sometimes"
+            "email" =>     "sometimes",
+            "password" =>     "sometimes"
         ];
     }
 }

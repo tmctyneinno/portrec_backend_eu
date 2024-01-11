@@ -19,7 +19,6 @@ class AuthController extends BaseController
             "name" => "required",
             "email" => "required|email|unique:users|unique:recruiters",
             "password" => "required",
-            "phone" => "min_digits:11|max_digits:11|unique:users|unique:recruiters|numeric"
         ]);
         // required:recruiters|unique:users|unique:recruiters|numeric
 
