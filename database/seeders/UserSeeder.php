@@ -20,20 +20,7 @@ class UserSeeder extends Seeder
         User::insert([
             'name' => "Test Test",
             'email' => "test@gmail.com",
-            "password" => Hash::make("123456"),
-            "gender" => "male",
-            "dob" => Carbon::now(),
-            "state" => "lagos",
-            "country" => "2",
-            "address" => Str::random(10),
-            "linkedin" => "linkedin.com",
-            "facebook" => "facebook.com",
-            "title" => "Investent Banker",
-            'languages' => json_encode(["yoruba", "spanish"]),
-            "skills" => json_encode(["Plumbing", "php", "fulstack"]),
-            "about_me" => Str::excerpt("banker"),
-            "instagram" => "instagram.com",
-            "website" => "example.com"
+            "password" => Hash::make("123456"),            
         ]);
 
         User::factory(50)->create();

@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class JobOpeningQuestion extends Model
 {
     use HasFactory;
+    protected $fillable = ['recruiter_id', 'job_opening_id', 'questions', 'answers'];
 }

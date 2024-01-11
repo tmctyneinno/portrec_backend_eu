@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Candidate;
+use App\Models\UserProfile;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -14,6 +14,6 @@ class CandidateSeeder extends Seeder
      */
     public function run(): void
     {
-        Candidate::factory(500)->create();
+        UserProfile::factory(500)->create();
     }
 }

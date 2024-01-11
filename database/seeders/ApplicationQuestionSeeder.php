@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\ApplicationQuestion;
+use App\Models\JobOpeningQuestion;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -14,6 +14,6 @@ class ApplicationQuestionSeeder extends Seeder
      */
     public function run(): void
     {
-        ApplicationQuestion::factory(200)->create();
+        JobOpeningQuestion::factory(200)->create();
     }
 }

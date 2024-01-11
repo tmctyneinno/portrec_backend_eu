@@ -16,15 +16,15 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
-        $num = rand(111111111, 999999999);
-        $arr = ["080", "090", "070", "081"];
-        $start = strval(Arr::random($arr));
+        // $num = rand(111111111, 999999999);
+        // $arr = ["080", "090", "070", "081"];
+        // $start = strval(Arr::random($arr));
 
-        Admin::insert([
-            'name' => Str::random(10),
-            'email' => Str::random(8) . "@gmail.com",
-            "phone" => $start . $num,
-            "password" => Hash::make("123456"),
-        ]);
+        // Admin::insert([
+        //     'name' => Str::random(10),
+        //     'email' => Str::random(8) . "@gmail.com",
+        //     "phone" => $start . $num,
+        //     "password" => Hash::make("123456"),
+        // ]);
     }
 }

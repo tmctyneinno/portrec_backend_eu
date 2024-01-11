@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\UserJobApplication;
+use App\Models\JobApplication;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -14,6 +14,6 @@ class UserJobApplicationSeeder extends Seeder
      */
     public function run(): void
     {
-        UserJobApplication::factory(200)->create();
+        JobApplication::factory(200)->create();
     }
 }

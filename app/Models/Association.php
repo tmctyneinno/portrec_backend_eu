@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Association extends Model
 {
     use HasFactory;
+    protected $fillable = ['user_id', 'name', 'description', 'deleted_at'];
 }
