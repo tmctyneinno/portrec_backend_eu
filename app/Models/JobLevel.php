@@ -8,10 +8,4 @@ use Illuminate\Database\Eloquent\Model;
 class JobLevel extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'status'];
-
-    public function jobs()
-    {
-        return $this->hasMany(JobOpening::class);
-    }
 }

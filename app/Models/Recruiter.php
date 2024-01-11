@@ -3,34 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Model;
 
-class Recruiter extends Authenticatable
+class Recruiter extends Model
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
-    protected $fillable = ['name', 'email', 'password', 'phone', 'location', 'recruiter_level'];
-
-    protected $hidden = ['password'];
-
-    protected $casts = [
-        'password' => 'hashed',
-    ];
-
-    public function recruiterSubscriptions()
-    {
-        return $this->hasMany(RecruiterSubscription::class);
-    }
-
-    public function recruiterTransactions()
-    {
-        return $this->hasMany(RecruiterTransaction::class);
-    }
-
-    public function recruiterCompany()
-    {
-        return $this->hasMany(Company::class);
-    }
+    use HasFactory;
 }
