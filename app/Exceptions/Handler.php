@@ -78,6 +78,7 @@ class Handler extends ExceptionHandler
                 }
 
                 if ($e instanceof QueryException) {
+                    logger($e);
                     return $this->res("Cannot remove this resource permanently. It is related with another resource", 409);
                 }
 
