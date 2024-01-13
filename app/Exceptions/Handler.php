@@ -45,9 +45,9 @@ class Handler extends ExceptionHandler
                     return $this->res("model does not exist", 404);
                 }
 
-                if ($e instanceof AuthenticationException) {
-                    return $this->res("user not found", 404);
-                }
+                // if ($e instanceof AuthenticationException) {
+                //     return $this->res("user not found", 404);
+                // }
 
                 if ($e instanceof AuthorizationException) {
                     return $this->res("You are not authorized", 401);

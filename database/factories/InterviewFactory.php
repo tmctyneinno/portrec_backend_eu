@@ -19,7 +19,7 @@ class InterviewFactory extends Factory
         return [
             "user_id" => rand(1, 20),
             "recruiter_id" => rand(1, 200),
-            "application_id" => rand(1, 9),
+            "job_application_id" => rand(1, 9),
             "interview_date" => fake()->date('Y-m-d'),
             "status" => rand(0, 1),
             "location" => fake()->country()

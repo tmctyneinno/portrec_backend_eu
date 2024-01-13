@@ -25,7 +25,7 @@ class CompanyFactory extends Factory
             "industry_id" => rand(1, 500),
             "company_type_id" => rand(1, 40),
             "company_size_id" => rand(1, 6),
-            "country_id" => rand(1, 120),
+            // "country_id" => rand(1, 120),
             "city" => $this->faker->realText(30,2),
             "name" => $this->faker->realText(30,2),
             "description" => $this->faker->paragraph(4),
