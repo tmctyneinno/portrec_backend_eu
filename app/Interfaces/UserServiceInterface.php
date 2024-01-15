@@ -11,5 +11,5 @@ interface UserServiceInterface
 {
     public function saveUser(UserRegistrationDto $userdata): ?array;
 
-    public function saveResume(string $uploadPath, ?string $name = null, ?User $user = null): ?UserResume;
+    public function saveResume(string $uploadPath, ?string $name = null, ?User $user = null, string $publicId = null): ?UserResume;
 }

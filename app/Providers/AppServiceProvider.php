@@ -7,8 +7,8 @@ use App\Interfaces\FileUploadServiceInterface;
 use App\Interfaces\JobApplicationAnswerServiceInterface;
 use App\Interfaces\JobApplicationServiceInterface;
 use App\Interfaces\UserServiceInterface;
+use App\Services\CloudinaryFileUploadService;
 use App\Services\CoverLetterService;
-use App\Services\FileUploadService;
 use App\Services\JobApplicationAnswerService;
 use App\Services\JobApplicationService;
 use App\Services\UserService;
@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        app()->bind(FileUploadServiceInterface::class, FileUploadService::class);
+        app()->bind(FileUploadServiceInterface::class, CloudinaryFileUploadService::class);
         app()->bind(UserServiceInterface::class, UserService::class);
         app()->bind(JobApplicationServiceInterface::class, JobApplicationService::class);
         app()->bind(CoverLetterServiceInterface::class, CoverLetterService::class);
