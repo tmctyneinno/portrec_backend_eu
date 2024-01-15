@@ -9,11 +9,11 @@ class CloudinaryFileUploadService implements FileUploadServiceInterface
 {
     public function upload(UploadedFile $file, string $rootDirectory, string $fileName = null): array
     {
-        $fileName = $fileName ?? $file->getClientOriginalName();
+        $fileName = $fileName ?? null;
 
         $uploadedFile = cloudinary()->upload($file->getRealPath(), [
             'folder' => 'portrec/assets/' . $rootDirectory,
-            'filename' => $fileName
+            'display_name' => $fileName
         ]);
 
         $filePath = $uploadedFile->getSecurePath();
