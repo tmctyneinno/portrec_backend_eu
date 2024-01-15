@@ -30,7 +30,7 @@ class JobOpeningFactory extends Factory
             })),
             "job_level_id" => rand(1, 5),
             "location" => $this->faker->address(),
-            "job_functions" => rand(1, 10),
+            // "job_functions" => rand(1, 10),
             "recruiter_id" => rand(1, 500),
             "company_id" => rand(1, 500),
             "country_id" => rand(1, 120),
@@ -46,6 +46,7 @@ class JobOpeningFactory extends Factory
             "total_view" => rand(1, 10),
             "capacity" => rand(1, 10),
             "total_applied" => rand(1, 5),
+            "responsibilities" => json_encode($responsibility),
             "other_qualifications" => json_encode($responsibility->map(function ($item) {
                 return ["title" => $item,  "descriptions" => collect([1, 2, 3, 4])->map(function ($dt) {
                     return $this->faker->realText(30,2);

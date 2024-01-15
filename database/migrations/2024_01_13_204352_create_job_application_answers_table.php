@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('job_application_answers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable();
-            $table->foreignId('job_opening_id')->nullable();
-            $table->foreignId('application_question_id')->nullable();
-            $table->string('answers')->nullable();
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('job_application_id')->constrained();
+            $table->foreignId('job_opening_question_id')->constrained();
+            $table->string('answer')->nullable();
             $table->timestamp("deleted_at")->nullable();
             $table->timestamps();
         });

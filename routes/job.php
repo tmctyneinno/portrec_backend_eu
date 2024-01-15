@@ -1,11 +1,20 @@
 <?php
 
+use App\Http\Controllers\Job\JobApplicationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JobController;
-use App\Http\Controllers\User\JobApplicationController;
 
+Route::middleware(['auth:sanctum'])->group(function () {
+  Route::post("apply", [JobApplicationController::class, 'apply']);
+  Route::post("apply/cover-letter", [JobApplicationController::class, 'uploadCoverLetter']);
+  Route::post("apply/answers", [JobApplicationController::class, 'uploadJobApplicationAnswers']);
+});
 
-Route::post("apply/{jobId}", [JobApplicationController::class, "applyForJob"])->middleware("auth:sanctum");
+Route::controller(JobApplicationController::class)->group(function () {
+  Route::post('apply/guest', 'guestApply');
+  Route::post('apply/cover-letter/guest', 'guestUploadCoverLetter');
+  Route::post('apply/answers/guest', 'guestUploadJobApplicationAnswers');
+});
 
 
 Route::get("all/{type?}/{id?}", [JobController::class, "showJobs"]);

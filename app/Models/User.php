@@ -3,11 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
-class User extends Model
+class User extends Authenticatable
 {
     use HasFactory;
+    use Notifiable;
+    use HasApiTokens;
 
     protected $fillable = [
         'name', 'email', 'phone', 'role', 'password', 'website',
@@ -56,6 +60,11 @@ class User extends Model
     public function cover_letters()
     {
         return $this->hasMany(CoverLetter::class);
+    }
+
+    public function cover_letter()
+    {
+        return $this->hasOne(CoverLetter::class);
     }
 
     public function experience()

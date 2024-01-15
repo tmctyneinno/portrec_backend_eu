@@ -17,7 +17,7 @@ class EducationSeeder extends Seeder
         Education::insert([
             "user_id" => 1,
             "institution" => Str::random(12),
-            "qualification" => "B.sc",
+            // "qualification" => "B.sc",
         ]);
         Education::factory(500)->create();
     }

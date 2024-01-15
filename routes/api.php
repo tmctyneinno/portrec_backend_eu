@@ -32,7 +32,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix("user")->group(function () {
     Route::post("signup", [UserAuthController::class, "signup"]);
-    Route::post("login", [UserAuthController::class, "signin"]);
+    Route::post("login", [UserAuthController::class, "signin"])->name('login');
     Route::middleware(["auth:sanctum", "login",])->group(function () {
         Route::get("profile", [ProfileController::class, "myProfile"]);
         Route::put("profile", [ProfileController::class, "updateProfile"]);

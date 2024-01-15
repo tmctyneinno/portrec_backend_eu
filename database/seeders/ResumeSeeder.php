@@ -16,8 +16,8 @@ class ResumeSeeder extends Seeder
     {
         UserResume::insert([
             "user_id" => 1,
-            "doc_url" => "www.resume.com",
-            "doc_name" => Str::random(10)
+            "resume_url" => "www.resume.com",
+            "resume_name" => Str::random(10)
         ]);
         UserResume::factory(100)->create();
     }
