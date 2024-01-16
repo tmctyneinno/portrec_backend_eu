@@ -38,9 +38,9 @@ class JobApplicationService implements JobApplicationServiceInterface
                 [$user, $plainTextPassword] = $this->userService->saveUser($userData);
 
                 if ($applicationData->resume instanceof UploadedFile) {
-                    [$fileName, $filePath] = $this->fileUploadService->upload($applicationData->resume, 'resumes/' . $user->id);
+                    [$fileName, $filePath, $publicId] = $this->fileUploadService->upload($applicationData->resume, 'resumes/' . $user->id);
 
-                    $resume = $this->userService->saveResume($filePath, $fileName, $user);
+                    $resume = $this->userService->saveResume($filePath, $fileName, $user, $publicId);
 
                     $applicationData->resume = $resume->id;
                 }
@@ -53,9 +53,10 @@ class JobApplicationService implements JobApplicationServiceInterface
             if ($applicationData->resume instanceof UploadedFile) {
                 $user = auth()->user();
 
-                [$fileName, $filePath] = $this->fileUploadService->upload($applicationData->resume, 'resumes/' . $user->id);
+                [$fileName, $filePath, $publicId] = $this->fileUploadService->upload($applicationData->resume, 'resumes/' . $user->id);
 
-                $resume = $this->userService->saveResume($filePath, $fileName, $user);
+                $resume = $this->userService->saveResume($filePath, $fileName, $user, $publicId);
+
 
                 $applicationData->resume = $resume->id;
                 $applicationData->user_id = $user->id;
@@ -79,10 +80,6 @@ class JobApplicationService implements JobApplicationServiceInterface
             DB::rollBack();
             return null;
         }
-    }
-
-    public function uploadResume()
-    {
     }
 
     public function saveCoverLetter(string $JobApplicationId, string $coverLetter)
