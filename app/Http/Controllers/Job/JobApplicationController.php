@@ -13,7 +13,7 @@ use App\Http\Resources\JobApplicationResource;
 use App\Interfaces\CoverLetterServiceInterface;
 use App\Interfaces\JobApplicationAnswerServiceInterface;
 use App\Interfaces\JobApplicationServiceInterface;
-use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class JobApplicationController extends BaseController
 {
@@ -31,7 +31,7 @@ class JobApplicationController extends BaseController
         $jobApplication = $this->jobApplicationService->saveJobApplication($jobApplicationData);
 
         if (!$jobApplication) {
-            return $this->errorMessage('We ran into an error while trying to handle your request, please try again');
+            return $this->errorMessage('We ran into an error while trying to handle your request, please try again', Response::HTTP_SERVICE_UNAVAILABLE);
         }
 
         return $this->successMessage(new JobApplicationResource($jobApplication));
@@ -44,7 +44,7 @@ class JobApplicationController extends BaseController
         $coverLetter = $this->coverLetterService->saveCoverLetter($coverLetterdata);
 
         if (!$coverLetter) {
-            return $this->errorMessage('We ran into an error while trying to handle your request, please try again');
+            return $this->errorMessage('We ran into an error while trying to handle your request, please try again', Response::HTTP_SERVICE_UNAVAILABLE);
         }
 
         $jobApplication = $this->jobApplicationService->findJobApplication($coverLetterdata->job_application_id);
@@ -59,7 +59,7 @@ class JobApplicationController extends BaseController
         $jobApplicationAnswers = $this->jobApplicationAnswerService->saveAnswers($jobApplicationAnswerData);
 
         if (!$jobApplicationAnswers) {
-            return $this->errorMessage('We ran into an error while trying to handle your request, please try again');
+            return $this->errorMessage('We ran into an error while trying to handle your request, please try again', Response::HTTP_SERVICE_UNAVAILABLE);
         }
 
         $jobApplication = $this->jobApplicationService->findJobApplication($jobApplicationAnswerData->job_application_id);

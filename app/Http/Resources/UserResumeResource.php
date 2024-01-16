@@ -19,6 +19,7 @@ class UserResumeResource extends JsonResource
             'user_id' => $this->user_id,
             'resume_name' => $this->resume_name,
             'resume_url' => $this->resume_url,
+            'public_id' => $this->public_id,
             'created_at' => $this->whenLoaded('created_at'),
             'updated_at' => $this->whenLoaded('updated_at'),
             'deleted_at' => $this->whenLoaded('deleted_at'),

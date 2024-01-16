@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserResume extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id', 'resume_url', 'resume_name'];
+    protected $fillable = ['user_id', 'resume_url', 'resume_name', 'public_id'];
 
     // public function resumeUrl(): Attribute
     // {
