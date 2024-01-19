@@ -20,7 +20,7 @@ class ProfileController extends BaseController
     {
         $user = $this->UserID();
 
-        $associations = ["experience", "cover_letters", "resume", "profile_pic", "education"];
+        $associations = ["experience", "cover_letters", "resume", "education"];
         $profile = User::with($associations)->find($user->id);
         $profile['skills'] = $profile->skill->each(function ($data) {
             $data["name"] = Skill::find($data['skill_id'])->name;
