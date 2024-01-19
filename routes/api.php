@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\RecruiterAuthController;
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\User\SkillController;
 use App\Http\Controllers\Skill\SkillController as AllSkills;
 use App\Http\Controllers\User\CoverLetterController;
@@ -69,6 +70,15 @@ Route::prefix("user")->group(function () {
 
         Route::get("jobs/{id?}", [JobApplicationController::class, "myApplication"]);
     });
+});
+
+Route::prefix('messages')->middleware(['auth:sanctum'])->controller(MessageController::class)->group(function () {
+    Route::post('/', 'store');
+    Route::get('/', 'index');
+    Route::get('/count', 'messagesCount');
+    Route::put('/{conversationId}/mark-read', 'markAsRead');
+    Route::get('/{conversationId}', 'show');
+    Route::delete('/{id}', 'destroy');
 });
 
 Route::get("skills", [AllSkills::class, "getSkill"]);
