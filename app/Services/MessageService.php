@@ -171,7 +171,9 @@ class MessageService implements MessageServiceInterface
         $conversations = Conversation::query()
             ->where('recruiter_id', $recruiter?->id)
             ->orWhere('user_id', $user?->id)
-            ->with(['user:id,name,phone,role,gender', 'recruiter:id,name,location,recruiter_level', 'messages'])
+            ->with(['user' => function ($query) {
+                return $query->select(['id', 'name'])->with('profile:user_id,image_path,phone,avatar,location');
+            }, 'recruiter:id,name,location,recruiter_level', 'messages'])
             ->withCount('messages')
             ->paginate($perPage)
             ->appends(request()->query());

@@ -69,8 +69,9 @@ class MessageController extends BaseController
 
         return $this->successMessage(
             [
-                'conversation' => new ConversationResource($conversation->load([
-                    'user:id,name,phone,role,gender',
+                'conversation' => new ConversationResource($conversation->load(['user' => function ($query) {
+                        return $query->select(['id', 'name'])->with('profile:user_id,image_path,phone,avatar,location');
+                    },
                     'recruiter:id,name,location,recruiter_level',
                     'messages'
                 ]))
