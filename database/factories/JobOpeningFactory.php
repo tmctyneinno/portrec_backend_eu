@@ -34,6 +34,7 @@ class JobOpeningFactory extends Factory
             "recruiter_id" => rand(1, 5),
             "company_id" => 1,
             "country_id" => 1,
+            'industry_id' => rand(1,9),
             "job_type_id" => rand(1, 2),
             "experience" => $this->faker->realText(30,2),
             "min_salary" => $this->faker->biasedNumberBetween(2000, 2500),
