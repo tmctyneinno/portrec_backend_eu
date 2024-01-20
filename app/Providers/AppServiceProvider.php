@@ -6,11 +6,13 @@ use App\Interfaces\CoverLetterServiceInterface;
 use App\Interfaces\FileUploadServiceInterface;
 use App\Interfaces\JobApplicationAnswerServiceInterface;
 use App\Interfaces\JobApplicationServiceInterface;
+use App\Interfaces\MessageServiceInterface;
 use App\Interfaces\UserServiceInterface;
 use App\Services\CloudinaryFileUploadService;
 use App\Services\CoverLetterService;
 use App\Services\JobApplicationAnswerService;
 use App\Services\JobApplicationService;
+use App\Services\MessageService;
 use App\Services\UserService;
 use Illuminate\Support\ServiceProvider;
 
@@ -26,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
         app()->bind(JobApplicationServiceInterface::class, JobApplicationService::class);
         app()->bind(CoverLetterServiceInterface::class, CoverLetterService::class);
         app()->bind(JobApplicationAnswerServiceInterface::class, JobApplicationAnswerService::class);
+        app()->bind(MessageServiceInterface::class, MessageService::class);
     }
 
     /**

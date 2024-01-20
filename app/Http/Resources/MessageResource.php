@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource
+class MessageResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,7 +18,6 @@ class UserResource extends JsonResource
             ...parent::toArray($request),
             'deleted_at' => $this->whenLoaded('deleted_at'),
             'updated_at' => $this->whenLoaded('updated_at'),
-            'profile' => $this->whenLoaded('profile'),
         ];
     }
 }
