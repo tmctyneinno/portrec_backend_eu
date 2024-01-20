@@ -209,10 +209,10 @@ class MessageService implements MessageServiceInterface
                 ->where('id', $messageId)
                 ->where('sender_id', $user?->id ?? $recruiter?->id)
                 ->orWhere('recipient_id', $recruiter?->id ?? $user?->id)
-                ->with(['conversation' => function (Builder $query) {
+                ->with(['conversation' => function ($query) {
                     return $query->withCount('messages');
                 }])
-                ->get();
+                ->first();
 
             if ($message->conversation->messages_count < 2) {
                 $message->conversation->delete();
