@@ -114,7 +114,9 @@ class MessageService implements MessageServiceInterface
         try {
             $message = Conversation::query()
                 ->where('id', $conversationId)
-                ->with(['user:id,name,phone,role,gender', 'recruiter:id,name,recruiter_level,location', 'messages' => function ($query) {
+                ->with(['user' => function ($query) {
+                    return $query->select(['id', 'name'])->with('profile:user_id,image_path,phone,avatar,location');
+                }, 'recruiter:id,name,recruiter_level,location', 'messages' => function ($query) {
                     return $query->latest();
                 }])
                 ->withCount('messages')
