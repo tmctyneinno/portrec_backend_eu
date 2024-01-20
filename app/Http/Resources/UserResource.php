@@ -18,6 +18,7 @@ class UserResource extends JsonResource
             ...parent::toArray($request),
             'deleted_at' => $this->whenLoaded('deleted_at'),
             'updated_at' => $this->whenLoaded('updated_at'),
+            'profile' => $this->whenLoaded('profile'),
         ];
     }
 }
