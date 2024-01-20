@@ -85,10 +85,10 @@ class JobController extends BaseController
         }
     }
 
-    public function jobCategories($id = null)
+    public function jobIndustries($id = null)
     {
         if (!$id) {
-            $categories = Industry::withCount($this->jc)->get();
+            $categories = Industry::withCount('jobs as total_jobs')->get();
             return $this->successMessage($categories);
         }
         $categories = Industry::findorfail($id);

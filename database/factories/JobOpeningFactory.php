@@ -1,5 +1,4 @@
 <?php
-
 namespace Database\Factories;
 
 use App\Models\JobOpening;
@@ -30,7 +29,6 @@ class JobOpeningFactory extends Factory
             })),
             "job_level_id" => rand(1, 5),
             "location" => $this->faker->address(),
-            // "job_functions" => rand(1, 10),
             "recruiter_id" => rand(1, 5),
             "company_id" => 1,
             "country_id" => 1,
