@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('user_profiles', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('job_function_id')->constrained();
+            $table->string('job_function_id')->nullable();
             $table->string('user_level_id')->nullable();
             $table->string("industries_id")->nullable();
             $table->string('job_type_id')->nullable();
@@ -41,7 +41,6 @@ return new class extends Migration
             $table->string('googleplus')->nullable();
             $table->string('location')->nullable();
             $table->text("about_me")->nullable();
-            $table->text("skills")->nullable();
             $table->timestamp("deleted_at")->nullable();
             $table->timestamps();
         });

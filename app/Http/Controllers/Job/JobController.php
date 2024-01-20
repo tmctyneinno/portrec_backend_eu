@@ -15,12 +15,12 @@ class JobController extends BaseController
     use JobTrait;
     public function all(Request $request, $type = null, $id = null)
     {
-        $query = JobOpening::with(["recruiter:id,name,email,phone", "company", "jobType", "sub_category"]);
-        $query = JobOpening::with(["recruiter:id,name,email,phone", "company", "jobType", "sub_category"]);
+        $query = JobOpening::with(["recruiter:id,name,email,phone","company", "jobType"]);
 
+        dd($query);
         if (!$type) {
             $jobType = $request->get("type_id");
-            $category = $request->get("cat_id");
+            $industry = $request->get("industry_id");
             $min = $request->get("min_salary");
             $max = $request->get("max_salary");
 
@@ -29,7 +29,7 @@ class JobController extends BaseController
             }
 
             $this->filter($query, "jobType", $jobType);
-            $this->filter($query, "sub_category", $category, "industry_id");
+            $this->filter($query, "indusries", $industry);
 
             $allJobs = $query->paginate(10);
 
@@ -44,7 +44,6 @@ class JobController extends BaseController
 
             return $this->successMessage($allJobs);
         }
-
         if ($type === "similar" && $id) {
             $this->filter($query, "sub_category", $id);
             $similarJobs =  $query->inRandomOrder()->take(8)->get();
@@ -60,7 +59,6 @@ class JobController extends BaseController
 
             return $this->successMessage($similarJobs);
         }
-
         if ($type === "latest") {
             $latestJobs = $query->take(8)->latest()->get();
 

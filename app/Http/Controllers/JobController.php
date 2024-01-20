@@ -7,7 +7,7 @@ use App\Models\Industry;
 use App\Models\JobFunction;
 use App\Models\JobLevel;
 use App\Models\JobOpening;
-use App\Models\WorkType;
+use App\Models\JobType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -24,12 +24,11 @@ class JobController extends BaseController
     }
     public function showJobs(Request $request, $type = null, $id = null)
     {
-        $query = JobOpening::with(["recruiter:id,name,email,phone", "company", "jobType", "sub_category"]);
-        $query = JobOpening::with(["recruiter:id,name,email,phone", "company", "jobType", "sub_category"]);
+        $query = JobOpening::with(["recruiter:id,name,email,phone", "company", "jobType", "industry"]);
 
         if (!$type) {
             $jobType = $request->get("type_id");
-            $category = $request->get("cat_id");
+            $industry = $request->get("industry_id");
             $min = $request->get("min_salary");
             $max = $request->get("max_salary");
 
@@ -38,13 +37,14 @@ class JobController extends BaseController
             }
 
             $this->filter($query, "jobType", $jobType);
-            $this->filter($query, "sub_category", $category, "industry_id");
+            $this->filter($query, "industry", $industry);
 
             $allJobs = $query->paginate(10);
 
+
             // for development purpose only
             $allJobs->getCollection()->transform(function ($data) {
-                $category = Industry::where("id", $data->sub_category->industry_id)->first(['name', 'id']);
+                $category = Industry::where("id", $data->industry_id)->first(['name', 'id']);
                 $data->category = $category;
                 $data->company->country = Str::random(8);
                 $data->company->city = Str::random(8);
@@ -55,12 +55,12 @@ class JobController extends BaseController
         }
 
         if ($type === "similar" && $id) {
-            $this->filter($query, "sub_category", $id);
+            $this->filter($query, "industry", $id);
             $similarJobs =  $query->inRandomOrder()->take(8)->get();
 
             // for devlopmwnt purpose only
             $similarJobs->each(function ($data) {
-                $category = Industry::where("id", $data->sub_category->industry_id)->first(['name', 'id']);
+                $category = Industry::where("id", $data->industry_id)->first(['name', 'id']);
                 $data->category = $category;
                 $data->company->country = Str::random(8);
                 $data->company->city = Str::random(8);
@@ -75,7 +75,7 @@ class JobController extends BaseController
 
             // this line is for development purpose only 
             $latestJobs->each(function ($data) {
-                $category = Industry::where("id", $data->sub_category->industry_id)->first(['name', 'id']);
+                $category = Industry::where("id", $data->industry_id)->first(['name', 'id']);
                 $data->category = $category;
                 $data->company->country = Str::random(8);
                 $data->company->city = Str::random(8);
@@ -85,10 +85,10 @@ class JobController extends BaseController
         }
     }
 
-    public function jobCategories($id = null)
+    public function jobIndustries($id = null)
     {
         if (!$id) {
-            $categories = Industry::withCount($this->jc)->get();
+            $categories = Industry::withCount('jobs as total_jobs')->get();
             return $this->successMessage($categories);
         }
         $categories = Industry::findorfail($id);
@@ -102,10 +102,10 @@ class JobController extends BaseController
     public function jobTypes($id = null)
     {
         if (!$id) {
-            $jobTypes = WorkType::withCount($this->jc)->get();
+            $jobTypes = JobType::withCount($this->jc)->get();
             return $this->successMessage($jobTypes);
         }
-        $jobTypes = WorkType::findorfail($id);
+        $jobTypes = JobType::findorfail($id);
         $jobs = $jobTypes->jobs()->paginate(10);
         return $this->successMessage([
             "type" => $jobTypes,
@@ -163,7 +163,7 @@ class JobController extends BaseController
     {
         $title = $request->get("title");
         $location = $request->get("location");
-        $query = JobOpening::with(["recruiter:id,name,email,phone", "company", "jobType", "sub_category"]);
+        $query = JobOpening::with(["recruiter:id,name,email,phone", "company", "jobType", "industry"]);
 
         if ($title)
             $query->where("title", "like", "%" .  $title . "%");

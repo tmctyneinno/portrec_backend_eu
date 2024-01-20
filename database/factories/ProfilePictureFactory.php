@@ -17,7 +17,7 @@ class ProfilePictureFactory extends Factory
     public function definition(): array
     {
         return [
-            "user_id" => rand(1, 51),
+            "user_id" => rand(1, 2),
             "image" => "https://picsum.photos/100/100"
         ];
     }

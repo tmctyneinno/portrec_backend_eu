@@ -21,7 +21,7 @@ class CandidateFactory extends Factory
     public function definition(): array
     {
         return [
-            "user_id"  => rand(1, 51),
+            "user_id"  => rand(1, 5),
             "phone" => fake()->phoneNumber(),
             "professional_headline" => fake()->sentence(),
             "availability_id" => rand(1, 5),

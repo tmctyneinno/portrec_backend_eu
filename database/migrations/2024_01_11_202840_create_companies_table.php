@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
             $table->foreignId('recruiter_id')->constrained();
+            $table->integer('company_type_id')->nullable();
             $table->string('industry_id')->nullable();
             $table->string("name")->nullable();
             $table->string("company_size_id")->nullable();
             $table->string("country")->nullable();
             $table->string("city")->nullable();
             $table->string('cac')->nullable();
-            $table->integer('company_type_id')->nullable();
             $table->string('website')->nullable();
             $table->string('address')->nullable();
             $table->string('phone')->nullable();

@@ -10,4 +10,10 @@ class JobFunction extends Model
 
     use HasFactory;
     protected $fillable = ['name', 'industry_id'];
+
+
+    public  function jobs()
+    {
+        return $this->hasMany(JobOpening::class, "job_function_id", "id");
+    }
 }

@@ -22,8 +22,8 @@ class CompanyFactory extends Factory
 
         return [
             'recruiter_id' => 1,
-            "industry_id" => rand(1, 500),
-            "company_type_id" => rand(1, 40),
+            "industry_id" => rand(1, 5),
+            "company_type_id" => rand(1, 4),
             "company_size_id" => rand(1, 6),
             // "country_id" => rand(1, 120),
             "city" => $this->faker->realText(30,2),

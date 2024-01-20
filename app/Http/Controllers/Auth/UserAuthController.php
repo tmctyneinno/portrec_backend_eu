@@ -2,32 +2,50 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\CreateUserProfile;
+use App\Events\RegistrationEmails;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class UserAuthController extends AuthController
 {
     public function signup(UserRequest $request)
     {
+
         $validation = $request->validated();
+
 
         $req["name"] = $validation['fullName'];
         $req['email'] = $validation['email'];
-        $req['password'] = $validation['password'];
+        $req['password'] = bcrypt($validation['password']);
+        $req['role'] = "user";
+        $req['phone'] = $validation['phone'];
 
-        $create = $this->create($req);
-        if (is_string($create) || $create['validation']) {
-            $errors = $create['errors'];
-            $email = $errors["email"][0] ?? "";
-            $phone = $errors["phone"][0] ?? "";
-
-            if ($email == "The email has already been taken." || $phone == "The phone has already been taken.") return $this->errorMessage($create, 409);
-
-            return $this->errorMessage($create);
+      DB::beginTransaction();  
+try {
+        $user = User::create($req);
+        $user->password = $validation['password'];
+        if($user){
+            event( new CreateUserProfile($user));
+             event(new RegistrationEmails($validation));
         }
 
-        return $this->successMessage($create, "success", 201);
+        $data = [
+            'user' => $user,
+            $user->profile
+        ];
+    DB::commit();
+    return $this->successMessage($data, "success", 201);
+    }catch(\Exception $e){
+     DB::rollBack();
+    //  dd($e);
+     return $this->errorMessage($e->getMessage(), 201);
+    }
+
     }
 
     public function signin(Request $request)
@@ -40,7 +58,7 @@ class UserAuthController extends AuthController
             return $this->errorMessage($login, 401);
 
         $token = $login->createToken("portrecToken")->plainTextToken;
-        return $this->successMessage(["token" => $token], "login success");
+        return $this->successMessage(["token" => $token, 'user' => $login], "login success");
     }
 
     public function changePassword(Request $request)

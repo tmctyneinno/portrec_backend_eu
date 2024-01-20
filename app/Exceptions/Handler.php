@@ -66,7 +66,7 @@ class Handler extends ExceptionHandler
                 }
 
                 if ($e instanceof MethodNotAllowedHttpException) {
-                    return $this->res("The http specified method for the requests is invalid", 405);
+                    return $this->res("The http specified method for the requests is invalid".$e, 405);
                 }
 
                 if ($e instanceof HttpException) {
@@ -74,16 +74,16 @@ class Handler extends ExceptionHandler
                 }
 
                 if ($e instanceof BadMethodCallException) {
-                    return $this->res("method does not exist", 404);
+                    return $this->res("method does not exist".$e, 404);
                 }
 
                 if ($e instanceof QueryException) {
                     logger($e);
-                    return $this->res("Cannot remove this resource permanently. It is related with another resource", 409);
+                    return $this->res(" Cannot remove this resource permanently. It is related with another resource".$e, 409);
                 }
 
                 if ($e instanceof TokenMismatchException) {
-                    return $this->res("invalid user", 405);
+                    return $this->res("invalid user ".$e, 405);
                 }
 
                 // if ($e instanceof UnexpectedValueException) {

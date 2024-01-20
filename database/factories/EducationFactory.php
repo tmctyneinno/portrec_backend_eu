@@ -20,7 +20,7 @@ class EducationFactory extends Factory
     public function definition(): array
     {
         return [
-            "user_id" => rand(1, 500),
+            "user_id" => rand(1, 5),
             "institution" => Str::random(12),
             // "qualification" => "B.sc",
         ];

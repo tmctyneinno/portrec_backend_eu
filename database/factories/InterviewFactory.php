@@ -17,8 +17,8 @@ class InterviewFactory extends Factory
     public function definition(): array
     {
         return [
-            "user_id" => rand(1, 20),
-            "recruiter_id" => rand(1, 200),
+            "user_id" => rand(1, 2),
+            "recruiter_id" => rand(1, 2),
             "job_application_id" => rand(1, 9),
             "interview_date" => fake()->date('Y-m-d'),
             "status" => rand(0, 1),

@@ -19,6 +19,6 @@ class EducationSeeder extends Seeder
             "institution" => Str::random(12),
             // "qualification" => "B.sc",
         ]);
-        Education::factory(500)->create();
+        // Education::factory(10)->create();
     }
 }

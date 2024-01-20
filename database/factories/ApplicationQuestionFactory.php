@@ -18,8 +18,8 @@ class ApplicationQuestionFactory extends Factory
     public function definition(): array
     {
         return [
-            "recruiter_id" => rand(1, 500),
-            "job_id" => rand(1, 500),
+            "recruiter_id" => rand(1, 5),
+            "job_id" => rand(1, 5),
             "questions" => $this->faker->paragraph(4)
         ];
     }

@@ -29,14 +29,12 @@ class DatabaseSeeder extends Seeder
             WorkExperienceSeeder::class,
             CoverLetterSeeder::class,
             CountrySeeder::class,
-            CandidateSeeder::class,
-            ProfilePictureSeeder::class,
             SkillSeeder::class,
             UserJobApplicationSeeder::class,
             HiringStageSeeder::class,
             ApplicationSeeder::class,
             InterviewSeeder::class,
-            AdminSeeder::class,
+            // AdminSeeder::class,
             CompanySeeder::class,
         ]);
     }

@@ -18,7 +18,7 @@ Route::controller(JobApplicationController::class)->group(function () {
 
 
 Route::get("all/{type?}/{id?}", [JobController::class, "showJobs"]);
-Route::get("categories/{id?}", [JobController::class, "jobCategories"]);
+Route::get("industries/{id?}", [JobController::class, "jobIndustries"]);
 Route::get("types/{id?}", [JobController::class, "jobTypes"]);
 Route::get("levels/{id?}", [JobController::class, "jobLevels"]);
 Route::get("functions/{id?}", [JobController::class, "jobFunctions"]);

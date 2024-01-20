@@ -19,6 +19,6 @@ class ResumeSeeder extends Seeder
             "resume_url" => "www.resume.com",
             "resume_name" => Str::random(10)
         ]);
-        UserResume::factory(100)->create();
+        UserResume::factory(6)->create();
     }
 }
