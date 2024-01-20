@@ -20,7 +20,7 @@ class WorkExperienceFactory extends Factory
     {
         return
             [
-                'user_id' => rand(1, 51),
+                'user_id' => 1,
                 'company_name' =>  $this->faker->firstName(),
                 'company_location' => $this->faker->address(),
                 'start_date' => Carbon::now(),

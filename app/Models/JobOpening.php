@@ -37,13 +37,14 @@ class JobOpening extends Model
         return $this->belongsTo(JobLevel::class);
     }
 
-    public function sub_category()
-    {
-        return $this->belongsTo(JobFunction::class, "job_functions", "id");
+    public function industry(){
+
+        return $this->belongsTo(Industry::class);
     }
 
-
-
-
+    public function jobFunctions()
+    {
+        return $this->belongsTo(JobFunction::class, "job_function_id", "id");
+    }
 
 }

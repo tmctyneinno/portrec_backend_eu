@@ -24,11 +24,15 @@ class User extends Authenticatable
         "allow_search"
     ];
 
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-    ];
+    // protected $casts = [
+    //     'email_verified_at' => 'datetime',
+    //     'password' => 'hashed',
+    // ];
 
+
+    public function profile(){
+        return $this->hasOne(UserProfile::class, 'user_id', 'id');
+    }
   
 
     public function education()

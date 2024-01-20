@@ -14,6 +14,6 @@ class CandidateSeeder extends Seeder
      */
     public function run(): void
     {
-        UserProfile::factory(500)->create();
+        UserProfile::factory(10)->create();
     }
 }

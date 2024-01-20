@@ -13,6 +13,6 @@ class InterviewSeeder extends Seeder
      */
     public function run(): void
     {
-        Interview::factory(50)->create();
+        Interview::factory(10)->create();
     }
 }

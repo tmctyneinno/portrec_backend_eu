@@ -18,7 +18,7 @@ class CoverLetterFactory extends Factory
     public function definition(): array
     {
         return [
-            "user_id" => rand(1, 51),
+            "user_id" => 1,
             "doc_url" => fake()->url(),
             "content" => fake()->sentence()
         ];

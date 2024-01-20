@@ -14,6 +14,6 @@ class ApplicationQuestionSeeder extends Seeder
      */
     public function run(): void
     {
-        JobOpeningQuestion::factory(200)->create();
+        JobOpeningQuestion::factory(10)->create();
     }
 }

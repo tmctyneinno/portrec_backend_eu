@@ -28,6 +28,6 @@ class WorkExperienceSeeder extends Seeder
             'description' => Str::random(200),
             'status' => rand(0, 1)
         ]);
-        WorkExperience::factory(51)->create();
+        WorkExperience::factory(5)->create();
     }
 }

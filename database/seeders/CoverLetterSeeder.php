@@ -19,6 +19,6 @@ class CoverLetterSeeder extends Seeder
             "doc_url" => "www.resume.com",
             "content" => Str::random(10)
         ]);
-        CoverLetter::factory(51)->create();
+        CoverLetter::factory(8)->create();
     }
 }
