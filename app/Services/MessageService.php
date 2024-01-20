@@ -99,7 +99,7 @@ class MessageService implements MessageServiceInterface
                 $query->where('is_user_read', 0);
             })
             ->when($recruiter, function (Builder $query) {
-                $query->orWhere('is_recruiter_read', 0);
+            $query->where('is_recruiter_read', 0);
             });
 
         if ($conversations->count() < 2) {
