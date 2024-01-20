@@ -169,12 +169,16 @@ class MessageService implements MessageServiceInterface
         $recruiter = auth('recruiter')->user();
 
         $conversations = Conversation::query()
-            ->where('recruiter_id', $recruiter?->id)
-            ->orWhere('user_id', $user?->id)
+            ->when($user, function (Builder $query) use ($user) {
+                $query->where('user_id', $user?->id);
+            })
+            ->when($recruiter, function (Builder $query) use ($recruiter) {
+                $query->where('user_id', $recruiter?->id);
+            })
             ->with(['user' => function ($query) {
                 return $query->select(['id', 'name'])->with('profile:user_id,image_path,phone,avatar,location');
             }, 'recruiter:id,name,location,recruiter_level', 'messages'])
-            ->withCount('messages')
+            ->withCount(['messages', 'unread_messages'])
             ->paginate($perPage)
             ->appends(request()->query());
         return $conversations;

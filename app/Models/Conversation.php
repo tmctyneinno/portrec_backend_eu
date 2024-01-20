@@ -34,6 +34,16 @@ class Conversation extends Model
         return $this->hasMany(Message::class);
     }
 
+    public function unread_messages(): HasMany
+    {
+        $user = auth()->user();
+        $recruiter = auth('recruiter')->user();
+
+        return $this->hasMany(Message::class)
+            ->where('recipient_id', $user?->id ?? $recruiter?->id)
+            ->where('is_read', 0);
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

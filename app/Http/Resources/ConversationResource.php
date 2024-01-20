@@ -22,6 +22,7 @@ class ConversationResource extends JsonResource
             'recruiter' => new RecruiterResource($this->recruiter),
             'message' => new MessageResource($this->whenLoaded('message')),
             'messages_count' => $this->whenCounted('messages'),
+            'unread_messages_count' => $this->whenCounted('unread_messages'),
             'messages' => MessageResource::collection($this->whenLoaded('messages')),
             'created_at' => $this->created_at,
             'deleted_at' => $this->whenLoaded('deleted_at'),
