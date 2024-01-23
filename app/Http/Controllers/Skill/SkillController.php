@@ -11,6 +11,6 @@ class SkillController extends BaseController
 {
     public function getSkill()
     {
-        return $this->successMessage(Skill::all());
+      return $this->successMessage(Skill::all());
     }
 }

@@ -33,16 +33,18 @@ class CoverLetterController extends BaseController
     public function writeCoverLetter(Request $request)
     {
         $id = $this->userID()->id;
-        $request['user_id'] = $id;
-        $resume = CoverLetter::create($request->all());
+        $data['user_id'] = $id;
+        $data['content'] = $request->content;
+        $resume = CoverLetter::create($data);
         return $this->successMessage($resume);
     }
 
     public function updateCoverLetter(Request $request, $id)
     {
         $userId = $this->userID()->id;
-        $letter = CoverLetter::where($this->condition($id, $userId))->update($request->all());
-        return $this->successMessage($letter);
+        $letter = CoverLetter::where(['user_id' => $userId, 'id' => $id])->first();
+        $letter ->update(['content' => $request->content]);
+        return $this->successMessage($letter,200);
     }
 
     public function deleteCoverLetter($id)
