@@ -47,4 +47,8 @@ class JobOpening extends Model
         return $this->belongsTo(JobFunction::class, "job_function_id", "id");
     }
 
+    public function questions(){
+        return $this->hasMany(JobOpeningQuestion::class, 'job_opening_id', 'id');
+    }
+
 }

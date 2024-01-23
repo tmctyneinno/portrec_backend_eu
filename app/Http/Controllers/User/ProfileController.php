@@ -22,7 +22,7 @@ class ProfileController extends BaseController
     {
         $user = $this->UserID();
 
-        $associations = ["experience", "cover_letters", "resume", "education"];
+        $associations = ["experience", "cover_letter", "resume", "education"];
         $profile = User::with($associations)->find($user->id);
         $profile['skills'] = $profile->skill->each(function ($data) {
             $data["name"] = Skill::find($data['skill_id'])->name;
@@ -32,7 +32,6 @@ class ProfileController extends BaseController
 
     public function updateProfile(Request $request)
     {
-        $not_allowed = ["password", "industries_id", "email", "user_level_id", "user_id", "phone"];
         $id = $this->userID()->id;
         $user = User::where("id", $id)->first();
         if($request->image){
@@ -45,24 +44,6 @@ class ProfileController extends BaseController
         return $this->successMessage(['user' =>$user, 'profile' => $user->profile], "profile updated", 201);
     }
 
-    // public function uploadProfileImage(Request $request, $id = "")
-    // {
-    //     $userId = $this->userID()->id;
-
-    //     $resp = FileUpload::uploadFile($request->file("img"), "profile_pic");
-
-    //     if ($resp instanceof Response) return $resp;
-
-    //     if (!$id) {
-    //         $request['image'] = $resp;
-    //         $request['user_id'] = $userId;
-    //         $upload = ProfilePicture::create($request->all());
-    //         return $this->successMessage($upload);
-    //     }
-
-    //     ProfilePicture::where($this->condition($id, $userId))->update(["image" => $resp]);
-    //     return $this->successMessage($resp);
-    // }
 
     public function updatePassword(Request $request)
     {

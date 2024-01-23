@@ -63,10 +63,6 @@ class User extends Authenticatable
     }
 
 
-    public function cover_letters()
-    {
-        return $this->hasMany(CoverLetter::class);
-    }
 
     public function cover_letter()
     {

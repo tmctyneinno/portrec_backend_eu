@@ -130,18 +130,18 @@ class JobController extends BaseController
 
     public function jobDetails($id)
     {
-        $job = JobOpening::where("id", $id)->with(["questions", "sub_category", "jobType", "company"])->first();
-        $category = Industry::where("id", $job->sub_category->id)->first(['name', 'id']);
-        $job->category = $category;
-        $job->company->city = Str::random(8);
-        $job->company->country = Str::random(8);
+        $job = JobOpening::where("id", $id)->with(["questions", "industry", "jobType", "company"])->first();
+        // $category = Industry::where("id", $job->sub_category->id)->first(['name', 'id']);
+        // $job->category = $category;
+        // $job->company->city = Str::random(8);
+        // $job->company->country = Str::random(8);
         return $this->successMessage($job);
     }
 
     public function jobSalaryRansge($from, $to)
     {
         if ($from > $to) return $this->errorMessage("min value cannot be greater than max value");
-        $allJobs = JobOpening::with(["recruiter:id,name,email,phone", "company", "jobType", "sub_category"])->where("min_salary", "<", $from)->where("max_salary", ">", $to)->get();
+        $allJobs = JobOpening::with(["recruiter:id,name,email,phone", "company", "jobType", "industry"])->where("min_salary", "<", $from)->where("max_salary", ">", $to)->get();
         return $this->successMessage($allJobs);
     }
 

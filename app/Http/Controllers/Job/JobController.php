@@ -74,11 +74,9 @@ class JobController extends BaseController
 
     public function detail($id)
     {
-        $job = JobOpening::where("id", $id)->with(["questions", "sub_category", "jobType", "company"])->first();
-        $category = Industry::where("id", $job->sub_category->id)->first(['name', 'id']);
-        $job->category = $category;
-        $job->company->city = Str::random(8);
-        $job->company->country = Str::random(8);
+        $job = JobOpening::where("id", $id)->with(["questions", "industry_id", "jobType", "company"])->first();
+        $category = Industry::where("id", $job->industry->id)->first(['name', 'id']);
+ 
         return $this->successMessage($job);
     }
 }
