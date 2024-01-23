@@ -38,7 +38,7 @@ Route::prefix("user")->group(function () {
     Route::post("login", [UserAuthController::class, "signin"])->name('login');
     Route::middleware(["auth:sanctum", "login",])->group(function () {
         Route::get("profile", [ProfileController::class, "myProfile"]);
-        Route::put("profile", [ProfileController::class, "updateProfile"]);
+        Route::post("profile/update", [ProfileController::class, "updateProfile"]);
         Route::post("profile/picture", [ProfileController::class, "uploadProfileImage"]);
         Route::post("profile/picture/{id}", [ProfileController::class, "uploadProfileImage"]);
         Route::put("password", [ProfileController::class, "updatePassword"]);

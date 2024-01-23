@@ -88,4 +88,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(AcquiredSkill::class)->select("skill_id", 'user_id');
     }
+
+   
 }

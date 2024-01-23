@@ -9,6 +9,8 @@ use App\Http\Controllers\User\Trait\UserTrait;
 use App\Models\ProfilePicture;
 use App\Models\Skill;
 use App\Models\User;
+use App\Services\CloudinaryFileUploadService;
+use App\Models\UserProfile;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
@@ -32,9 +34,15 @@ class ProfileController extends BaseController
     {
         $not_allowed = ["password", "industries_id", "email", "user_level_id", "user_id", "phone"];
         $id = $this->userID()->id;
+        $user = User::where("id", $id)->first();
+        if($request->image){
+            $fileUplaod = new CloudinaryFileUploadService;
+            $upload = $fileUplaod->upload($request->image, '');
+        }
+        $data = $this->UserDetails($request,  $upload??null);
+        UserProfile::whereUserId($id)->first()->fill($data)->save();
 
-        User::where("id", $id)->update($request->except($not_allowed));
-        return $this->successMessage($request->except($not_allowed), "profile updated", 201);
+        return $this->successMessage(['user' =>$user, 'profile' => $user->profile], "profile updated", 201);
     }
 
     // public function uploadProfileImage(Request $request, $id = "")
