@@ -23,7 +23,7 @@ class EducationUpdateRequest extends FormRequest
     {
         return [
             "institution" => "sometimes",
-            "qualification" => "sometimes",
+            "qualification_id" => "sometimes",
             "start_date" => "sometimes",
             "end_date" => "sometimes",
             "description" => "sometimes",

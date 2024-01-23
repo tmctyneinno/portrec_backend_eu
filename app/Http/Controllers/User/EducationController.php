@@ -45,14 +45,19 @@ class EducationController extends BaseController
             $validate['start_date'] = $end->format("Y-m-d H:i:s");
         }
 
-        $edu = Education::where($this->condition($id, $userId))->update($validate);
+        $edu = Education::where(['id' => $id, 'user_id' => $userId])->first();
+        $edu->update($validate);
         return $this->successMessage($edu);
     }
 
     public function deleteEducation($id)
     {
         $userId = $this->userID()->id;
-        $edu = Education::where($this->condition($id, $userId))->delete();
-        return $this->successMessage($edu, "", 204);
+        $edu = Education::where(['id' => $id, 'user_id' => $userId])->first();
+        if(!$edu){
+            return $this->successMessage("No data found for this Id", 'success', 400);
+        }
+        $edu->delete();
+        return $this->successMessage("Educational qualification deleted successfully", 204);
     }
 }

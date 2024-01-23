@@ -21,7 +21,6 @@ class ProfileController extends BaseController
     public function myProfile()
     {
         $user = $this->UserID();
-
         $associations = ["experience", "cover_letter", "resume", "education"];
         $profile = User::with($associations)->find($user->id);
         $profile['skills'] = $profile->skill->each(function ($data) {
@@ -34,13 +33,12 @@ class ProfileController extends BaseController
     {
         $id = $this->userID()->id;
         $user = User::where("id", $id)->first();
-        if($request->image){
+        if($request->image_path){
             $fileUplaod = new CloudinaryFileUploadService;
-            $upload = $fileUplaod->upload($request->image, '');
+            $upload = $fileUplaod->upload($request->image_path, 'profile');
         }
-        $data = $this->UserDetails($request,  $upload??null);
+        $data = $this->UserDetails($request,  $upload[1]??null);
         UserProfile::whereUserId($id)->first()->fill($data)->save();
-
         return $this->successMessage(['user' =>$user, 'profile' => $user->profile], "profile updated", 201);
     }
 

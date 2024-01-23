@@ -15,9 +15,7 @@ class UserAuthController extends AuthController
 {
     public function signup(UserRequest $request)
     {
-
         $validation = $request->validated();
-
 
         $req["name"] = $validation['fullName'];
         $req['email'] = $validation['email'];

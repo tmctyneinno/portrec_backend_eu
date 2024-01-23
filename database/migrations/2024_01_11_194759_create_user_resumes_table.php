@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId("user_id")->constrained();
             $table->string("resume_url")->nullable(); //change name
             $table->string("resume_name")->nullable();
+            $table->string('public_id')->nullable();
             $table->timestamp("deleted_at")->nullable();
             $table->timestamps();
         });

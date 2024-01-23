@@ -9,6 +9,7 @@ use App\Http\Controllers\User\Trait\UserTrait;
 use App\Http\Requests\PortfolioRequest;
 use App\Models\UserPortfolio;
 use Illuminate\Http\Request;
+use App\Services\CloudinaryFileUploadService;
 use Illuminate\Http\Response;
 
 class PortolioController extends BaseController
@@ -17,10 +18,20 @@ class PortolioController extends BaseController
 
     public function portfolio(PortfolioRequest $request)
     {
-        $id = $this->userID()->id;
-        $validate = $request->validated();
-        $validate['user_id'] = $id;
-        $portfolio = UserPortfolio::create($validate);
+        $image = "";
+        if($request->file('image')){
+            $upl = new CloudinaryFileUploadService;
+            $image = $upl->upload($request->image, "portfolio");
+        }
+        $portfolio = UserPortfolio::create([
+            'user_id' => $this->userID()->id,
+            'project_title' => $request->project_title,
+            'project_role' => $request->project_role, 
+            'project_task' => $request->project_task, 
+            'project_solution' => $request->project_solution,
+            'project_url' => $request->project_url, 
+            'images' => $image?$image[1]:''
+        ]);
 
         return $this->successMessage($portfolio, "");
     }
@@ -42,22 +53,6 @@ class PortolioController extends BaseController
         $portfolio = UserPortfolio::where("user_id", $id)->get();
         return $this->successMessage($portfolio);
     }
-
-    // public function uploadProjectImage(Request $request)
-    // {
-    //     $userId = $this->userID()->id;
-    //     $resp = FileUpload::uploadFile($request->file("image", "portfolio"));
-
-    //     if ($resp instanceof Response) return $resp;
-
-    //     $portfolio = UserPortfolio::create([
-    //         "image_url" => $resp,
-    //         "portfolio_id" => $request->portfolio_id,
-    //         "user_id" => $userId
-    //     ]);
-
-    //     return $this->successMessage($portfolio, "");
-    // }
 
     public function updatePortfolio(PortfolioRequest $request, $id)
     {
