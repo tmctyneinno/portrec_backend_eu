@@ -66,7 +66,7 @@ class MessageController extends BaseController
         if (!$conversation) {
             return $this->errorMessage('We ran into an error while trying to handle your request, please try again');
         }
-
+  
         return $this->successMessage(
             [
                 'conversation' => new ConversationResource($conversation->load(['user' => function ($query) {

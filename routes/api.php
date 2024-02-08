@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\RecruiterAuthController;
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\CvBuilderController;
+use App\Http\Controllers\Company\FuncsController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\User\SkillController;
@@ -99,3 +100,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 Route::get("skills", [AllSkills::class, "getSkill"]);
+
+
+Route::controller(FuncsController::class)->group(function () {
+    Route::get('company', 'Index');
+    Route::get('company/details/{company_id}', 'CompanyDetails');
+});
