@@ -6,13 +6,41 @@ use App\Helper\FileUpload;
 use App\Http\Controllers\Base\BaseController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\User\Trait\UserTrait;
+use App\Http\Resources\UserResource;
+use App\Interfaces\UserServiceInterface;
 use App\Models\CoverLetter;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Validation\ValidationException;
 
 class CoverLetterController extends BaseController
 {
     use UserTrait;
+
+    public function __construct(
+        public readonly UserServiceInterface $userService,
+    ) {
+    }
+
+    public function setDefaultCoverLetter($id, Request $request)
+    {
+
+        $user = $this->userService->setDefaultCoverLetter($id);
+
+        if ($user === false) {
+            throw ValidationException::withMessages([
+                'message' => 'You cannot set another user\'s cover letter as your default'
+            ]);
+        }
+
+        if ($user === null) {
+            return $this->errorMessage('Service unavailable, please try again later', Response::HTTP_SERVICE_UNAVAILABLE);
+        }
+
+        return $this->successMessage([
+            'resume' => new UserResource($user->fresh()),
+        ]);
+    }
 
     public function uploadCoverLetter(Request $request)
     {
@@ -43,8 +71,8 @@ class CoverLetterController extends BaseController
     {
         $userId = $this->userID()->id;
         $letter = CoverLetter::where(['user_id' => $userId, 'id' => $id])->first();
-        $letter ->update(['content' => $request->content]);
-        return $this->successMessage($letter,200);
+        $letter->update(['content' => $request->content]);
+        return $this->successMessage($letter, 200);
     }
 
     public function deleteCoverLetter($id)

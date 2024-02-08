@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\RecruiterAuthController;
 use App\Http\Controllers\Auth\UserAuthController;
+use App\Http\Controllers\CvBuilderController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\User\SkillController;
@@ -51,13 +52,19 @@ Route::prefix("user")->group(function () {
         Route::put("education/{id}", [EducationController::class, "updateEducation"]);
         Route::delete("education/{id}", [EducationController::class, "deleteEducation"]);
 
-        Route::post("resume", [ResumeController::class, "uploadResume"]);
-        Route::delete("resume/{id}", [ResumeController::class, "deleteResume"]);
+        Route::prefix('resume')->controller(ResumeController::class)->group(function () {
+            Route::post("/", "uploadResume");
+            Route::patch('/{id}', 'setDefaultResume');
+            Route::delete("/{id}", "deleteResume");
+        });
 
-        Route::post("cover-letter", [CoverLetterController::class, "writeCoverLetter"]);
-        Route::put("cover-letter/{id}", [CoverLetterController::class, "updateCoverLetter"]);
-        Route::delete("cover-letter/{id}", [CoverLetterController::class, "deleteCoverLetter"]);
-        Route::post("cover-letter/upload", [CoverLetterController::class, "uploadCoverLetter"]);
+        Route::prefix('cover-letter')->controller(CoverLetterController::class)->group(function () {
+            Route::post("/", "writeCoverLetter");
+            Route::put("/{id}", "updateCoverLetter");
+            Route::patch("/{id}", "setDefaultCoverLetter");
+            Route::delete("/{id}", "deleteCoverLetter");
+            Route::post("/upload", "uploadCoverLetter");
+        });
 
         Route::post("experience", [WorkExperienceController::class, "workExperience"]);
         Route::put("experience/{id}", [WorkExperienceController::class, "updateExperience"]);
@@ -74,13 +81,21 @@ Route::prefix("user")->group(function () {
     });
 });
 
-Route::prefix('messages')->middleware(['auth:sanctum'])->controller(MessageController::class)->group(function () {
-    Route::post('/', 'store');
-    Route::get('/', 'index');
-    Route::get('/count', 'messagesCount');
-    Route::put('/{conversationId}/mark-read', 'markAsRead');
-    Route::get('/{conversationId}', 'show');
-    Route::delete('/{id}', 'destroy');
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::prefix('messages')->controller(MessageController::class)->group(function () {
+        Route::post('/', 'store');
+        Route::get('/', 'index');
+        Route::get('/count', 'messagesCount');
+        Route::put('/{conversationId}/mark-read', 'markAsRead');
+        Route::get('/{conversationId}', 'show');
+        Route::delete('/{id}', 'destroy');
+    });
+
+    Route::prefix('cv')->group(function () {
+        Route::get('/', []);
+        Route::post('from-profile', [CvBuilderController::class, 'fromProfile']);
+        Route::post('to-profile', [CvBuilderController::class, 'fromCv']);
+    });
 });
 
 Route::get("skills", [AllSkills::class, "getSkill"]);
