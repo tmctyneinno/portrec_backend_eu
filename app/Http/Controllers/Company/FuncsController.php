@@ -61,7 +61,7 @@ class FuncsController extends Controller
         return response()->json([
             'status' => Response::HTTP_FOUND,
             'data' => [
-                'company' => $query->paginate(20),
+                'company' => $query->paginate(10),
                 'industry' => $industries,
                 'company_size' => CompanySize::latest()->get()
             ]
