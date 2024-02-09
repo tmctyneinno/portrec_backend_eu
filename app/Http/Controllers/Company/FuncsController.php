@@ -24,6 +24,12 @@ class FuncsController extends Controller
           
             });
         }
+        if($request->input('search') & $request->input('country')){
+            $query->where(function($query) use ($request){
+                $query->where('name', 'LIKE', "%$request->search%");
+                $query->Where('country', 'LIKE', "%$request->country%");
+            });
+        }
         if($request->input('filter')){
         $filter = strtolower($request->input('filter'));
         $filter = explode('_',$filter);
@@ -54,7 +60,7 @@ class FuncsController extends Controller
         return response()->json([
             'status' => Response::HTTP_FOUND,
             'data' => [
-                'company' => $query->get(),
+                'company' => $query->paginate(20),
                 'industry' => $industries,
                 'company_size' => CompanySize::latest()->get()
             ]
