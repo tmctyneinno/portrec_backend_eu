@@ -24,7 +24,8 @@ class FuncsController extends Controller
           
             });
         }
-        if($request->input('search') & $request->input('country')){
+        if(!empty($request->input('search')) && !empty($request->input('country')))
+        {
             $query->where(function($query) use ($request){
                 $query->where('name', 'LIKE', "%$request->search%");
                 $query->Where('country', 'LIKE', "%$request->country%");
