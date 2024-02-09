@@ -4,8 +4,10 @@ namespace App\Services;
 
 use App\Dtos\UserRegistrationDto;
 use App\Interfaces\UserServiceInterface;
+use App\Models\CoverLetter;
 use App\Models\User;
 use App\Models\UserResume;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -37,5 +39,53 @@ class UserService implements UserServiceInterface
                 'resume_name' => $name ?? $user->name . "'s CV",
             'public_id' => $publicId ?? null,
             ]);
+    }
+
+    public function setDefaultResume(string $resumeId): null|User|bool
+    {
+        // Make sure that the user setting this as default resume is the owner of the resume
+        try {
+            UserResume::query()
+                ->where('id', $resumeId)
+                ->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            return false;
+        }
+
+        $isUpdated = User::query()
+            ->where('id', auth()->id())
+            ->update([
+                'resume_id' => $resumeId
+            ]);
+
+        if ($isUpdated) {
+            return auth()->user();
+        }
+
+        return null;
+    }
+
+    public function setDefaultCoverLetter(string $coverletterid): null|User|bool
+    {
+        // Make sure that the user setting this as default cover letter is the owner of the cover letter
+        try {
+            CoverLetter::query()
+                ->where('id', $coverletterid)
+                ->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            return false;
+        }
+
+        $isUpdated = User::query()
+            ->where('id', auth()->id())
+            ->update([
+                'cover_letter_id' => $coverletterid
+            ]);
+
+        if ($isUpdated) {
+            return auth()->user();
+        }
+
+        return null;
     }
 }

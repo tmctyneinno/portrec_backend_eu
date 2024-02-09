@@ -19,6 +19,8 @@ class UserResource extends JsonResource
             'deleted_at' => $this->whenLoaded('deleted_at'),
             'updated_at' => $this->whenLoaded('updated_at'),
             'profile' => $this->whenLoaded('profile'),
+            'default_resume' => new UserResumeResource($this->default_resume),
+            'default_cover_letter' => new CoverLetterResource($this->default_cover_letter),
         ];
     }
 }

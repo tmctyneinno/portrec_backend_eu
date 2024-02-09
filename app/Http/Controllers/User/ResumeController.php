@@ -6,13 +6,41 @@ use App\Helper\FileUpload;
 use App\Http\Controllers\Base\BaseController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\User\Trait\UserTrait;
+use App\Http\Resources\UserResource;
+use App\Interfaces\UserServiceInterface;
 use App\Models\UserResume;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Validation\ValidationException;
 
 class ResumeController extends BaseController
 {
     use UserTrait;
+
+    public function __construct(
+        public readonly UserServiceInterface $userService,
+    ) {
+    }
+
+    public function setDefaultResume($id, Request $request)
+    {
+        $user = $this->userService->setDefaultResume($id);
+
+        if ($user === false) {
+            throw ValidationException::withMessages([
+                'message' => 'You cannot set another user\'s resume as your default'
+            ]);
+        }
+
+        if ($user === null) {
+            return $this->errorMessage('Service unavailable, please try again later', Response::HTTP_SERVICE_UNAVAILABLE);
+        }
+
+        return $this->successMessage([
+            'resume' => new UserResource($user->fresh()),
+        ]);
+    }
+
     public function uploadResume(Request $request)
     {
         $userId = $this->userID()->id;

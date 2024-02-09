@@ -62,7 +62,15 @@ class User extends Authenticatable
         return $this->hasMany(Interview::class);
     }
 
+    public function default_cover_letter()
+    {
+        return $this->hasOne(CoverLetter::class);
+    }
 
+    public function default_resume()
+    {
+        return $this->hasOne(UserResume::class, 'id', 'resume_id');
+    }
 
     public function cover_letter()
     {
