@@ -11,7 +11,6 @@ use Illuminate\Http\Response;
 
 class FuncsController extends Controller
 {
-    //
 
     public function Index(Request $request){
         $query = Company::query();
@@ -21,7 +20,6 @@ class FuncsController extends Controller
                 $query->where('name', 'LIKE', "%$request->search%");
                 $query->orWhere('country', 'LIKE', "%$request->search%");
                 $query->orWhere('city', 'LIKE', "%$request->search%");
-          
             });
         }
         if(!empty($request->input('search')) && !empty($request->input('country')))
@@ -31,6 +29,7 @@ class FuncsController extends Controller
                 $query->Where('country', 'LIKE', "%$request->country%");
             });
         }
+        
         if($request->input('filter')){
         $filter = strtolower($request->input('filter'));
         $filter = explode('_',$filter);
@@ -68,7 +67,6 @@ class FuncsController extends Controller
         ]);
     }
 
-
     public function CompanyDetails($company_id){
         return response()->json([
             'status' => Response::HTTP_FOUND,
@@ -78,6 +76,5 @@ class FuncsController extends Controller
                 'company_size' => CompanySize::latest()->get()
             ]
         ]);
-
     }
 }

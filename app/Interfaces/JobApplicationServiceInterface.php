@@ -10,8 +10,6 @@ interface JobApplicationServiceInterface
     public function saveJobApplication(JobApplicationDto $applicationData): ?JobApplication;
     public function saveCoverLetter(string $JobApplicationId, string $coverLetter);
     public function findJobApplication(string $JobApplicationId): ?JobApplication;
-
-    
 }
 
 

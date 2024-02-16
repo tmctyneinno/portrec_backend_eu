@@ -48,7 +48,6 @@ class JobApplicationController extends BaseController
         }
 
         $jobApplication = $this->jobApplicationService->findJobApplication($coverLetterdata->job_application_id);
-
         return $this->successMessage(new JobApplicationResource($jobApplication->load(['user'])));
     }
 
