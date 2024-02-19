@@ -29,8 +29,14 @@ class CvBuilderController extends BaseController
             $file = $this->fileUploadService->upload($request->file('resume'), 'resumes');
         }
 
-        $this->cvBuilderService->buildProfileFromCv($file);
 
-        return;
+        $data = $this->cvBuilderService->buildProfileFromCv($file);
+
+        return $this->successMessage($data);
+    }
+
+    public function upload(Request $request)
+    {
+        
     }
 }
