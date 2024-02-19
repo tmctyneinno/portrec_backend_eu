@@ -50,117 +50,133 @@ class CvBuilderService
 
         $text = $parsePdf->getText();
 
-        $skillsStart = strpos($text, 'SKILLS');
-        $experienceStart = strpos($text, 'EXPERIENCE');
-        $educationStart = strpos($text, 'EDUCATION');
+        // Define regular expressions for each section
+        // $contactRegex = '/CONTACT\s*(.*?)\s*EDUCATION/s';
+        $contactRegex = '/CONTACT\s*(.*?)\s*(?=EXPERIENCE|EDUCATION)/si';
+        $educationRegex = '/EDUCATION\s*(.*?)\s*(?=EXPERIENCE)/si';
+        $experienceRegex = '/EXPERIENCE\s*(.*)/';
+        $skillsRegex = '/SKILLS\s*(.*?)\s*(?=)/si';
 
-        // if ($skillsStart !== false && $experienceStart !== false && $educationStart !== false) {
-        $this->getSkills($text);
-        $this->getExperience($text);
-        $this->getEducation($text);
-        // }
+        preg_match($contactRegex, $text, $contactMatches);
+        preg_match($educationRegex, $text, $educationMatches);
+        preg_match($experienceRegex, $text, $experienceMatches);
+        preg_match($skillsRegex, json_encode($text), $skillsMatches);
+
+        return [
+            'contact_info' => $this->extractContactInfo($text) ?? null,
+            'education' => $this->extractEducation($text),
+            'experience' => $this->getExperience($text),
+            'skills' => $this->extractSkills($text),
+        ];
     }
 
-    private function getSkills($text)
+    private function extractSkills($text)
     {
         $skillsStart = strpos($text, 'SKILLS');
-        $experienceStart = strpos($text, 'EXPERIENCE');
 
-        $cleanedSkills = [];
-        $skillsSection = substr($text, $skillsStart, $experienceStart - $skillsStart);
+        $skillsSection = substr($text, $skillsStart);
 
-        $skillsArray = preg_split('/\\t*\\n/', $skillsSection);
+        $lines = preg_split('/\r?\n/', $skillsSection);
 
-        $skillsArray = array_filter($skillsArray, function ($line) {
+        $cleanedSkills = array_filter($lines, function ($line) {
             return stripos($line, 'SKILLS') === false;
         });
 
-        $cleanedSkills = array_merge($cleanedSkills, array_map('trim', array_filter($skillsArray)));
+        $individualSkills = array_map('trim', $cleanedSkills);
 
-        $individualSkills = [];
-        foreach ($cleanedSkills as $line) {
-            $individualSkills[] = $line;
-        }
-
-        UserProfile::query()
-            ->where('user_id', auth()->id())
-            ->update([
-                'skills' => json_encode($individualSkills),
-            ]);
+        return $individualSkills;
     }
+
 
     private function getExperience($text)
     {
         $experienceStart = strpos($text, 'EXPERIENCE');
 
-        $pattern = '/([A-Za-z\s]+)\s+(.*?)\s+((?:\w{3,4}\.\s+\d{4}|(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{4})\s*–\s*(?:\w{3,4}\.\s+\d{4}|(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{4}|Present))\s+(.*?)\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\.?\s+\d{4}\s*–\s*(?:\w{3,4}\.\s+\d{4}|(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{4}|Present)\s*(.*?)\s*/s';
+        $experienceSection = substr($text, $experienceStart);
 
+        $experienceArray = preg_split('/\\t*\\n/', $experienceSection);
 
-        preg_match_all($pattern, $text, $matches, PREG_SET_ORDER);
+        $cleanedExperience = [];
+        $experienceArray = array_filter($experienceArray, function ($line) {
+            return stripos($line, 'EXPERIENCE') === false;
+        });
 
-        // Iterate through matches and extract relevant information
-        $workExperiences = [];
-        foreach ($matches as $match) {
-            $position = $match[1];
-            $company = $match[2];
-            $duration = $match[3];
-            $responsibilities = $match[4];
-            $start_date = $match[5];
-            $end_date = $match[6] ?? null;
-            $details = $match[7] ?? null;
+        $cleanedExperience = array_merge($cleanedExperience, array_map('trim', array_filter($experienceArray)));
 
-            // Create an array with extracted information
-            $workExperiences[] = [
-                'user_id' => auth()->id(),
-                'job_title' => $position,
-                'company_name' => $company,
-                // 'duration' => $duration,
-                'job_level' => $responsibilities,
-                'start_date' => $start_date,
-                'end_date' => $end_date,
-                'description' => $details,
-            ];
-
-            // DB::table('work_experiences')
-            //     ->insert([
-            //         ...$workExperiences
-            //     ]);
+        $individualExperiences = [];
+        foreach ($cleanedExperience as $line) {
+            $individualExperiences[] = $line;
         }
+
+        return $individualExperiences;
     }
 
-    private function getEducation($text)
+    private function extractContactInfo($text)
+    {
+        $contactInfo = [];
+
+        // Extract email
+        if (preg_match('/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/', $text, $matches)) {
+            $contactInfo['email'] = $matches[0];
+        }
+
+        // Extract website
+        if (preg_match('/https?:\/\/\S+/', $text, $matches)) {
+            $contactInfo['website'] = $matches[0];
+        }
+
+        // Extract GitHub
+        if (preg_match('/https?:\/\/github\.com\/\S+/', $text, $matches)) {
+            $contactInfo['github'] = $matches[0];
+        }
+
+        // Extract LinkedIn
+        if (preg_match('/https?:\/\/linkedin\.com\/\S+/', $text, $matches)) {
+            $contactInfo['linkedin'] = $matches[0];
+        }
+
+        // Extract phone number
+        if (preg_match('/\+?[0-9]{10,}/', $text, $matches)) {
+            $contactInfo['phone'] = $matches[0];
+        }
+
+        // Extract location
+        // $location = preg_replace('/(state|\s+)/', '', $text);
+        // $contactInfo['location'] = trim($location);
+
+        return $contactInfo;
+    }
+
+
+
+    private function extractEducation($text)
     {
         $educationStart = strpos($text, 'EDUCATION');
 
-        $pattern = '/EDUCATION\s+([A-Za-z\s]+)\s+([A-Za-z\s]+)\s*–\s*(\d{4})\s*-\s*(\d{4})/';
+        $educationSection = substr($text, $educationStart);
 
-        // Perform the regular expression match
-        preg_match_all($pattern, $text, $matches, PREG_SET_ORDER);
+        $educationArray = preg_split('/\\t*\\n/', $educationSection);
 
-        // Extract relevant information
-        $educations = [];
-        foreach ($matches as $match) {
-            $institution = $match[1];
-            $degree = $match[2];
-            $start_year = $match[3];
-            $end_year = $match[4];
+        $cleanedEducation = [];
+        $educationArray = array_filter($educationArray, function ($line) {
+            return stripos($line, 'EDUCATION') === false;
+        });
 
-            // Create an array with extracted information for each education entry
-            $education = [
-                'user_id' => auth()->id(),
-                'institution' => $institution,
-                'qualification_id' => $degree,
-                'start_year' => $start_year,
-                'end_year' => $end_year
-            ];
+        $cleanedEducation = array_merge($cleanedEducation, array_map('trim', array_filter($educationArray)));
 
-            // Add the education entry to the array of educations
-            $educations[] = $education;
+        foreach ($educationArray as $line) {
+            if (strpos($line, '•') === false) {
+                break;
+            }
+
+            $cleanedEducation[] = $line;
         }
 
-        DB::table('education')
-            ->insert([
-                ...$educations,
-            ]);
+        $individualEducations = [];
+        foreach ($cleanedEducation as $line) {
+            $individualEducations[] = $line;
+        }
+
+        return $cleanedEducation;
     }
 }
