@@ -10,6 +10,9 @@ class JobApplicationDto extends BaseDto
     public function __construct(
         public readonly string|int $job_id,
         public UploadedFile|string $resume,
+        public readonly array $answers,
+        public readonly string $cover_letter,
+        public readonly ?string $portfolio_link,
         public readonly ?string $name,
         public readonly ?string $email,
         public readonly ?string $phone_number,
@@ -22,6 +25,9 @@ class JobApplicationDto extends BaseDto
         return new static(
             $data['job_id'],
             $data['resume'],
+            $data['answers'],
+            $data['cover_letter'],
+            $data['portfolio_link'] ?? null,
             $data['name'] ?? null,
             $data['email'] ?? null,
             $data['phone_number'] ?? null,

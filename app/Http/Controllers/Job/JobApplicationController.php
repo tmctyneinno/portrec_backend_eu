@@ -34,7 +34,9 @@ class JobApplicationController extends BaseController
             return $this->errorMessage('We ran into an error while trying to handle your request, please try again', Response::HTTP_SERVICE_UNAVAILABLE);
         }
 
-        return $this->successMessage(new JobApplicationResource($jobApplication));
+        return $this->successMessage(new JobApplicationResource($jobApplication->load([
+            'user', 'answers'
+        ])));
     }
 
     public function uploadCoverLetter(CoverLetterRequest $request)
@@ -48,24 +50,7 @@ class JobApplicationController extends BaseController
         }
 
         $jobApplication = $this->jobApplicationService->findJobApplication($coverLetterdata->job_application_id);
-        return $this->successMessage(new JobApplicationResource($jobApplication->load(['user'])));
-    }
-
-    public function uploadJobApplicationAnswers(JobApplicationAnswerRequest $request)
-    {
-        $jobApplicationAnswerData = JobApplicationAnswerDto::fromRequest($request->validated());
-
-        $jobApplicationAnswers = $this->jobApplicationAnswerService->saveAnswers($jobApplicationAnswerData);
-
-        if (!$jobApplicationAnswers) {
-            return $this->errorMessage('We ran into an error while trying to handle your request, please try again', Response::HTTP_SERVICE_UNAVAILABLE);
-        }
-
-        $jobApplication = $this->jobApplicationService->findJobApplication($jobApplicationAnswerData->job_application_id);
-
-        return $this->successMessage(
-            new JobApplicationResource($jobApplication->load(['user', 'answers']))
-        );
+        return $this->successMessage(new JobApplicationResource($jobApplication->load(['user'])), 'Job application successfully sent');
     }
 
     public function guestApply(JobApplicationRequest $request)
