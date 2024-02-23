@@ -6,8 +6,10 @@ use App\Dtos\JobApplicationDto;
 use App\Dtos\UserRegistrationDto;
 use App\Enums\JobApplicationStatus;
 use App\Interfaces\FileUploadServiceInterface;
+use App\Interfaces\JobApplicationAnswerServiceInterface;
 use App\Interfaces\JobApplicationServiceInterface;
 use App\Interfaces\UserServiceInterface;
+use App\Models\CoverLetter;
 use App\Models\JobApplication;
 use App\Notifications\GuestUserRegistrationNotification;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -20,6 +22,7 @@ class JobApplicationService implements JobApplicationServiceInterface
     public function __construct(
         public readonly UserServiceInterface $userService,
         public readonly FileUploadServiceInterface $fileUploadService,
+        public readonly JobApplicationAnswerServiceInterface $jobApplicationAnswerService,
     ) {
     }
 
@@ -62,6 +65,12 @@ class JobApplicationService implements JobApplicationServiceInterface
                 $applicationData->user_id = $user->id;
             }
 
+            CoverLetter::query()
+                ->create([
+                    'user_id' => $applicationData->user_id ?? auth()->user()->id,
+                    'content' => $applicationData->cover_letter,
+                ]);
+
             $JobApplication = JobApplication::query()
                 ->create([
                     'user_id' => $applicationData->user_id,
@@ -70,7 +79,11 @@ class JobApplicationService implements JobApplicationServiceInterface
                     'status' => JobApplicationStatus::IN_REVIEW->name,
                     'is_viewed' => 0,
                     'applied_date' => now(),
+                'cover_letter' => $applicationData->cover_letter,
+                'portfolio_links' => $applicationData->portfolio_link
                 ]);
+
+            $this->jobApplicationAnswerService->saveAnswers($JobApplication->id, $applicationData);
 
             DB::commit();
 

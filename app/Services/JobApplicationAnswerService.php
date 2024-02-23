@@ -3,18 +3,17 @@
 namespace App\Services;
 
 use App\Dtos\AnswerDto;
-use App\Dtos\JobApplicationAnswerDto;
+use App\Dtos\JobApplicationDto;
 use App\Interfaces\JobApplicationAnswerServiceInterface;
 use Illuminate\Support\Facades\DB;
-use Throwable;
 
 class JobApplicationAnswerService implements JobApplicationAnswerServiceInterface
 {
-    public function saveAnswers(JobApplicationAnswerDto $jobApplicationAnswerData): bool
+    public function saveAnswers(string $jobApplicationId, JobApplicationDto $jobApplicationData): bool
     {
         $data = [];
 
-        foreach ($jobApplicationAnswerData->answers as $jobApplicationAnswer) {
+        foreach ($jobApplicationData->answers as $jobApplicationAnswer) {
 
             $answerData = AnswerDto::fromRequest([
                 'question_id' => $jobApplicationAnswer['question_id'],
@@ -22,30 +21,19 @@ class JobApplicationAnswerService implements JobApplicationAnswerServiceInterfac
             ]);
 
             array_push($data, [
-                'user_id' => $jobApplicationAnswerData->user_id ?? auth()->user()->id,
-                'job_application_id' => $jobApplicationAnswerData->job_application_id,
+                'user_id' => $jobApplicationData->user_id ?? auth()->user()->id,
+                'job_application_id' => $jobApplicationId,
                 'job_opening_question_id' => $answerData->question_id,
                 'answer' => $answerData->answer,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
         }
+        $isInserted = DB::table('job_application_answers')
+        ->insert([
+            ...$data
+        ]);
 
-        try {
-            DB::beginTransaction();
-
-            $isInserted = DB::table('job_application_answers')
-                ->insert([
-                    ...$data
-                ]);
-
-            DB::commit();
-
-            return $isInserted;
-        } catch (Throwable $e) {
-            logger($e);
-            DB::rollBack();
-            return false;
-        }
+        return $isInserted;
     }
 }

@@ -2,10 +2,9 @@
 
 namespace App\Interfaces;
 
-use App\Dtos\JobApplicationAnswerDto;
-use App\Models\JobApplicationAnswer;
+use App\Dtos\JobApplicationDto;
 
 interface JobApplicationAnswerServiceInterface
 {
-    public function saveAnswers(JobApplicationAnswerDto $jobApplicationAnswerDto): bool;
+    public function saveAnswers(string $jobApplicationId, JobApplicationDto $jobApplicationData): bool;
 }

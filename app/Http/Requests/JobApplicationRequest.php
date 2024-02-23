@@ -24,6 +24,9 @@ class JobApplicationRequest extends FormRequest
     {
         return [
             'job_id' => 'required|exists:job_openings,id',
+            'cover_letter' => 'required|string|max:10000',
+            'portfolio_link' => 'nullable|string|url',
+            'answers' => 'required|array',
             'name' => [Rule::requiredIf(function () {
                 return $this->user() === null;
             }), 'string', 'max:255'],
