@@ -71,7 +71,7 @@ class FuncsController extends Controller
         return response()->json([
             'status' => Response::HTTP_FOUND,
             'data' => [
-                'company' => Company::where('id', $company_id)->first(),
+                'company' => Company::where('id', $company_id)->with([ 'recruiter', 'jobs'])->first(),
                 'industry' => Industry::query()->get(),
                 'company_size' => CompanySize::latest()->get()
             ]

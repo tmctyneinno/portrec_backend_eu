@@ -28,7 +28,6 @@ class CloudinaryFileUploadService implements FileUploadServiceInterface
         if (cloudinary()->destroy($publicId)) {
             return true;
         }
-
         return false;
     }
 }
