@@ -17,4 +17,12 @@ class Company extends Model
     public function jobs(){
         return $this->hasMany(JobOpening::class, 'company_id', 'id');
     }
+
+    public function sizes(){
+        return $this->belongsTo(CompanySize::class, 'company_size_id', 'id');
+    }
+
+    public function industries(){
+        return $this->belongsTo(Industry::class, 'industry_id', 'id');
+    }
 }

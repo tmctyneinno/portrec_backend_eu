@@ -103,6 +103,6 @@ Route::get("skills", [AllSkills::class, "getSkill"]);
 
 
 Route::controller(FuncsController::class)->group(function () {
-    Route::get('company', 'Index');
+    Route::get('companies/{type?}/{param?}', 'Index');
     Route::get('company/details/{company_id}', 'CompanyDetails');
 });

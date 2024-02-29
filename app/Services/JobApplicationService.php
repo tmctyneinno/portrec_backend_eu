@@ -28,6 +28,7 @@ class JobApplicationService implements JobApplicationServiceInterface
 
     public function saveJobApplication(JobApplicationDto $applicationData): ?JobApplication
     {
+
         try {
             DB::beginTransaction();
 
@@ -48,11 +49,13 @@ class JobApplicationService implements JobApplicationServiceInterface
                     $applicationData->resume = $resume->id;
                 }
 
-                $user->notify((new GuestUserRegistrationNotification($user, $plainTextPassword))->afterCommit());
+            //$user->notify((new GuestUserRegistrationNotification($user, $plainTextPassword))->afterCommit());
 
                 $applicationData->user_id = $user->id;
             }
 
+
+           
             if ($applicationData->resume instanceof UploadedFile) {
                 $user = auth()->user();
 
@@ -83,6 +86,7 @@ class JobApplicationService implements JobApplicationServiceInterface
                 'portfolio_links' => $applicationData->portfolio_link
                 ]);
 
+              
             $this->jobApplicationAnswerService->saveAnswers($JobApplication->id, $applicationData);
 
             DB::commit();

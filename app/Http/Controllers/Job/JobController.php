@@ -15,13 +15,14 @@ class JobController extends BaseController
     use JobTrait;
     public function all(Request $request, $type = null, $id = null)
     {
+
+       
         $query = JobOpening::with(["recruiter:id,name,email,phone","company", "jobType"]);
         if (!$type) {
             $jobType = $request->get("type_id");
             $industry = $request->get("industry_id");
             $min = $request->get("min_salary");
             $max = $request->get("max_salary");
-
             if ($min & $max) {
                 $query->where("min_salary", ">=", [$min])->where("max_salary", "<=", [$max]);
             }
@@ -32,13 +33,13 @@ class JobController extends BaseController
             $allJobs = $query->paginate(10);
 
             // for development purpose only
-            $allJobs->getCollection()->transform(function ($data) {
-                $category = Industry::where("id", $data->sub_category->industry_id)->first(['name', 'id']);
-                $data->category = $category;
-                $data->company->country = Str::random(8);
-                $data->company->city = Str::random(8);
-                return $data;
-            });
+            // $allJobs->getCollection()->transform(function ($data) {
+            //     $category = Industry::where("id", $data->sub_category->industry_id)->first(['name', 'id']);
+            //     $data->category = $category;
+            //     $data->company->country = Str::random(8);
+            //     $data->company->city = Str::random(8);
+            //     return $data;
+            // });
 
             return $this->successMessage($allJobs);
         }

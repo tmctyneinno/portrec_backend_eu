@@ -11,10 +11,12 @@ class JobApplicationAnswerService implements JobApplicationAnswerServiceInterfac
 {
     public function saveAnswers(string $jobApplicationId, JobApplicationDto $jobApplicationData): bool
     {
+        
         $data = [];
 
         foreach ($jobApplicationData->answers as $jobApplicationAnswer) {
 
+            // dd($jobApplicationData->answers);
             $answerData = AnswerDto::fromRequest([
                 'question_id' => $jobApplicationAnswer['question_id'],
                 'answer' => $jobApplicationAnswer['answer'],

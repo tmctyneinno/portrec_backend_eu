@@ -7,12 +7,16 @@ use App\Models\Company;
 use App\Models\CompanySize;
 use App\Models\Industry;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Job\Trait\JobTrait;
 use Illuminate\Http\Response;
 
 class FuncsController extends Controller
 {
+    use JobTrait;
 
     public function Index(Request $request){
+      
+        // dd($request->all());
         $query = Company::query();
         $industries = Industry::query()->get();
         if($request->input('search')){
@@ -30,20 +34,16 @@ class FuncsController extends Controller
             });
         }
         
-        if($request->input('filter')){
-        $filter = strtolower($request->input('filter'));
-        $filter = explode('_',$filter);
-        // dd($filter);
-        switch($filter[0]){
-            case 'industry';
-            $query->where('industry_id', $filter[1]);
-            break;
-
-            case 'size':
-            $query->where('company_size_id', $filter[1]);
-            break;
+        if($request->get('filter')){
+            $query->whereHas('industries', function($query) use ($request){
+                $query->where('id', $request->get('filter'));
+            });
         }
-        }   
+        if($request->get('size')){
+            $query->whereHas('sizes', function($query) use ($request){
+                $query->where('id', $request->get('size'));
+            });
+        }     
 
         if($request->input('sort')){
             $sort = strtolower($request->input('sort'));
