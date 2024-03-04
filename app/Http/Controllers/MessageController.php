@@ -30,9 +30,9 @@ class MessageController extends BaseController
 
         $perPage = $request->input('per_page') ?? 10;
         $type = $request->input('type') ?? 'conversations';
-
         $collection = match ($validatedData['type']) {
             'conversations' => ConversationResource::collection($this->messageService->fetchConversations($perPage))->response()->getData(true),
+
             'messages' => MessageResource::collection($this->messageService->fetchMessages($validatedData['conversation_id'], $perPage))->response()->getData(true),
         };
 

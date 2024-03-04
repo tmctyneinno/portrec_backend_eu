@@ -32,8 +32,10 @@ class MessageService implements MessageServiceInterface
             [$fileName, $filePath, $publicId] = $this->getAttachment($messageData->attachment);
 
             $conversation = Conversation::query()
-                ->where('id', $messageData->conversation_id)
+                ->where('user_id', $user?->id ?? $messageData->recipient_id)
+                ->where('recruiter_id', $recruiter?->id ?? $messageData->recipient_id)
                 ->first();
+            
 
             if (!$conversation) {
                 $conversation = Conversation::query()
@@ -111,6 +113,7 @@ class MessageService implements MessageServiceInterface
 
     public function findConversation(string $conversationId): ?Conversation
     {
+     
         try {
             $message = Conversation::query()
                 ->where('id', $conversationId)
@@ -186,6 +189,7 @@ class MessageService implements MessageServiceInterface
 
     public function fetchMessages(string $conversationId, string $perPage): LengthAwarePaginator
     {
+        // dd($conversationId);
         $messages = Message::query()
             ->where('conversation_id', $conversationId)
             ->latest()
