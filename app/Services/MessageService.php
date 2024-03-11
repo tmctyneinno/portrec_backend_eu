@@ -35,7 +35,6 @@ class MessageService implements MessageServiceInterface
                 ->where('user_id', $user?->id ?? $messageData->recipient_id)
                 ->where('recruiter_id', $recruiter?->id ?? $messageData->recipient_id)
                 ->first();
-            
 
             if (!$conversation) {
                 $conversation = Conversation::query()
