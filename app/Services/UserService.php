@@ -26,6 +26,7 @@ class UserService implements UserServiceInterface
                 'phone' => $userData->phone_number,
             ]);
 
+        dd($user);
         return [$user, $plainTextPassword] ?? null;
     }
 
