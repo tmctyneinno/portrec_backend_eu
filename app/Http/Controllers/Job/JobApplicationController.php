@@ -9,6 +9,7 @@ use App\Http\Controllers\Base\BaseController;
 use App\Http\Requests\CoverLetterRequest;
 use App\Http\Requests\JobApplicationAnswerRequest;
 use App\Http\Requests\JobApplicationRequest;
+use App\Models\User;
 use App\Http\Resources\JobApplicationResource;
 use App\Interfaces\CoverLetterServiceInterface;
 use App\Interfaces\JobApplicationAnswerServiceInterface;
@@ -56,6 +57,10 @@ class JobApplicationController extends BaseController
 
     public function guestApply(JobApplicationRequest $request)
     {
+        $check = User::where(['email' => $request->email])->first();
+        if($check){
+                return $this->errorMessage('This record already exist on our database, login to continue', Response::HTTP_SERVICE_UNAVAILABLE);
+         }
         return $this->apply($request);
     }
 

@@ -25,8 +25,6 @@ class UserService implements UserServiceInterface
                 'password' => Hash::make($plainTextPassword),
                 'phone' => $userData->phone_number,
             ]);
-
-        dd($user);
         return [$user, $plainTextPassword] ?? null;
     }
 

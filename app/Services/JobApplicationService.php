@@ -10,10 +10,12 @@ use App\Interfaces\JobApplicationAnswerServiceInterface;
 use App\Interfaces\JobApplicationServiceInterface;
 use App\Interfaces\UserServiceInterface;
 use App\Models\CoverLetter;
+use App\Models\User;
 use App\Models\JobApplication;
 use App\Notifications\GuestUserRegistrationNotification;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
@@ -40,6 +42,7 @@ class JobApplicationService implements JobApplicationServiceInterface
                 ]);
 
                 [$user, $plainTextPassword] = $this->userService->saveUser($userData);
+                  Auth::login($user);
 
                 if ($applicationData->resume instanceof UploadedFile) {
                     [$fileName, $filePath, $publicId] = $this->fileUploadService->upload($applicationData->resume, 'resumes/' . $user->id);
