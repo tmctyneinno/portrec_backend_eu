@@ -26,14 +26,15 @@ class JobApplicationController extends BaseController
 
     public function apply(JobApplicationRequest $request)
     {
+        try{
         $jobApplicationData = JobApplicationDto::fromRequest($request->validated());
 
         $jobApplication = $this->jobApplicationService->saveJobApplication($jobApplicationData);
 
-        if (!$jobApplication) {
-            return $this->errorMessage('We ran into an error while trying to handle your request, please try again', Response::HTTP_SERVICE_UNAVAILABLE);
-        }
-
+    }catch(\Exception $e)
+    {
+        return $this->errorMessage($e->getMessage(), Response::HTTP_SERVICE_UNAVAILABLE);
+    }
         return $this->successMessage(new JobApplicationResource($jobApplication->load([
             'user', 'answers'
         ])));
