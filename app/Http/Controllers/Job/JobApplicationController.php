@@ -36,6 +36,7 @@ class JobApplicationController extends BaseController
     {
         return $this->errorMessage($e->getMessage(), Response::HTTP_SERVICE_UNAVAILABLE);
     }
+   
         return $this->successMessage(new JobApplicationResource($jobApplication->load([
             'user', 'answers'
         ])));
@@ -44,7 +45,6 @@ class JobApplicationController extends BaseController
     public function uploadCoverLetter(CoverLetterRequest $request)
     {
         $coverLetterdata = CoverLetterUploadDto::fromRequest($request->validated());
-
         $coverLetter = $this->coverLetterService->saveCoverLetter($coverLetterdata);
 
         if (!$coverLetter) {
@@ -57,10 +57,6 @@ class JobApplicationController extends BaseController
 
     public function guestApply(JobApplicationRequest $request)
     {
-        $check = User::where(['email' => $request->email])->first();
-        if($check){
-                return $this->errorMessage('This record already exist on our database, login to continue', Response::HTTP_SERVICE_UNAVAILABLE);
-         }
         return $this->apply($request);
     }
 

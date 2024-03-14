@@ -28,7 +28,7 @@ class JobApplicationService implements JobApplicationServiceInterface
     ) {
     }
 
-    public function saveJobApplication(JobApplicationDto $applicationData): ?JobApplication
+    public function saveJobApplication(JobApplicationDto $applicationData)
     {
 
         try {
@@ -42,7 +42,8 @@ class JobApplicationService implements JobApplicationServiceInterface
                 ]);
 
                 [$user, $plainTextPassword] = $this->userService->saveUser($userData);
-                  Auth::login($user);
+                 Auth::loginUsingId($user->id);
+            
 
                 if ($applicationData->resume instanceof UploadedFile) {
                     [$fileName, $filePath, $publicId] = $this->fileUploadService->upload($applicationData->resume, 'resumes/' . $user->id);
@@ -52,12 +53,11 @@ class JobApplicationService implements JobApplicationServiceInterface
                     $applicationData->resume = $resume->id;
                 }
 
-            //$user->notify((new GuestUserRegistrationNotification($user, $plainTextPassword))->afterCommit());
+            $user->notify((new GuestUserRegistrationNotification($user, $plainTextPassword))->afterCommit());
 
                 $applicationData->user_id = $user->id;
             }
-
-
+        
            
             if ($applicationData->resume instanceof UploadedFile) {
                 $user = auth()->user();
@@ -93,12 +93,10 @@ class JobApplicationService implements JobApplicationServiceInterface
             $this->jobApplicationAnswerService->saveAnswers($JobApplication->id, $applicationData);
 
             DB::commit();
-
             return $JobApplication;
         } catch (Throwable $e) {
-            logger($e);
             DB::rollBack();
-            return null;
+            return $e;
         }
     }
 

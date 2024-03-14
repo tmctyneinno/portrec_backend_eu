@@ -16,7 +16,7 @@ class UserService implements UserServiceInterface
 {
     public function saveUser(UserRegistrationDto $userData): ?array
     {
-        $plainTextPassword = $userData->password ?? Str::random(8);
+        $plainTextPassword = $userData->password ?? $userData->name.Str::random(8);
 
         $user = User::query()
             ->create([
