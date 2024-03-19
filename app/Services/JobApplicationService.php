@@ -43,21 +43,15 @@ class JobApplicationService implements JobApplicationServiceInterface
 
                 [$user, $plainTextPassword] = $this->userService->saveUser($userData);
                  Auth::loginUsingId($user->id);
-            
-
                 if ($applicationData->resume instanceof UploadedFile) {
                     [$fileName, $filePath, $publicId] = $this->fileUploadService->upload($applicationData->resume, 'resumes/' . $user->id);
-
                     $resume = $this->userService->saveResume($filePath, $fileName, $user, $publicId);
-
+                   
                     $applicationData->resume = $resume->id;
                 }
-
-            $user->notify((new GuestUserRegistrationNotification($user, $plainTextPassword))->afterCommit());
-
+               $user->notify((new GuestUserRegistrationNotification($user, $plainTextPassword))->afterCommit());
                 $applicationData->user_id = $user->id;
             }
-        
            
             if ($applicationData->resume instanceof UploadedFile) {
                 $user = auth()->user();
