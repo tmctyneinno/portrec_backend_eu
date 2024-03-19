@@ -42,6 +42,8 @@ class JobApplicationService implements JobApplicationServiceInterface
                 ]);
 
                 [$user, $plainTextPassword] = $this->userService->saveUser($userData);
+
+                dd($user);
                  Auth::loginUsingId($user->id);
                 if ($applicationData->resume instanceof UploadedFile) {
 
