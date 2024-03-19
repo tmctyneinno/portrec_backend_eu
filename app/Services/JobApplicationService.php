@@ -32,7 +32,7 @@ class JobApplicationService implements JobApplicationServiceInterface
     {
 
         try {
-            DB::beginTransaction();
+            // DB::beginTransaction();
 
             if (!auth()->user()) {
                 $userData = UserRegistrationDto::fromRequest([
@@ -47,7 +47,6 @@ class JobApplicationService implements JobApplicationServiceInterface
 
                     [$fileName, $filePath, $publicId] = $this->fileUploadService->upload($applicationData->resume, 'resumes/' . $user->id);
 
-                    dd($fileName);
                     $resume = $this->userService->saveResume($filePath, $fileName, $user, $publicId);
                    
                     $applicationData->resume = $resume->id;
@@ -89,10 +88,10 @@ class JobApplicationService implements JobApplicationServiceInterface
               
             $this->jobApplicationAnswerService->saveAnswers($JobApplication->id, $applicationData);
 
-            DB::commit();
+            // DB::commit();
             return $JobApplication;
         } catch (Throwable $e) {
-            DB::rollBack();
+            // DB::rollBack();
             return $e;
         }
     }
