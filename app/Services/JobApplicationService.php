@@ -47,6 +47,7 @@ class JobApplicationService implements JobApplicationServiceInterface
 
                     [$fileName, $filePath, $publicId] = $this->fileUploadService->upload($applicationData->resume, 'resumes/' . $user->id);
 
+                    dd($fileName);
                     $resume = $this->userService->saveResume($filePath, $fileName, $user, $publicId);
                    
                     $applicationData->resume = $resume->id;
