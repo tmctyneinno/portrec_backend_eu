@@ -31,8 +31,8 @@ class JobApplicationService implements JobApplicationServiceInterface
     public function saveJobApplication(JobApplicationDto $applicationData)
     {
 
-        // try {
-            // DB::beginTransaction();
+        try {
+            DB::beginTransaction();
 
             if (!auth()->user()) {
                 $userData = UserRegistrationDto::fromRequest([
@@ -42,13 +42,9 @@ class JobApplicationService implements JobApplicationServiceInterface
                 ]);
 
                 [$user, $plainTextPassword] = $this->userService->saveUser($userData);
-
-                dd($user);
                  Auth::loginUsingId($user->id);
                 if ($applicationData->resume instanceof UploadedFile) {
-
                     [$fileName, $filePath, $publicId] = $this->fileUploadService->upload($applicationData->resume, 'resumes/' . $user->id);
-
                     $resume = $this->userService->saveResume($filePath, $fileName, $user, $publicId);
                    
                     $applicationData->resume = $resume->id;
@@ -62,10 +58,10 @@ class JobApplicationService implements JobApplicationServiceInterface
 
                 [$fileName, $filePath, $publicId] = $this->fileUploadService->upload($applicationData->resume, 'resumes/' . $user->id);
 
-                // $resume = $this->userService->saveResume($filePath, $fileName, $user, $publicId);
-              
-                
-                // $applicationData->resume = $resume->id;
+                $resume = $this->userService->saveResume($filePath, $fileName, $user, $publicId);
+
+
+                $applicationData->resume = $resume->id;
                 $applicationData->user_id = $user->id;
             }
 
@@ -90,12 +86,12 @@ class JobApplicationService implements JobApplicationServiceInterface
               
             $this->jobApplicationAnswerService->saveAnswers($JobApplication->id, $applicationData);
 
-            // DB::commit();
+            DB::commit();
             return $JobApplication;
-        // } catch (Throwable $e) {
-            // DB::rollBack();
-            // return $e;
-        // }
+        } catch (Throwable $e) {
+            DB::rollBack();
+            return $e;
+        }
     }
 
     public function saveCoverLetter(string $JobApplicationId, string $coverLetter)
