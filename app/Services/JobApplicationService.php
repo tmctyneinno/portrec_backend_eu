@@ -31,7 +31,7 @@ class JobApplicationService implements JobApplicationServiceInterface
     public function saveJobApplication(JobApplicationDto $applicationData)
     {
 
-        try {
+        // try {
             // DB::beginTransaction();
 
             if (!auth()->user()) {
@@ -90,10 +90,10 @@ class JobApplicationService implements JobApplicationServiceInterface
 
             // DB::commit();
             return $JobApplication;
-        } catch (Throwable $e) {
+        // } catch (Throwable $e) {
             // DB::rollBack();
-            return $e;
-        }
+            // return $e;
+        // }
     }
 
     public function saveCoverLetter(string $JobApplicationId, string $coverLetter)
