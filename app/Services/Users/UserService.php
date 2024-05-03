@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Users;
 
 use App\Dtos\UserRegistrationDto;
-use App\Interfaces\UserServiceInterface;
+use App\Interfaces\Users\UserServiceInterface;
 use App\Models\CoverLetter;
 use App\Models\User;
 use App\Models\UserResume;

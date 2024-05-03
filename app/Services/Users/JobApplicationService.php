@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Users;
 
 use App\Dtos\JobApplicationDto;
 use App\Dtos\UserRegistrationDto;
 use App\Enums\JobApplicationStatus;
-use App\Interfaces\FileUploadServiceInterface;
-use App\Interfaces\JobApplicationAnswerServiceInterface;
-use App\Interfaces\JobApplicationServiceInterface;
-use App\Interfaces\UserServiceInterface;
+use App\Interfaces\Users\FileUploadServiceInterface;
+use App\Interfaces\Users\JobApplicationAnswerServiceInterface;
+use App\Interfaces\Users\JobApplicationServiceInterface;
+use App\Interfaces\Users\UserServiceInterface;
 use App\Models\CoverLetter;
 use App\Models\User;
 use App\Models\JobApplication;

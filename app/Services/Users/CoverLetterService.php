@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Users;
 
 use App\Dtos\CoverLetterUploadDto;
-use App\Interfaces\CoverLetterServiceInterface;
-use App\Interfaces\JobApplicationServiceInterface;
+use App\Interfaces\Users\CoverLetterServiceInterface;
+use App\Interfaces\Users\JobApplicationServiceInterface;
 use App\Models\CoverLetter;
 use Illuminate\Support\Facades\DB;
 use Throwable;

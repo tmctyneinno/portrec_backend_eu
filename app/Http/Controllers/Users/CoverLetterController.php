@@ -7,7 +7,7 @@ use App\Http\Controllers\Base\BaseController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Users\Trait\UserTrait;
 use App\Http\Resources\UserResource;
-use App\Interfaces\UserServiceInterface;
+use App\Interfaces\Users\UserServiceInterface;
 use App\Models\CoverLetter;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

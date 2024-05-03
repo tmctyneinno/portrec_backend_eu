@@ -2,18 +2,18 @@
 
 namespace App\Providers;
 
-use App\Interfaces\CoverLetterServiceInterface;
-use App\Interfaces\FileUploadServiceInterface;
-use App\Interfaces\JobApplicationAnswerServiceInterface;
-use App\Interfaces\JobApplicationServiceInterface;
-use App\Interfaces\MessageServiceInterface;
-use App\Interfaces\UserServiceInterface;
-use App\Services\CloudinaryFileUploadService;
-use App\Services\CoverLetterService;
-use App\Services\JobApplicationAnswerService;
-use App\Services\JobApplicationService;
-use App\Services\MessageService;
-use App\Services\UserService;
+use App\Interfaces\Users\CoverLetterServiceInterface;
+use App\Interfaces\Users\FileUploadServiceInterface;
+use App\Interfaces\Users\JobApplicationAnswerServiceInterface;
+use App\Interfaces\Users\JobApplicationServiceInterface;
+use App\Interfaces\Users\MessageServiceInterface;
+use App\Interfaces\Users\UserServiceInterface;
+use App\Services\Users\CloudinaryFileUploadService;
+use App\Services\Users\CoverLetterService;
+use App\Services\Users\JobApplicationAnswerService;
+use App\Services\Users\JobApplicationService;
+use App\Services\Users\MessageService;
+use App\Services\Users\UserService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

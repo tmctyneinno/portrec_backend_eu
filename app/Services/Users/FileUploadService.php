@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Users;
 
-use App\Interfaces\FileUploadServiceInterface;
+use App\Interfaces\Users\FileUploadServiceInterface;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 

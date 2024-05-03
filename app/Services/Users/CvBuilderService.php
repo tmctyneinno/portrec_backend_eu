@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Users;
 
-use App\Interfaces\UserServiceInterface;
+use App\Interfaces\Users\UserServiceInterface;
 use App\Models\UserProfile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;

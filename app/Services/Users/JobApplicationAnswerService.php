@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Users;
 
 use App\Dtos\AnswerDto;
 use App\Dtos\JobApplicationDto;
-use App\Interfaces\JobApplicationAnswerServiceInterface;
+use App\Interfaces\Users\JobApplicationAnswerServiceInterface;
 use Illuminate\Support\Facades\DB;
 
 class JobApplicationAnswerService implements JobApplicationAnswerServiceInterface

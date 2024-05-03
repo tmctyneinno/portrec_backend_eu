@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Interfaces;
+namespace App\Interfaces\Users;
 
 use App\Dtos\MessageCreationDto;
 use App\Models\Conversation;

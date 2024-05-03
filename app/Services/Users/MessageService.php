@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Users;
 
 use App\Dtos\MessageCreationDto;
-use App\Interfaces\FileUploadServiceInterface;
-use App\Interfaces\MessageServiceInterface;
+use App\Interfaces\Users\FileUploadServiceInterface;
+use App\Interfaces\Users\MessageServiceInterface;
 use App\Models\Conversation;
 use App\Models\Message;
 use Illuminate\Database\Eloquent\Builder;
