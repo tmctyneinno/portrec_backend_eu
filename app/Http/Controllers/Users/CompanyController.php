@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Company;
+namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\CompanySize;
 use App\Models\Industry;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Job\Trait\JobTrait;
+use App\Http\Controllers\Users\Job\Trait\JobTrait;
 use Illuminate\Http\Response;
 
-class FuncsController extends Controller
+class CompanyController extends Controller
 {
     use JobTrait;
 

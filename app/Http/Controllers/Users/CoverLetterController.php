@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\Users;
 
 use App\Helper\FileUpload;
 use App\Http\Controllers\Base\BaseController;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\User\Trait\UserTrait;
+use App\Http\Controllers\Users\Trait\UserTrait;
 use App\Http\Resources\UserResource;
 use App\Interfaces\UserServiceInterface;
 use App\Models\CoverLetter;

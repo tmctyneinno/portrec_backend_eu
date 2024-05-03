@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\Job\JobApplicationController;
+use App\Http\Controllers\Users\Job\JobApplicationController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\JobController;
+use App\Http\Controllers\Users\JobController;
 
 Route::middleware(['auth:sanctum'])->group(function () {
   Route::post("apply", [JobApplicationController::class, 'apply']);

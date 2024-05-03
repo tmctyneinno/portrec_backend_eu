@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Base\BaseController;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\User\Trait\UserTrait;
+use App\Http\Controllers\Users\Trait\UserTrait;
 use App\Http\Requests\SkillRequest;
 use App\Models\AcquiredSkill;
 use App\Models\Skill;
@@ -47,5 +47,10 @@ class SkillController extends BaseController
         });
 
         return $this->successMessage($skills, "success");
+    }
+
+    public function getSkill()
+    {
+      return $this->successMessage(Skill::all());
     }
 }

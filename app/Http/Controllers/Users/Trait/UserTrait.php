@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\User\Trait;
+namespace App\Http\Controllers\Users\Trait;
 
 use App\Models\UserProfile;
 

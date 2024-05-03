@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Users;
 
 use App\Dtos\MessageCreationDto;
 use App\Http\Controllers\Base\BaseController;

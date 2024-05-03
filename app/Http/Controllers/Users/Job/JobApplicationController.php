@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Job;
+namespace App\Http\Controllers\Users\Job;
 
 use App\Dtos\CoverLetterUploadDto;
 use App\Dtos\JobApplicationAnswerDto;

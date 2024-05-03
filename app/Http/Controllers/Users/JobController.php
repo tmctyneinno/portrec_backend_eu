@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Base\BaseController;
 use App\Models\Industry;
@@ -44,13 +44,14 @@ class JobController extends BaseController
 
 
             // for development purpose only
-            $allJobs->getCollection()->transform(function ($data) {
-                $category = Industry::where("id", $data->industry_id)->first(['name', 'id']);
-                $data->category = $category;
-                $data->company->country = Str::random(8);
-                $data->company->city = Str::random(8);
-                return $data;
-            });
+            // $allJobs->getCollection()->transform(function ($data) {
+            //     $category = Industry::where("id", $data->industry_id)->first(['name', 'id']);
+            //     $data->category = $category;
+            //     $data->company->country = Str::random(8);
+            //     $data->company->city = Str::random(8);
+            //     return $data;
+            // });
+            
 
             return $this->successMessage($allJobs);
         }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Job\Trait;
+namespace App\Http\Controllers\Users\Job\Trait;
 
 trait JobTrait
 {

@@ -2,20 +2,10 @@
 
 use App\Http\Controllers\Auth\RecruiterAuthController;
 use App\Http\Controllers\Auth\UserAuthController;
-use App\Http\Controllers\CvBuilderController;
-use App\Http\Controllers\Company\FuncsController;
-use App\Http\Controllers\JobController;
-use App\Http\Controllers\MessageController;
-use App\Http\Controllers\User\SkillController;
-use App\Http\Controllers\Skill\SkillController as AllSkills;
-use App\Http\Controllers\User\CoverLetterController;
-use App\Http\Controllers\User\EducationController;
-use App\Http\Controllers\User\JobApplicationController;
-use App\Http\Controllers\User\ResumeController;
-use App\Http\Controllers\User\WorkExperienceController;
-use App\Http\Controllers\User\PortolioController;
-use App\Http\Controllers\User\ProfileController;
-use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\Users\{CvBuilderController,FuncsController,JobController,MessageController,SkillController, CoverLetterController,EducationController,
+    JobApplicationController,ResumeController,WorkExperienceController,PortolioController,ProfileController,UserProfileController,CompanyController
+};
+
 use Illuminate\Support\Facades\Route;
 
 
@@ -78,7 +68,7 @@ Route::prefix("user")->group(function () {
         Route::post("portfolio/image", [PortolioController::class, "uploadProjectImage"]);
         Route::delete("portfolio/image/{id}", [PortolioController::class, "deletePortfolioImage"]);
 
-        Route::get("jobs/{id?}", [JobApplicationController::class, "myApplication"]);
+        // Route::get("jobs/{id?}", [JobApplicationController::class, "myApplication"]);
     });
 });
 
@@ -95,14 +85,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('cv')->group(function () {
         Route::get('/', []);
         Route::post('from-profile', [CvBuilderController::class, 'fromProfile']);
-        Route::post('to-profile', [CvBuilderController::class, 'fromCv']);
+        Route::post('user/build/profile', [CvBuilderController::class, 'fromCv']);
     });
 });
 
-Route::get("skills", [AllSkills::class, "getSkill"]);
+Route::get("skills", [SkillController::class, "getSkill"]);
 
 
-Route::controller(FuncsController::class)->group(function () {
+Route::controller(CompanyController::class)->group(function () {
     Route::get('companies/{type?}/{param?}', 'Index');
     Route::get('company/details/{company_id}', 'CompanyDetails');
 });

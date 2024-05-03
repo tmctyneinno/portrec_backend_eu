@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Job;
+namespace App\Http\Controllers\Users\Job;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Job\Trait\JobTrait;
+use App\Http\Controllers\Users\Job\Trait\JobTrait;
 use App\Models\JobOpening;
 use Illuminate\Http\Request;
 

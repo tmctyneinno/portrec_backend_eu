@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Job;
+namespace App\Http\Controllers\Users\Job;
 
 use App\Http\Controllers\Base\BaseController;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Job\Trait\JobTrait;
+use App\Http\Controllers\Users\Job\Trait\JobTrait;
 use App\Models\Industry;
 use Illuminate\Http\Request;
 

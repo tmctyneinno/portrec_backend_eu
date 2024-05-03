@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Base\BaseController;
 use App\Interfaces\FileUploadServiceInterface;
@@ -24,6 +24,7 @@ class CvBuilderController extends BaseController
     public function fromCv(Request $request)
     {
         $file = null;
+
 
         if ($request->hasFile('resume')) {
             $file = $this->fileUploadService->upload($request->file('resume'), 'resumes');
