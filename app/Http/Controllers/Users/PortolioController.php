@@ -9,7 +9,7 @@ use App\Http\Controllers\Users\Trait\UserTrait;
 use App\Http\Requests\PortfolioRequest;
 use App\Models\UserPortfolio;
 use Illuminate\Http\Request;
-use App\Services\CloudinaryFileUploadService;
+use App\Services\Users\CloudinaryFileUploadService;
 use Illuminate\Http\Response;
 
 class PortolioController extends BaseController

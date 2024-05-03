@@ -7,7 +7,7 @@ use App\Http\Controllers\Base\BaseController;
 use App\Http\Requests\MessageCreationRequest;
 use App\Http\Resources\ConversationResource;
 use App\Http\Resources\MessageResource;
-use App\Interfaces\MessageServiceInterface;
+use App\Interfaces\Users\MessageServiceInterface;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 

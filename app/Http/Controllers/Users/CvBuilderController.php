@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Base\BaseController;
-use App\Interfaces\FileUploadServiceInterface;
-use App\Services\CvBuilderService;
+use App\Interfaces\Users\FileUploadServiceInterface;
+use App\Services\Users\CvBuilderService;
 use Illuminate\Http\Request;
 
 class CvBuilderController extends BaseController

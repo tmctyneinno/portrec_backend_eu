@@ -11,9 +11,9 @@ use App\Http\Requests\JobApplicationAnswerRequest;
 use App\Http\Requests\JobApplicationRequest;
 use App\Models\User;
 use App\Http\Resources\JobApplicationResource;
-use App\Interfaces\CoverLetterServiceInterface;
-use App\Interfaces\JobApplicationAnswerServiceInterface;
-use App\Interfaces\JobApplicationServiceInterface;
+use App\Interfaces\Users\CoverLetterServiceInterface;
+use App\Interfaces\Users\JobApplicationAnswerServiceInterface;
+use App\Interfaces\Users\JobApplicationServiceInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 class JobApplicationController extends BaseController

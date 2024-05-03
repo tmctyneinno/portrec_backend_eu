@@ -9,7 +9,7 @@ use App\Http\Controllers\Users\Trait\UserTrait;
 use App\Models\ProfilePicture;
 use App\Models\Skill;
 use App\Models\User;
-use App\Services\CloudinaryFileUploadService;
+use App\Services\Users\CloudinaryFileUploadService;
 use App\Models\UserProfile;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
