@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\AuthRequest;
 use App\Http\Requests\UserRequest;
+use App\Models\Recruiter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class RecruiterAuthController extends AuthController
 {
@@ -15,30 +18,67 @@ class RecruiterAuthController extends AuthController
 
         $req["name"] = $validation['fullName'];
         $req['email'] = $validation['email'];
-        $req['password'] = $validation['password'];
+        $req['password'] = bcrypt($validation['password']);
+        // $req['role'] = "recruiter";
         $req['phone'] = $validation['phone'];
 
-        $create = $this->create($req, "recruiter");
-        if (is_string($create) || $create['validation']) {
-            $errors = $create['errors'];
-            $email = $errors["email"][0] ?? "";
-            $phone = $errors["phone"][0] ?? "";
+        if (Recruiter::where('email', $validation['email'])->exists()) {
+            return response()->json('Email Already Taken', 203);
+        }
 
-            if ($email == "The email has already been taken." || $phone == "The phone has already been taken.") $this->errorMessage($create, 209);
+        if (Recruiter::where('phone', $validation['phone'])->exists()) {
+            return response()->json('Phone Number Already Taken', 203);
+        }
 
-            return $this->errorMessage($create);
+        DB::beginTransaction();
+        try {
+            $recruiter = Recruiter::create($req);
+            $recruiter->password = $validation['password'];
+            // if ($recruiter) {
+            // event(new CreaterecruiterProfile($recruiter));
+            // event(new RegistrationEmails($validation));
+            // }
+
+            $data = [
+                'recruiter' => $recruiter,
+                $recruiter->profile
+            ];
+            DB::commit();
+            return $this->successMessage($data, "success", 201);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            //  dd($e);
+            return $this->errorMessage($e->getMessage(), 409);
         }
     }
 
+
+
     public function signin(Request $request)
     {
-        $req['email'] = $request->email;
-        $req['password'] = $request->password;
+        $recruiter = Recruiter::where('email', $request->email)->first();
 
-        $login = $this->login($req, "recruiter");
-        if (is_string($login))
-            return $this->errorMessage($login, 401);
-        $token = $login->createToken("recruiterPortreToken")->plainTextToken;
-        return $this->successMessage(["token" => $token], "login");
+        if (!$recruiter || !Hash::check($request->password, $recruiter->password)) {
+            return response()->json(['message' => 'Invalid credentials'], 401);
+        }
+
+        $token = $recruiter->createToken('recruiterPortreToken')->plainTextToken;
+        return $this->successMessage(["token" => $token, 'recruiter' => $recruiter], "login success");
     }
+
+
+
+
+    // public function signin(Request $request)
+    // {
+    //     $req['email'] = $request->email;
+    //     $req['password'] = $request->password;
+
+    //     $login = $this->login($req, "recruiter");
+    //     // return $login;
+    //     if (is_string($login))
+    //         return $this->errorMessage($login, 401);
+    //     $token = $login->createToken("recruiterPortreToken")->plainTextToken;
+    //     return $this->successMessage(["token" => $token], "login");
+    // }
 }

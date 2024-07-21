@@ -2,8 +2,21 @@
 
 use App\Http\Controllers\Auth\RecruiterAuthController;
 use App\Http\Controllers\Auth\UserAuthController;
-use App\Http\Controllers\Users\{CvBuilderController,FuncsController,JobController,MessageController,SkillController, CoverLetterController,EducationController,
-    JobApplicationController,ResumeController,WorkExperienceController,PortolioController,ProfileController,UserProfileController,CompanyController
+use App\Http\Controllers\Users\{
+    CvBuilderController,
+    FuncsController,
+    JobController,
+    MessageController,
+    SkillController,
+    CoverLetterController,
+    EducationController,
+    JobApplicationController,
+    ResumeController,
+    WorkExperienceController,
+    PortolioController,
+    ProfileController,
+    UserProfileController,
+    CompanyController
 };
 
 use Illuminate\Support\Facades\Route;
@@ -96,3 +109,6 @@ Route::controller(CompanyController::class)->group(function () {
     Route::get('companies/{type?}/{param?}', 'Index');
     Route::get('company/details/{company_id}', 'CompanyDetails');
 });
+
+
+require __DIR__ . '/recruiter.php';

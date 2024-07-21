@@ -23,27 +23,35 @@ class UserAuthController extends AuthController
         $req['role'] = "user";
         $req['phone'] = $validation['phone'];
 
-      DB::beginTransaction();  
-try {
-        $user = User::create($req);
-        $user->password = $validation['password'];
-        if($user){
-            event( new CreateUserProfile($user));
-             event(new RegistrationEmails($validation));
+        if (User::where('email', $validation['email'])->exists()) {
+
+            return response()->json('Email Already Taken', 203);
         }
 
-        $data = [
-            'user' => $user,
-            $user->profile
-        ];
-    DB::commit();
-    return $this->successMessage($data, "success", 201);
-    }catch(\Exception $e){
-     DB::rollBack();
-    //  dd($e);
-     return $this->errorMessage($e->getMessage(), 201);
-    }
+        if (User::where('phone', $validation['phone'])->exists()) {
+            return response()->json('Phone Number Already Taken', 203);
+        }
 
+        DB::beginTransaction();
+        try {
+            $user = User::create($req);
+            $user->password = $validation['password'];
+            // if ($user) {
+            // event(new CreateUserProfile($user));
+            // event(new RegistrationEmails($validation));
+            // }
+
+            $data = [
+                'user' => $user,
+                $user->profile
+            ];
+            DB::commit();
+            return $this->successMessage($data, "success", 201);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            //  dd($e);
+            return $this->errorMessage($e->getMessage(), 409);
+        }
     }
 
     public function signin(Request $request)
@@ -61,6 +69,5 @@ try {
 
     public function changePassword(Request $request)
     {
-        
     }
 }
