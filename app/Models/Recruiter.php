@@ -26,4 +26,10 @@ class Recruiter extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+    public function profile()
+    {
+        return $this->hasOne(RecruiterProfile::class, 'recruiter_id', 'id');
+    }
 }

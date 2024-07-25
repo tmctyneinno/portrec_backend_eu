@@ -111,4 +111,4 @@ Route::controller(CompanyController::class)->group(function () {
 });
 
 
-require __DIR__ . '/recruiter.php';
+require __DIR__ . '/recruiterAPIs.php';

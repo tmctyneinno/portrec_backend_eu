@@ -35,32 +35,33 @@ class RecruiterPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Recruiter $recruiter)
+
+    public function update(Recruiter $recruiter, Recruiter $profile): bool | Response
     {
-        //
+        return $recruiter->id  == $profile->id ? true : Response::deny();
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Recruiter $recruiter)
+    public function delete(Recruiter $recruiter, Recruiter $model)
     {
-        //
+        return true;
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Recruiter $recruiter)
+    public function restore(Recruiter $recruiter, Recruiter $model)
     {
-        //
+        return true;
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Recruiter $recruiter)
+    public function forceDelete(Recruiter $recruiter, Recruiter $model)
     {
-        //
+        return true;
     }
 }

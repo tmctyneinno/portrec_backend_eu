@@ -9,6 +9,7 @@ use App\Models\Recruiter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class RecruiterAuthController extends AuthController
 {
@@ -21,6 +22,7 @@ class RecruiterAuthController extends AuthController
         $req['password'] = bcrypt($validation['password']);
         // $req['role'] = "recruiter";
         $req['phone'] = $validation['phone'];
+        $req['recruiter_level'] = '1';
 
         if (Recruiter::where('email', $validation['email'])->exists()) {
             return response()->json('Email Already Taken', 203);
@@ -66,19 +68,51 @@ class RecruiterAuthController extends AuthController
         return $this->successMessage(["token" => $token, 'recruiter' => $recruiter], "login success");
     }
 
-
-
-
-    // public function signin(Request $request)
+    // public function updatePassword(Request $request, $id)
     // {
-    //     $req['email'] = $request->email;
-    //     $req['password'] = $request->password;
 
-    //     $login = $this->login($req, "recruiter");
-    //     // return $login;
-    //     if (is_string($login))
-    //         return $this->errorMessage($login, 401);
-    //     $token = $login->createToken("recruiterPortreToken")->plainTextToken;
-    //     return $this->successMessage(["token" => $token], "login");
+    //     $request->validate([
+    //         'current_password' => 'required|string',
+    //         'new_password' => 'required|string',
+    //     ]);
+
+    //     $model = Recruiter::find($id);
+
+    //     if (!Hash::check($request->current_password, $model->password)) {
+    //         return response()->json(['message' => 'Invalid credentials'], 203);
+    //     }
+
+    //     $model->password = Hash::make($request->new_password);
+    //     $model->save();
+
+    //     return $this->successMessage('Password updated successfully', "success", 200);
+    // }
+
+
+    // public function updateProfile(Request $request, $id)
+    // {
+    //     $model = Recruiter::findOrFail($id);
+
+    //     $validator = Validator::make($request->all(), [
+    //         'name' => 'required|string|max:255',
+    //         'email' => 'required|email',
+    //         'phone' => 'nullable|string',
+    //     ]);
+
+    //     if ($validator->fails()) {
+    //         return response()->json(['errors' => $validator->errors()], 422);
+    //     }
+
+    //     $emailExists = Recruiter::where('email', $request->email)->where('id', '!=', $model->id)->exists();
+    //     if ($emailExists) {
+    //         return response()->json(['message' => 'Email already exists'], 203);
+    //     }
+
+    //     $model->name = $request->name;
+    //     $model->email = $request->email;
+    //     $model->phone = $request->phone;
+    //     $model->save();
+
+    //     return response()->json(['message' => 'User information updated successfully'], 200);
     // }
 }

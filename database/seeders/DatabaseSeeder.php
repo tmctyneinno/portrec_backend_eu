@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder
             InterviewSeeder::class,
             // AdminSeeder::class,
             CompanySeeder::class,
+            QualificationSeeder::class,
         ]);
     }
 }
