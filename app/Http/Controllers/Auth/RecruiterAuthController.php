@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Recruiters\Trait\RecruiterTrait;
 use App\Http\Requests\Auth\AuthRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\Recruiter;
+use App\Models\RecruiterProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -13,6 +15,8 @@ use Illuminate\Support\Facades\Validator;
 
 class RecruiterAuthController extends AuthController
 {
+
+    use RecruiterTrait;
     public function signup(UserRequest $request)
     {
         $validation = $request->validated();
@@ -36,6 +40,10 @@ class RecruiterAuthController extends AuthController
         try {
             $recruiter = Recruiter::create($req);
             $recruiter->password = $validation['password'];
+
+            // create recruiter_profile
+            RecruiterProfile::create(array_merge($req, ['recruiter_id' => $recruiter->id]));
+
             // if ($recruiter) {
             // event(new CreaterecruiterProfile($recruiter));
             // event(new RegistrationEmails($validation));

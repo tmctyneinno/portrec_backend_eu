@@ -48,6 +48,9 @@ class ProfileController extends BaseController
             $data['user_id'] = $id;
             UserProfile::create($data);
         }
+
+        $user->update($request->all());
+
         return $this->successMessage(['user' => $user, 'profile' => $user->profile], "profile updated", 201);
     }
 

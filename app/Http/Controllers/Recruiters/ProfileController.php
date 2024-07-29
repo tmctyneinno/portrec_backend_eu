@@ -9,10 +9,7 @@ use App\Http\Controllers\Recruiters\Trait\RecruiterTrait;
 use App\Models\ProfilePicture;
 use App\Models\Recruiter;
 use App\Models\RecruiterProfile;
-use App\Models\Skill;
-use App\Models\User;
 use App\Services\Users\CloudinaryFileUploadService;
-use App\Models\UserProfile;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
@@ -38,15 +35,17 @@ class ProfileController extends BaseController
         }
 
         $data = $this->RecruiterDetails($request, $upload[1] ?? null);
-        $profile = RecruiterProfile::whereRecruiterId($id)->first();
+        $profile = RecruiterProfile::where('recruiter_id', $id)->first();
 
         if ($profile) {
             $profile->fill($data)->save();
         } else {
-            // Create a new UserProfile if it doesn't exist
             $data['recruiter_id'] = $id;
-            UserProfile::create($data);
+            RecruiterProfile::create($data);
         }
+
+        $recruiter->update($request->all());
+
         return $this->successMessage(['recruiter' => $recruiter, 'profile' => $recruiter->profile], "profile updated", 201);
     }
 
@@ -54,13 +53,13 @@ class ProfileController extends BaseController
     public function updatePassword(Request $request)
     {
         $id = $this->RecruiterID()->id;
-        $recruiter = Recruiter::find($id)->first();
+        $recruiter = Recruiter::find($id);
         $oldPassword = Hash::check($request->oldPassword, $recruiter->password);
         if (!$oldPassword) {
-            return $this->errorMessage("wrong old password");
+            return $this->errorMessage("wrong old password", 401);
         }
         $recruiter->password = Hash::make($request->newPassword);
         $recruiter->save();
-        return $this->successMessage("", "password update success");
+        return $this->successMessage("", "password update success", 201);
     }
 }
