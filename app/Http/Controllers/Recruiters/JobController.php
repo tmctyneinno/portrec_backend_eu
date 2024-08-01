@@ -3,16 +3,21 @@
 namespace App\Http\Controllers\Recruiters;
 
 use App\Http\Controllers\Base\BaseController;
+use App\Http\Controllers\Recruiters\Trait\RecruiterTrait;
 use App\Models\Industry;
 use App\Models\JobFunction;
 use App\Models\JobLevel;
 use App\Models\JobOpening;
 use App\Models\JobType;
+use App\Models\RecruiterProfile;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class JobController extends BaseController
 {
+
+    use RecruiterTrait;
     public $jc = "jobs as total_jobs";
 
     private function filter($query, $table, $delimeter, $pointer = "id"): void
@@ -22,69 +27,29 @@ class JobController extends BaseController
                 $query->whereIn($pointer, [$delimeter]);
             });
     }
-    public function showJobs(Request $request, $type = null, $id = null)
+    public function showJobs(Request $request)
     {
 
+        $id = $this->RecruiterID()->id;
+        $profile = RecruiterProfile::where('recruiter_id', $id)->first();
         $query = JobOpening::with(["recruiter:id,name,email,phone", "company", "jobType", "industry"]);
-
-        if (!$type) {
-            $jobType = $request->get("type_id");
-            $industry = $request->get("industry_id");
-            $min = $request->get("min_salary");
-            $max = $request->get("max_salary");
-
-            if ($min & $max) {
-                $query->where("min_salary", ">=", [$min])->where("max_salary", "<=", [$max]);
-            }
-
-            $this->filter($query, "jobType", $jobType);
-            $this->filter($query, "industry", $industry);
-
-            $allJobs = $query->paginate(10);
+        $search = $request->get("search");
+        $start_date = $request->get("start_date") ?? Carbon::now()->toDateString();
+        $end_date = $request->get("end_date") ??  Carbon::now()->addDays(30)->toDateString();
 
 
-            // for development purpose only
-            // $allJobs->getCollection()->transform(function ($data) {
-            //     $category = Industry::where("id", $data->industry_id)->first(['name', 'id']);
-            //     $data->category = $category;
-            //     $data->company->country = Str::random(8);
-            //     $data->company->city = Str::random(8);
-            //     return $data;
-            // });
+        $query->whereBetween('deadline', [$start_date, $end_date]);
+
+        if ($profile)
+            $query->where('company_id', $profile->company_id);
 
 
-            return $this->successMessage($allJobs);
-        }
+        if ($search)
+            $query->where("title", "like", "%" .  $search . "%");
 
-        if ($type === "similar" && $id) {
-            $this->filter($query, "industry", $id);
-            $similarJobs =  $query->inRandomOrder()->take(8)->get();
+        $allJobs = $query->paginate(10);
 
-            // for devlopmwnt purpose only
-            $similarJobs->each(function ($data) {
-                $category = Industry::where("id", $data->industry_id)->first(['name', 'id']);
-                $data->category = $category;
-                $data->company->country = Str::random(8);
-                $data->company->city = Str::random(8);
-                return $data;
-            });
-
-            return $this->successMessage($similarJobs);
-        }
-
-        if ($type === "latest") {
-            $latestJobs = $query->take(8)->latest()->get();
-
-            // this line is for development purpose only
-            $latestJobs->each(function ($data) {
-                $category = Industry::where("id", $data->industry_id)->first(['name', 'id']);
-                $data->category = $category;
-                $data->company->country = Str::random(8);
-                $data->company->city = Str::random(8);
-                return $data;
-            });
-            return $this->successMessage($latestJobs);
-        }
+        return $this->successMessage($allJobs);
     }
 
     public function jobIndustries($id = null)

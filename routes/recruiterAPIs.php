@@ -27,6 +27,10 @@ Route::prefix("recruiter")->group(function () {
         Route::get("profile", [ProfileController::class, "myProfile"]);
         Route::post("password", [ProfileController::class, "updatePassword"]);
         Route::post("profile/update", [ProfileController::class, "updateProfile"]);
+
+
+        // Jobs
+        Route::get("jobs/list", [JobController::class, "showJobs"]);
     });
 });
 
