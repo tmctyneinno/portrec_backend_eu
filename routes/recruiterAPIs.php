@@ -30,7 +30,9 @@ Route::prefix("recruiter")->group(function () {
 
 
         // Jobs
-        Route::get("jobs/list", [JobController::class, "showJobs"]);
+        Route::post("job/list", [JobController::class, "showJobs"]);
+        Route::post("job/post", [JobController::class, "postJobOpening"]);
+        Route::delete("job/delete/{id}", [JobController::class, "deleteJobOpening"]);
     });
 });
 

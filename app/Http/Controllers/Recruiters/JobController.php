@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Recruiters;
 
 use App\Http\Controllers\Base\BaseController;
 use App\Http\Controllers\Recruiters\Trait\RecruiterTrait;
+use App\Http\Requests\JobOpeningRequest;
 use App\Models\Industry;
 use App\Models\JobFunction;
 use App\Models\JobLevel;
@@ -51,6 +52,32 @@ class JobController extends BaseController
 
         return $this->successMessage($allJobs);
     }
+
+
+    public function postJobOpening(JobOpeningRequest $request)
+    {
+        $validatedData = $request->validated();
+        $jobOpening = JobOpening::create(array_merge($validatedData, ['recruiter_id' => $request->user()->id]));
+        return response()->json($jobOpening, 201);
+    }
+
+
+    public function updateJobOpening(JobOpeningRequest $request, JobOpening $jobOpening)
+    {
+        $validatedData = $request->validated();
+        $jobOpening->update($validatedData);
+        return response()->json($jobOpening, 200);
+    }
+
+    public function deleteJobOpening($id)
+    {
+        $jobOpening = JobOpening::find($id);
+        $jobOpening->delete();
+        return response()->json($jobOpening, 200);
+    }
+
+
+
 
     public function jobIndustries($id = null)
     {
