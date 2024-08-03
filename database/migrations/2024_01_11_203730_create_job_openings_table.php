@@ -20,11 +20,11 @@ return new class extends Migration
             $table->integer('job_function_id')->nullable();
             $table->integer('industry_id')->nullable();
             $table->string("job_type_id")->constrained();
-            $table->string('title'); 
+            $table->string('title');
             $table->text("description");
-            $table->string("required_skills");
-            $table->double('min_salary')->nullable();
-            $table->double('max_salary')->nullable();
+            $table->text("required_skills");
+            $table->string('min_salary')->nullable();
+            $table->string('max_salary')->nullable();
             $table->dateTime('deadline')->nullable();
             $table->string('qualifications')->nullable();
             $table->string('location')->nullable();

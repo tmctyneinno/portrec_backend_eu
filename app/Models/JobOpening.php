@@ -8,14 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class JobOpening extends Model
 {
     use HasFactory;
-    protected $fillable = ['recruiter_id', 'company_id', 'job_level_id', 'country_id', 'job_function_id', 'job_type_id', 'title', 'description', 'required_skills', 'min_salary', 'max_salary', 'deadline', 'qualifications', 'location', 'experience', 'total_view', 'other_qualifications', 'benefits', 'status', 'responsibilities', 'capacity', 'total_applied'];
+    protected $fillable = ['recruiter_id', 'company_id', 'job_level_id', 'industry_id', 'country_id', 'job_function_id', 'job_type_id', 'title', 'description', 'required_skills', 'min_salary', 'max_salary', 'deadline', 'qualifications', 'location', 'experience', 'total_view', 'other_qualifications', 'benefits', 'status', 'responsibilities', 'capacity', 'total_applied'];
 
-    protected $hidden = [
-        "recruiter_id",
-        "company_id",
-        "job_type_id",
-        "job_functions"
-    ];
+    // protected $hidden = [
+    //     "recruiter_id",
+    //     "company_id",
+    //     "job_type_id",
+    //     "job_functions"
+    // ];
 
     public function jobType()
     {
@@ -37,7 +37,8 @@ class JobOpening extends Model
         return $this->belongsTo(JobLevel::class);
     }
 
-    public function industry(){
+    public function industry()
+    {
 
         return $this->belongsTo(Industry::class);
     }
@@ -47,8 +48,8 @@ class JobOpening extends Model
         return $this->belongsTo(JobFunction::class, "job_function_id", "id");
     }
 
-    public function questions(){
+    public function questions()
+    {
         return $this->hasMany(JobOpeningQuestion::class, 'job_opening_id', 'id');
     }
-
 }

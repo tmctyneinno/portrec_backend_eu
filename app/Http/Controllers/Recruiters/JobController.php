@@ -62,11 +62,12 @@ class JobController extends BaseController
     }
 
 
-    public function updateJobOpening(JobOpeningRequest $request, JobOpening $jobOpening)
+    public function updateJobOpening(JobOpeningRequest $request, $id)
     {
         $validatedData = $request->validated();
+        $jobOpening = JobOpening::find($id);
         $jobOpening->update($validatedData);
-        return response()->json($jobOpening, 200);
+        return response()->json($jobOpening, 201);
     }
 
     public function deleteJobOpening($id)
