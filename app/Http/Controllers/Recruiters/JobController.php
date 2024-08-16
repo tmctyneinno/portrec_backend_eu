@@ -6,9 +6,11 @@ use App\Http\Controllers\Base\BaseController;
 use App\Http\Controllers\Recruiters\Trait\RecruiterTrait;
 use App\Http\Requests\JobOpeningRequest;
 use App\Models\Industry;
+use App\Models\JobApplication;
 use App\Models\JobFunction;
 use App\Models\JobLevel;
 use App\Models\JobOpening;
+use App\Models\JobOpeningQuestion;
 use App\Models\JobType;
 use App\Models\RecruiterProfile;
 use Carbon\Carbon;
@@ -33,7 +35,7 @@ class JobController extends BaseController
 
         $id = $this->RecruiterID()->id;
         $profile = RecruiterProfile::where('recruiter_id', $id)->first();
-        $query = JobOpening::with(["recruiter:id,name,email,phone", "company", "jobType", "industry"]);
+        $query = JobOpening::with(["recruiter:id,name,email,phone", "company", "jobType", "industry", "questions"]);
         $search = $request->get("search");
         $start_date = $request->get("start_date") ?? Carbon::now()->toDateString();
         $end_date = $request->get("end_date") ??  Carbon::now()->addDays(30)->toDateString();
@@ -48,7 +50,7 @@ class JobController extends BaseController
         if ($search)
             $query->where("title", "like", "%" .  $search . "%");
 
-        $allJobs = $query->paginate(10);
+        $allJobs = $query->paginate($request->rowsPerPage);
 
         return $this->successMessage($allJobs);
     }
@@ -57,7 +59,19 @@ class JobController extends BaseController
     public function postJobOpening(JobOpeningRequest $request)
     {
         $validatedData = $request->validated();
-        $jobOpening = JobOpening::create(array_merge($validatedData, ['recruiter_id' => $request->user()->id]));
+        $jobOpening = JobOpening::create(array_merge($validatedData, ['recruiter_id' => $this->RecruiterID()->id]));
+
+        if ($request->questions) {
+            $questions = json_decode($request->questions);
+            foreach ($questions as $question) {
+                JobOpeningQuestion::create(array_merge((array)$question, [
+                    'recruiter_id' => $this->RecruiterID()->id,
+                    'job_opening_id' => $jobOpening->id,
+                ]));
+            }
+        }
+
+
         return response()->json($jobOpening, 201);
     }
 
@@ -67,12 +81,28 @@ class JobController extends BaseController
         $validatedData = $request->validated();
         $jobOpening = JobOpening::find($id);
         $jobOpening->update($validatedData);
+
+
+        JobOpeningQuestion::where('job_opening_id', $id)->delete();
+        if ($request->questions) {
+            $questions = json_decode($request->questions);
+            foreach ($questions as $question) {
+                JobOpeningQuestion::create(array_merge((array)$question, [
+                    'recruiter_id' => $this->RecruiterID()->id,
+                    'job_opening_id' => $jobOpening->id,
+                ]));
+            }
+        }
+
+
         return response()->json($jobOpening, 201);
     }
 
     public function deleteJobOpening($id)
     {
         $jobOpening = JobOpening::find($id);
+        JobOpeningQuestion::where('job_opening_id', $id)->delete();
+        JobApplication::where('job_opening_id', $id)->delete();
         $jobOpening->delete();
         return response()->json($jobOpening, 200);
     }

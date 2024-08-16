@@ -44,7 +44,6 @@ class JobOpeningRequest extends FormRequest
             // 'status' => 'required|string|max:255',
             'responsibilities' => 'required|string',
             'capacity' => 'required|string|max:255',
-            'total_applied' => 'required',
         ];
     }
 

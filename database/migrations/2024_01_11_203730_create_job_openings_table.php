@@ -35,7 +35,7 @@ return new class extends Migration
             $table->string("status")->default(0);
             $table->text("responsibilities");
             $table->string('capacity');
-            $table->string('total_applied');
+            $table->integer('total_applied')->default(0);
             $table->timestamps();
         });
     }
