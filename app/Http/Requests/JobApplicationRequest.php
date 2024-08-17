@@ -26,16 +26,19 @@ class JobApplicationRequest extends FormRequest
             'job_id' => 'required|exists:job_openings,id',
             'cover_letter' => 'required|string|max:10000',
             'portfolio_link' => 'nullable|string|url',
-            'answers' => 'required|array',
-            'name' => [Rule::requiredIf(function () {
-                return $this->user() === null;
-            }), 'string', 'max:255'],
-            'phone_number' => [Rule::requiredIf(function () {
-                return $this->user() === null;
-            }), 'string', 'max:20', 'unique:users,phone'],
-            'email' => [Rule::requiredIf(function () {
-                return $this->user() === null;
-            }), 'string', 'max:255', 'unique:users,email'],
+            'answers' => 'nullable',
+            'name' => 'nullable',
+            'phone_number' => 'nullable',
+            'email' => 'nullable',
+            // 'name' => [Rule::requiredIf(function () {
+            //     return $this->user() === null;
+            // }), 'string', 'max:255'],
+            // 'phone_number' => [Rule::requiredIf(function () {
+            //     return $this->user() === null;
+            // }), 'string', 'max:20', 'unique:users,phone'],
+            // 'email' => [Rule::requiredIf(function () {
+            //     return $this->user() === null;
+            // }), 'string', 'max:255', 'unique:users,email'],
             'resume' => 'required',
         ];
     }

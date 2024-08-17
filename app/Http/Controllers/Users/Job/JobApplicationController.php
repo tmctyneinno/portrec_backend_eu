@@ -22,23 +22,20 @@ class JobApplicationController extends BaseController
         public readonly JobApplicationServiceInterface $jobApplicationService,
         public readonly CoverLetterServiceInterface $coverLetterService,
         public readonly JobApplicationAnswerServiceInterface $jobApplicationAnswerService,
-    ) {
-    }
+    ) {}
 
     public function apply(JobApplicationRequest $request)
     {
-        try{
-        $jobApplicationData = JobApplicationDto::fromRequest($request->validated());
+        try {
+            $jobApplicationData = JobApplicationDto::fromRequest($request->validated());
+            $jobApplication = $this->jobApplicationService->saveJobApplication($jobApplicationData);
+        } catch (\Exception $e) {
+            return $this->errorMessage($e->getMessage(), Response::HTTP_SERVICE_UNAVAILABLE);
+        }
 
-        $jobApplication = $this->jobApplicationService->saveJobApplication($jobApplicationData);
-
-    }catch(\Exception $e)
-    {
-        return $this->errorMessage($e->getMessage(), Response::HTTP_SERVICE_UNAVAILABLE);
-    }
-   
         return $this->successMessage(new JobApplicationResource($jobApplication->load([
-            'user', 'answers'
+            'user',
+            'answers'
         ])));
     }
 

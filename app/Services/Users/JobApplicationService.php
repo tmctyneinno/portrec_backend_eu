@@ -25,8 +25,7 @@ class JobApplicationService implements JobApplicationServiceInterface
         public readonly UserServiceInterface $userService,
         public readonly FileUploadServiceInterface $fileUploadService,
         public readonly JobApplicationAnswerServiceInterface $jobApplicationAnswerService,
-    ) {
-    }
+    ) {}
 
     public function saveJobApplication(JobApplicationDto $applicationData)
     {
@@ -42,28 +41,32 @@ class JobApplicationService implements JobApplicationServiceInterface
                 ]);
 
                 [$user, $plainTextPassword] = $this->userService->saveUser($userData);
-                 Auth::loginUsingId($user->id);
+                Auth::loginUsingId($user->id);
                 if ($applicationData->resume instanceof UploadedFile) {
                     [$fileName, $filePath, $publicId] = $this->fileUploadService->upload($applicationData->resume, 'resumes/' . $user->id);
                     $resume = $this->userService->saveResume($filePath, $fileName, $user, $publicId);
-                   
+
                     $applicationData->resume = $resume->id;
                 }
-               $user->notify((new GuestUserRegistrationNotification($user, $plainTextPassword))->afterCommit());
+                $user->notify((new GuestUserRegistrationNotification($user, $plainTextPassword))->afterCommit());
                 $applicationData->user_id = $user->id;
             }
-           
-            if ($applicationData->resume instanceof UploadedFile) {
-                $user = auth()->user();
 
-                [$fileName, $filePath, $publicId] = $this->fileUploadService->upload($applicationData->resume, 'resumes/' . $user->id);
+            ### FIX CLOUDINARY ISSUE TO SAVE RESUME #####
 
-                $resume = $this->userService->saveResume($filePath, $fileName, $user, $publicId);
+            // if ($applicationData->resume instanceof UploadedFile) {
+            //     $user = auth()->user();
+
+            //     [$fileName, $filePath, $publicId] = $this->fileUploadService->upload($applicationData->resume, 'resumes/' . $user->id);
+
+            //     $resume = $this->userService->saveResume($filePath, $fileName, $user, $publicId);
 
 
-                $applicationData->resume = $resume->id;
-                $applicationData->user_id = $user->id;
-            }
+            //     $applicationData->resume = $resume->id;
+            //     $applicationData->user_id = $user->id;
+            // }
+
+            $applicationData->resume = 1; //REMOVE AFTER FIX
 
             CoverLetter::query()
                 ->create([
@@ -73,24 +76,27 @@ class JobApplicationService implements JobApplicationServiceInterface
 
             $JobApplication = JobApplication::query()
                 ->create([
-                    'user_id' => $applicationData->user_id,
+                    'user_id' => $applicationData->user_id ?? auth()->user()->id,
                     'job_opening_id' => $applicationData->job_id,
                     'resume_id' => $applicationData->resume,
                     'status' => JobApplicationStatus::IN_REVIEW->name,
                     'is_viewed' => 0,
                     'applied_date' => now(),
-                'cover_letter' => $applicationData->cover_letter,
-                'portfolio_links' => $applicationData->portfolio_link
+                    'cover_letter' => $applicationData->cover_letter,
+                    'portfolio_links' => $applicationData->portfolio_link
                 ]);
 
-              
-            $this->jobApplicationAnswerService->saveAnswers($JobApplication->id, $applicationData);
+
+            if ($applicationData->answers) {
+                $this->jobApplicationAnswerService->saveAnswers($JobApplication->id, $applicationData);
+            }
 
             DB::commit();
             return $JobApplication;
         } catch (Throwable $e) {
             DB::rollBack();
-            return $e;
+            throw $e;
+            return 'error';
         }
     }
 

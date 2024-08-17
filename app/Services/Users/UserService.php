@@ -16,7 +16,7 @@ class UserService implements UserServiceInterface
 {
     public function saveUser(UserRegistrationDto $userData): ?array
     {
-        $plainTextPassword = $userData->password ?? $userData->name.Str::random(8);
+        $plainTextPassword = $userData->password ?? $userData->name . Str::random(8);
 
         $user = User::query()
             ->create([
@@ -36,7 +36,7 @@ class UserService implements UserServiceInterface
                 'user_id' => $user->id,
                 'resume_url' => $uploadPath,
                 'resume_name' => $name ?? $user->name . "'s CV",
-            'public_id' => $publicId ?? null,
+                'public_id' => $publicId ?? null,
             ]);
     }
 
