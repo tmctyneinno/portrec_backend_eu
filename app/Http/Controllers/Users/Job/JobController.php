@@ -16,8 +16,8 @@ class JobController extends BaseController
     public function all(Request $request, $type = null, $id = null)
     {
 
-       
-        $query = JobOpening::with(["recruiter:id,name,email,phone","company", "jobType"]);
+
+        $query = JobOpening::with(["recruiter:id,name,email,phone", "company", "jobType"]);
         if (!$type) {
             $jobType = $request->get("type_id");
             $industry = $request->get("industry_id");
@@ -61,7 +61,7 @@ class JobController extends BaseController
         if ($type === "latest") {
             $latestJobs = $query->take(8)->latest()->get();
 
-            // this line is for development purpose only 
+            // this line is for development purpose only
             $latestJobs->each(function ($data) {
                 $category = Industry::where("id", $data->sub_category->industry_id)->first(['name', 'id']);
                 $data->category = $category;
@@ -77,7 +77,7 @@ class JobController extends BaseController
     {
         $job = JobOpening::where("id", $id)->with(["questions", "industry_id", "jobType", "company"])->first();
         $category = Industry::where("id", $job->industry->id)->first(['name', 'id']);
- 
+
         return $this->successMessage($job);
     }
 }

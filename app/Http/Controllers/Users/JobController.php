@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Base\BaseController;
 use App\Models\Industry;
+use App\Models\JobApplication;
 use App\Models\JobFunction;
 use App\Models\JobLevel;
 use App\Models\JobOpening;
@@ -51,7 +52,7 @@ class JobController extends BaseController
             //     $data->company->city = Str::random(8);
             //     return $data;
             // });
-            
+
 
             return $this->successMessage($allJobs);
         }
@@ -75,7 +76,7 @@ class JobController extends BaseController
         if ($type === "latest") {
             $latestJobs = $query->take(8)->latest()->get();
 
-            // this line is for development purpose only 
+            // this line is for development purpose only
             $latestJobs->each(function ($data) {
                 $category = Industry::where("id", $data->industry_id)->first(['name', 'id']);
                 $data->category = $category;
@@ -130,9 +131,12 @@ class JobController extends BaseController
         ]);
     }
 
-    public function jobDetails($id)
+    public function jobDetails(Request $request, $id)
     {
+        // return $this->successMessage(AUTH::id());
         $job = JobOpening::where("id", $id)->with(["questions", "industry", "jobType", "company"])->first();
+        $job->applications = JobApplication::where('job_opening_id', $id)->pluck('user_id');
+
         // $category = Industry::where("id", $job->sub_category->id)->first(['name', 'id']);
         // $job->category = $category;
         // $job->company->city = Str::random(8);

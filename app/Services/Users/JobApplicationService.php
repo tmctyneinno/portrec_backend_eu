@@ -42,26 +42,25 @@ class JobApplicationService implements JobApplicationServiceInterface
 
                 [$user, $plainTextPassword] = $this->userService->saveUser($userData);
                 Auth::loginUsingId($user->id);
-                if ($applicationData->resume instanceof UploadedFile) {
-                    [$fileName, $filePath, $publicId] = $this->fileUploadService->upload($applicationData->resume, 'resumes/' . $user->id);
-                    $resume = $this->userService->saveResume($filePath, $fileName, $user, $publicId);
 
-                    $applicationData->resume = $resume->id;
-                }
-                $user->notify((new GuestUserRegistrationNotification($user, $plainTextPassword))->afterCommit());
-                $applicationData->user_id = $user->id;
+                ### FIX CLOUDINARY ISSUE TO SAVE RESUME #####
+                // if ($applicationData->resume instanceof UploadedFile) {
+                //     [$fileName, $filePath, $publicId] = $this->fileUploadService->upload($applicationData->resume, 'resumes/' . $user->id);
+                //     $resume = $this->userService->saveResume($filePath, $fileName, $user, $publicId);
+                //     $applicationData->resume = $resume->id;
+                //     $applicationData->user_id = $user->id;
+                // }
+
+
+                //$user->notify((new GuestUserRegistrationNotification($user, $plainTextPassword))->afterCommit());
             }
 
             ### FIX CLOUDINARY ISSUE TO SAVE RESUME #####
 
             // if ($applicationData->resume instanceof UploadedFile) {
             //     $user = auth()->user();
-
             //     [$fileName, $filePath, $publicId] = $this->fileUploadService->upload($applicationData->resume, 'resumes/' . $user->id);
-
             //     $resume = $this->userService->saveResume($filePath, $fileName, $user, $publicId);
-
-
             //     $applicationData->resume = $resume->id;
             //     $applicationData->user_id = $user->id;
             // }
