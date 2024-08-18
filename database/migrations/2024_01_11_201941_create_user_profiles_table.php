@@ -18,11 +18,11 @@ return new class extends Migration
             $table->string('user_level_id')->nullable();
             $table->string("industries_id")->nullable();
             $table->string('job_type_id')->nullable();
-            $table->string("language_id")->nullable();
+            $table->text("language")->nullable();
             $table->string('image_path')->nullable();
             $table->string('phone')->nullable();
             $table->integer('availability_id')->nullable();
-            $table->text('preference')->nullable(); 
+            $table->text('preference')->nullable();
             $table->double('salary_expectation')->nullable();
             $table->string('gender_id')->nullable();
             $table->string('professional_headline')->nullable();

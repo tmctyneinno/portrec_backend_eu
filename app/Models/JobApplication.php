@@ -54,6 +54,11 @@ class JobApplication extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function userProfile(): BelongsTo
+    {
+        return $this->belongsTo(UserProfile::class, 'user_id', 'user_id');
+    }
+
     public function cover_letter(): HasOneThrough
     {
         return $this->hasOneThrough(CoverLetter::class, User::class, 'id', 'id');

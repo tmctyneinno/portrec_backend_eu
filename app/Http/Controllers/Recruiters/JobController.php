@@ -9,6 +9,9 @@ use App\Models\JobApplication;
 use App\Models\JobOpening;
 use App\Models\JobOpeningQuestion;
 use App\Models\RecruiterProfile;
+use App\Models\Skill;
+use App\Models\User;
+use App\Models\UserProfile;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -113,16 +116,37 @@ class JobController extends BaseController
 
         $jobOpeningIds = JobOpening::where('company_id', $recruiter->company_id)->pluck('id');
 
-        $query = JobApplication::with(['user',  'job',])->whereNotNull('status');
+        $query = JobApplication::with(['user',  'job'])->whereNotNull('status');
 
         if (!$jobOpeningIdFilter)
             $query->whereIn('job_opening_id', $jobOpeningIds);
         else
             $query->where('job_opening_id', $jobOpeningIdFilter);
 
-
         $applicants = $query->paginate($request->rowsPerPage);
 
         return $this->successMessage($applicants);
+    }
+
+
+    function jobApplicationDetails($jobApplicationId)
+    {
+        $jobApplication = JobApplication::with(['answers', 'cover_letter', 'resume',])->find($jobApplicationId);
+
+        $user = User::with(["experience",  "education", "profile", "portfolios"])
+            ->find($jobApplication->user_id);
+        $user['skills'] = $user->skill->each(function ($data) {
+            $data["name"] = Skill::find($data['skill_id'])->name;
+        });
+
+
+        $job = JobOpening::with(["company", "jobType", "industry", "questions"])
+            ->find($jobApplication->job_opening_id);
+
+        $jobApplication->user = $user;
+        $jobApplication->job = $job;
+
+
+        return response()->json($jobApplication, 200);
     }
 }
