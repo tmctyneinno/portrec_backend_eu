@@ -41,6 +41,7 @@ class ProfileController extends BaseController
         $data = $this->UserDetails($request, $upload[1] ?? null);
         $profile = UserProfile::whereUserId($id)->first();
 
+
         if ($profile) {
             $profile->fill($data)->save();
         } else {

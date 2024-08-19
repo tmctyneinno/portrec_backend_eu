@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('user_level_id')->nullable();
             $table->string("industries_id")->nullable();
             $table->string('job_type_id')->nullable();
-            $table->text("language")->nullable();
+            $table->text("languages")->nullable();
             $table->string('image_path')->nullable();
             $table->string('phone')->nullable();
             $table->integer('availability_id')->nullable();
@@ -35,6 +35,8 @@ return new class extends Migration
             $table->string('allow_search')->nullable();
             $table->text('description')->nullable();
             $table->string("linkedin")->nullable();
+            $table->string("instagram")->nullable();
+            $table->string("website")->nullable();
             $table->string("twitter")->nullable();
             $table->string("facebook")->nullable();
             $table->string("avatar")->nullable();

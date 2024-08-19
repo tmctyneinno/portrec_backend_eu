@@ -9,6 +9,7 @@ use App\Models\JobFunction;
 use App\Models\JobLevel;
 use App\Models\JobOpening;
 use App\Models\JobType;
+use App\Models\Qualification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -98,6 +99,21 @@ class JobController extends BaseController
         $jobs = $categories->jobs()->paginate(10);
         return $this->successMessage([
             "category" => $categories,
+            "jobs" => $jobs
+        ]);
+    }
+
+    public function jobQualifications($id = null)
+    {
+        // return 'ddddd';
+        if (!$id) {
+            $data = Qualification::select('id', 'name', 'status')->get();
+            return $this->successMessage($data);
+        }
+        $data = Industry::findorfail($id);
+        $jobs = $data->jobs()->paginate(10);
+        return $this->successMessage([
+            "qualifications" => $data,
             "jobs" => $jobs
         ]);
     }

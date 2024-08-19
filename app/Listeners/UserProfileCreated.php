@@ -23,7 +23,7 @@ class UserProfileCreated implements ShouldQueue
      */
     public function handle(CreateUserProfile $event)
     {
-        //get user location 
+        //get user location
         $userId = $event->user['id'];
         $UserIp = request()->ip();
         $address = json_decode(file_get_contents("http://ipinfo.io/197.210.65.32/json"));
@@ -35,7 +35,7 @@ class UserProfileCreated implements ShouldQueue
             'user_level_id' => 1,
             'industries_id' => null,
             'job_type_id' => null,
-            'language_id' => null,
+            'languages' => null,
             'image_path' => null,
             'phone' => $users->phone,
             'availability_id' => 1,
@@ -52,6 +52,8 @@ class UserProfileCreated implements ShouldQueue
             'allow_search' => true,
             'description' => null,
             'linkedin' => null,
+            'website' => null,
+            'instagram' => null,
             'twitter' => null,
             'facebook' => null,
             'avatar' => null,

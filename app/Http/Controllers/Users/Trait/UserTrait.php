@@ -23,14 +23,14 @@ trait UserTrait
     public function UserDetails($request, $image = null)
     {
         $user = $this->UserID();
-        $profile = UserProfile::where('id', $user->id)->first();
+        $profile = UserProfile::where('user_id', $user->id)->first();
 
         if (!$profile) {
             return [
                 'job_function_id' => $request->job_function_id ?? null,
                 'industries_id' => $request->industries_id ?? null,
                 'job_type_id' => $request->job_type_id ?? null,
-                'language_id' => $request->language_id ?? null,
+                'languages' => $request->languages ?? null,
                 'image_path' => $image ?? null,
                 'phone' => $request->phone ?? null,
                 'availability_id' => $request->availability_id ?? null,
@@ -47,6 +47,8 @@ trait UserTrait
                 'allow_search' => $request->allow_search ?? null,
                 'description' => $request->description ?? null,
                 'linkedin' => $request->linkedin ?? null,
+                'instagram' => $request->instagram ?? null,
+                'website' => $request->website ?? null,
                 'twitter' => $request->twitter ?? null,
                 'facebook' => $request->facebook ?? null,
                 'avatar' => $request->avatar ?? null,
@@ -60,7 +62,7 @@ trait UserTrait
             'job_function_id' => $request->job_function_id ?? $profile->job_function_id,
             'industries_id' => $request->industries_id ?? $profile->industries_id,
             'job_type_id' => $request->job_type_id ?? $profile->job_type_id,
-            'language_id' => $request->language_id ?? $profile->language_id,
+            'languages' => $request->languages ?? $profile->languages,
             'image_path' => $image ?? $profile->image_path,
             'phone' => $request->phone ?? $profile->phone,
             'availability_id' => $request->availability_id ?? $profile->availability_id,
@@ -77,6 +79,8 @@ trait UserTrait
             'allow_search' => $request->allow_search ?? $profile->allow_search,
             'description' => $request->description ?? $profile->description,
             'linkedin' => $request->linkedin ?? $profile->linkedin,
+            'instagram' => $request->instagram ?? $profile->instagram,
+            'website' => $request->website ?? $profile->website,
             'twitter' => $request->twitter ?? $profile->twitter,
             'facebook' => $request->facebook ?? $profile->facebook,
             'avatar' => $request->avatar ?? $profile->avatar,

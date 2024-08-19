@@ -15,7 +15,11 @@ class User extends Authenticatable
     use HasApiTokens;
 
     protected $fillable = [
-        'name', 'email', 'phone', 'role', 'password', 'website',
+        'name',
+        'email',
+        'phone',
+        'role',
+        'password',
     ];
 
     protected $hidden = [
@@ -32,10 +36,11 @@ class User extends Authenticatable
 
 
 
-    public function profile(){
+    public function profile()
+    {
         return $this->hasOne(UserProfile::class, 'user_id', 'id');
     }
-  
+
 
     public function education()
     {
@@ -92,6 +97,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(AcquiredSkill::class)->select("skill_id", 'user_id');
     }
-
-   
 }
