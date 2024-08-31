@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('recruiter_id')->constrained();
+            $table->id('recruiter_id')->nullable();
             $table->integer('company_type_id')->nullable();
             $table->string('industry_id')->nullable();
             $table->string("name")->nullable();
@@ -36,7 +36,7 @@ return new class extends Migration
             $table->text("twitter")->nullable();
             $table->text("facebook")->nullable();
             $table->text("youtube")->nullable();
-            $table->text("linkdin")->nullable();
+            $table->text("linkedin")->nullable();
             $table->timestamps();
         });
     }

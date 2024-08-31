@@ -133,18 +133,24 @@ class JobController extends BaseController
     {
         $jobApplication = JobApplication::with(['answers', 'cover_letter', 'resume',])->find($jobApplicationId);
 
+        // update is_viewed
+        if ($jobApplication->is_viewed == 0) {
+            #### send email
+        }
+        $jobApplication->update(['is_viewed' => 1]);
+
         $user = User::with(["experience",  "education", "profile", "portfolios"])
             ->find($jobApplication->user_id);
         $user['skills'] = $user->skill->each(function ($data) {
             $data["name"] = Skill::find($data['skill_id'])->name;
         });
 
-
         $job = JobOpening::with(["company", "jobType", "industry", "questions"])
             ->find($jobApplication->job_opening_id);
 
         $jobApplication->user = $user;
         $jobApplication->job = $job;
+
 
 
         return response()->json($jobApplication, 200);

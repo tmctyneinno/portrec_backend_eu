@@ -37,6 +37,14 @@ Route::prefix("recruiter")->group(function () {
         Route::delete("job/delete/{id}", [JobController::class, "deleteJobOpening"]);
         Route::post("job/applications", [JobController::class, "jobApplicationsList"]);
         Route::get("job/application/{id}", [JobController::class, "jobApplicationDetails"]);
+
+
+
+        // company
+        Route::get("company/info", [CompanyController::class, "companyInformation"]);
+        // Route::post("company/create", [CompanyController::class, "createCompany"]);
+        Route::post("company/update", [CompanyController::class, "updateCompany"]);
+        Route::get("company/resources", [CompanyController::class, "companyResourses"]);
     });
 });
 

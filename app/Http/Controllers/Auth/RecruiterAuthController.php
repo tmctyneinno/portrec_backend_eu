@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Recruiters\Trait\RecruiterTrait;
 use App\Http\Requests\Auth\AuthRequest;
-use App\Http\Requests\UserRequest;
+use App\Http\Requests\RecruiterRequest;
+use App\Models\Company;
 use App\Models\Recruiter;
 use App\Models\RecruiterProfile;
 use Illuminate\Http\Request;
@@ -17,7 +18,7 @@ class RecruiterAuthController extends AuthController
 {
 
     use RecruiterTrait;
-    public function signup(UserRequest $request)
+    public function signup(RecruiterRequest $request)
     {
         $validation = $request->validated();
 
@@ -26,6 +27,7 @@ class RecruiterAuthController extends AuthController
         $req['password'] = bcrypt($validation['password']);
         // $req['role'] = "recruiter";
         $req['phone'] = $validation['phone'];
+        $req['company_name'] = $validation['company_name'];
         $req['recruiter_level'] = '1';
 
         if (Recruiter::where('email', $validation['email'])->exists()) {
@@ -41,8 +43,18 @@ class RecruiterAuthController extends AuthController
             $recruiter = Recruiter::create($req);
             $recruiter->password = $validation['password'];
 
+            // create company
+            $newCompany = Company::create(['name' => $validation['company_name']]);
+
             // create recruiter_profile
-            RecruiterProfile::create(array_merge($req, ['recruiter_id' => $recruiter->id]));
+            RecruiterProfile::create(array_merge(
+                $req,
+                [
+                    'recruiter_id' => $recruiter->id,
+                    'company_id' => $newCompany->id,
+                ]
+            ));
+
 
             // if ($recruiter) {
             // event(new CreaterecruiterProfile($recruiter));
