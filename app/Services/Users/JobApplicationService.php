@@ -12,6 +12,7 @@ use App\Interfaces\Users\UserServiceInterface;
 use App\Models\CoverLetter;
 use App\Models\User;
 use App\Models\JobApplication;
+use App\Models\JobOpening;
 use App\Notifications\GuestUserRegistrationNotification;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\UploadedFile;
@@ -89,6 +90,10 @@ class JobApplicationService implements JobApplicationServiceInterface
             if ($applicationData->answers) {
                 $this->jobApplicationAnswerService->saveAnswers($JobApplication->id, $applicationData);
             }
+
+            $job = JobOpening::find($applicationData->job_id);
+            $job->total_applied = $job->total_applied + 1;
+            $job->save();
 
             DB::commit();
             return $JobApplication;

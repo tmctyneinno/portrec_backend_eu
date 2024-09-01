@@ -57,11 +57,8 @@ class CompanyController extends Controller
     public function companyResourses()
     {
         return response()->json([
-            'status' => Response::HTTP_FOUND,
-            'data' => [
-                'industry' => Industry::query()->get(),
-                'company_size' => CompanySize::latest()->get()
-            ]
-        ]);
+            'industry' => Industry::query()->get(),
+            'company_size' => CompanySize::latest()->get()
+        ], 200);
     }
 }
