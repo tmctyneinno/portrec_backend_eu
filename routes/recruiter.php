@@ -37,6 +37,7 @@ Route::prefix("recruiter")->group(function () {
         Route::delete("job/delete/{id}", [JobController::class, "deleteJobOpening"]);
         Route::post("job/applications", [JobController::class, "jobApplicationsList"]);
         Route::get("job/application/{id}", [JobController::class, "jobApplicationDetails"]);
+        Route::post("job/application/status", [JobController::class, "jobApplicationStatus"]);
 
 
 

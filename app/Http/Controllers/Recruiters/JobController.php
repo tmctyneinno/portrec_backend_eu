@@ -151,8 +151,15 @@ class JobController extends BaseController
         $jobApplication->user = $user;
         $jobApplication->job = $job;
 
-
-
         return response()->json($jobApplication, 200);
+    }
+
+
+    public function jobApplicationStatus(Request $request)
+    {
+        $JobApplication = JobApplication::find($request->job_application_id);
+        $JobApplication->status = $request->status;
+        $JobApplication->save();
+        return response()->json($JobApplication, 200);
     }
 }
