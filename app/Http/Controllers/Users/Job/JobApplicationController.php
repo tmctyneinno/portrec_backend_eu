@@ -75,53 +75,45 @@ class JobApplicationController extends BaseController
     }
 
 
-    public function myApplications(Request $request)
+
+
+
+    public function queryAndMapApplications($request, $status = null)
     {
         $id = $this->userID()->id;
         $start_date = $request->start_date ? Carbon::parse($request->start_date)->toDateString() : Carbon::now()->toDateString();
         $end_date = $request->end_date ? Carbon::parse($request->end_date)->toDateString() : Carbon::now()->toDateString();
 
-        $query = JobApplication::with(['user',  'job'])
+        $query = JobApplication::with(['user', 'job'])
             ->where('user_id', $id)
-            ->whereNotNull('status')
-            ->whereBetween('applied_date', [$start_date, $end_date]);
+            ->whereNotNull('status');
 
-        $query->get()->map(function ($item) {
-            $item['company'] = $item->job->company;
-            return $item;
-        });
+        // Apply the status filter only if $status is not null
+        if (!is_null($status)) {
+            $query->where('status', $status);
+        }
 
-        // $all = array_filter($query, function ($element) {
-        //     return $element->status == '';
-        // });
+        $query = $query
+            ->whereBetween('applied_date', [$start_date, $end_date])
+            ->get()->map(function ($item) {
+                $item['company'] = $item->job->company;
+                return $item;
+            });
 
+        return $query;
+    }
+
+    public function myApplications(Request $request)
+    {
         $data = [
-            'ALL' => $query->get()->map(function ($item) {
-                $item['company'] = $item->job->company;
-                return $item;
-            }),
-            'IN_REVIEW' => $query->where('status', 'IN_REVIEW')->get()->map(function ($item) {
-                $item['company'] = $item->job->company;
-                return $item;
-            }),
-            'SHORTLISTED' => $query->where('status', 'SHORTLISTED')->get()->map(function ($item) {
-                $item['company'] = $item->job->company;
-                return $item;
-            }),
-            'OFFERED' => $query->where('status', 'OFFERED')->get()->map(function ($item) {
-                $item['company'] = $item->job->company;
-                return $item;
-            }),
-            'INTERVIEWING' => $query->where('status', 'INTERVIEWING')->get()->map(function ($item) {
-                $item['company'] = $item->job->company;;
-                return $item;
-            }),
-            'UNSUITABLE' => $query->where('status', 'UNSUITABLE')->get()->map(function ($item) {
-                $item['company'] = $item->job->company;
-                return $item;
-            }),
+            'ALL' => $this->queryAndMapApplications($request),
+            'IN_REVIEW' => $this->queryAndMapApplications($request, 'IN_REVIEW'),
+            'SHORTLISTED' => $this->queryAndMapApplications($request, 'SHORTLISTED'),
+            'OFFERED' => $this->queryAndMapApplications($request, 'OFFERED'),
+            'INTERVIEWING' => $this->queryAndMapApplications($request, 'INTERVIEWING'),
+            'UNSUITABLE' => $this->queryAndMapApplications($request, 'UNSUITABLE'),
+            'SHORTLISTED' => $this->queryAndMapApplications($request, 'SHORTLISTED'),
         ];
-
         return response()->json($data, 200);
     }
 }
