@@ -34,7 +34,7 @@ class JobOpening extends Model
 
     public function level()
     {
-        return $this->belongsTo(JobLevel::class);
+        return $this->belongsTo(JobLevel::class, "job_level_id", "id");
     }
 
     public function industry()

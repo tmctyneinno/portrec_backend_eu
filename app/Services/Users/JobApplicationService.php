@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Models\JobApplication;
 use App\Models\JobOpening;
 use App\Notifications\GuestUserRegistrationNotification;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
@@ -81,7 +82,7 @@ class JobApplicationService implements JobApplicationServiceInterface
                     'resume_id' => $applicationData->resume,
                     'status' => JobApplicationStatus::IN_REVIEW->name,
                     'is_viewed' => 0,
-                    'applied_date' => now(),
+                    'applied_date' => Carbon::now()->toDateString(),
                     'cover_letter' => $applicationData->cover_letter,
                     'portfolio_links' => $applicationData->portfolio_link
                 ]);

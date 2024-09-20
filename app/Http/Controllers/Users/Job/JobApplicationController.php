@@ -84,7 +84,16 @@ class JobApplicationController extends BaseController
         $query = JobApplication::with(['user',  'job'])
             ->where('user_id', $id)
             ->whereNotNull('status')
-            ->whereBetween('created_at', [$start_date, $end_date]);
+            ->whereBetween('applied_date', [$start_date, $end_date]);
+
+        $query->get()->map(function ($item) {
+            $item['company'] = $item->job->company;
+            return $item;
+        });
+
+        // $all = array_filter($query, function ($element) {
+        //     return $element->status == '';
+        // });
 
         $data = [
             'ALL' => $query->get()->map(function ($item) {

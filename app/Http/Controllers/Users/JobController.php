@@ -27,11 +27,12 @@ class JobController extends BaseController
     public function showJobs(Request $request, $type = null, $id = null)
     {
 
-        $query = JobOpening::with(["recruiter:id,name,email,phone", "company", "jobType", "industry"]);
+        $query = JobOpening::with(["recruiter:id,name,email,phone", "company", "jobType", "industry", "level"]);
 
         if (!$type) {
             $jobType = $request->get("type_id");
             $industry = $request->get("industry_id");
+            $level = $request->get("level_id");
             $min = $request->get("min_salary");
             $max = $request->get("max_salary");
 
@@ -41,6 +42,7 @@ class JobController extends BaseController
 
             $this->filter($query, "jobType", $jobType);
             $this->filter($query, "industry", $industry);
+            $this->filter($query, "level", $level);
 
             $allJobs = $query->paginate(10);
 
