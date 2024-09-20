@@ -6,6 +6,7 @@ use App\Dtos\CoverLetterUploadDto;
 use App\Dtos\JobApplicationAnswerDto;
 use App\Dtos\JobApplicationDto;
 use App\Http\Controllers\Base\BaseController;
+use App\Http\Controllers\Users\Trait\UserTrait;
 use App\Http\Requests\CoverLetterRequest;
 use App\Http\Requests\JobApplicationAnswerRequest;
 use App\Http\Requests\JobApplicationRequest;
@@ -14,10 +15,16 @@ use App\Http\Resources\JobApplicationResource;
 use App\Interfaces\Users\CoverLetterServiceInterface;
 use App\Interfaces\Users\JobApplicationAnswerServiceInterface;
 use App\Interfaces\Users\JobApplicationServiceInterface;
+use App\Models\Company;
+use App\Models\JobApplication;
+use App\Models\JobOpening;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class JobApplicationController extends BaseController
 {
+    use UserTrait;
     public function __construct(
         public readonly JobApplicationServiceInterface $jobApplicationService,
         public readonly CoverLetterServiceInterface $coverLetterService,
@@ -65,5 +72,47 @@ class JobApplicationController extends BaseController
     public function guestUploadJobApplicationAnswers(JobApplicationAnswerRequest $request)
     {
         return $this->uploadJobApplicationAnswers($request);
+    }
+
+
+    public function myApplications(Request $request)
+    {
+        $id = $this->userID()->id;
+        $start_date = $request->start_date ? Carbon::parse($request->start_date)->toDateString() : Carbon::now()->toDateString();
+        $end_date = $request->end_date ? Carbon::parse($request->end_date)->toDateString() : Carbon::now()->toDateString();
+
+        $query = JobApplication::with(['user',  'job'])
+            ->where('user_id', $id)
+            ->whereNotNull('status')
+            ->whereBetween('created_at', [$start_date, $end_date]);
+
+        $data = [
+            'ALL' => $query->get()->map(function ($item) {
+                $item['company'] = $item->job->company;
+                return $item;
+            }),
+            'IN_REVIEW' => $query->where('status', 'IN_REVIEW')->get()->map(function ($item) {
+                $item['company'] = $item->job->company;
+                return $item;
+            }),
+            'SHORTLISTED' => $query->where('status', 'SHORTLISTED')->get()->map(function ($item) {
+                $item['company'] = $item->job->company;
+                return $item;
+            }),
+            'OFFERED' => $query->where('status', 'OFFERED')->get()->map(function ($item) {
+                $item['company'] = $item->job->company;
+                return $item;
+            }),
+            'INTERVIEWING' => $query->where('status', 'INTERVIEWING')->get()->map(function ($item) {
+                $item['company'] = $item->job->company;;
+                return $item;
+            }),
+            'UNSUITABLE' => $query->where('status', 'UNSUITABLE')->get()->map(function ($item) {
+                $item['company'] = $item->job->company;
+                return $item;
+            }),
+        ];
+
+        return response()->json($data, 200);
     }
 }

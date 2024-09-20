@@ -8,6 +8,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post("apply", [JobApplicationController::class, 'apply']);
     Route::post("apply/cover-letter", [JobApplicationController::class, 'uploadCoverLetter']);
     Route::post("apply/answers", [JobApplicationController::class, 'uploadJobApplicationAnswers']);
+    Route::post("user/applications", [JobApplicationController::class, 'myApplications']);
 });
 
 Route::controller(JobApplicationController::class)->group(function () {

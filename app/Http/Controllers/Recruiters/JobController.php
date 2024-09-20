@@ -155,7 +155,7 @@ class JobController extends BaseController
     }
 
 
-    public function jobApplicationStatus(Request $request)
+    public function jobApplicationStatusUpdate(Request $request)
     {
         $JobApplication = JobApplication::find($request->job_application_id);
         $JobApplication->status = $request->status;

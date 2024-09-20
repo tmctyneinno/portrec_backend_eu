@@ -16,7 +16,6 @@ class JobController extends BaseController
     public function all(Request $request, $type = null, $id = null)
     {
 
-
         $query = JobOpening::with(["recruiter:id,name,email,phone", "company", "jobType"]);
         if (!$type) {
             $jobType = $request->get("type_id");
