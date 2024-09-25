@@ -75,9 +75,6 @@ class JobApplicationController extends BaseController
     }
 
 
-
-
-
     public function queryAndMapApplications($request, $status = null)
     {
         $id = $this->userID()->id;
@@ -111,7 +108,7 @@ class JobApplicationController extends BaseController
             'SHORTLISTED' => $this->queryAndMapApplications($request, 'SHORTLISTED'),
             'OFFERED' => $this->queryAndMapApplications($request, 'OFFERED'),
             'INTERVIEWING' => $this->queryAndMapApplications($request, 'INTERVIEWING'),
-            'UNSUITABLE' => $this->queryAndMapApplications($request, 'UNSUITABLE'),
+            'REJECTED' => $this->queryAndMapApplications($request, 'REJECTED'),
             'SHORTLISTED' => $this->queryAndMapApplications($request, 'SHORTLISTED'),
         ];
         return response()->json($data, 200);

@@ -8,5 +8,6 @@ enum JobApplicationStatus: string
     case SHORTLISTED = 'Shortlisted';
     case OFFERED = 'Offered';
     case INTERVIEWING = 'Interviewing';
+    case REJECTED = 'Rejected';
     case UNSUITABLE = 'Unsuitable';
 }

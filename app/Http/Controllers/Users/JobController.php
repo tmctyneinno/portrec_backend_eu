@@ -21,7 +21,8 @@ class JobController extends BaseController
     {
         if ($delimeter)
             $query->whereHas($table, function ($query) use ($delimeter, $pointer) {
-                $query->whereIn($pointer, [$delimeter]);
+                // $query->whereIn($pointer, [$delimeter]);
+                $query->whereIn($pointer, explode(',', $delimeter));
             });
     }
     public function showJobs(Request $request, $type = null, $id = null)

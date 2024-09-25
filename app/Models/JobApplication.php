@@ -26,6 +26,7 @@ class JobApplication extends Model
                     JobApplicationStatus::INTERVIEWING->name => JobApplicationStatus::INTERVIEWING->value,
                     JobApplicationStatus::OFFERED->name => JobApplicationStatus::OFFERED->value,
                     JobApplicationStatus::SHORTLISTED->name => JobApplicationStatus::SHORTLISTED->value,
+                    JobApplicationStatus::REJECTED->name => JobApplicationStatus::REJECTED->value,
                     JobApplicationStatus::UNSUITABLE->name => JobApplicationStatus::UNSUITABLE->value,
                 };
 
