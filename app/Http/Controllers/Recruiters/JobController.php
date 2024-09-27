@@ -14,6 +14,7 @@ use App\Models\RecruiterProfile;
 use App\Models\Skill;
 use App\Models\User;
 use App\Models\UserProfile;
+use App\Notifications\JobApplicationStatusUpdateNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -159,7 +160,7 @@ class JobController extends BaseController
 
     public function jobApplicationStatusUpdate(Request $request)
     {
-        $JobApplication = JobApplication::find($request->job_application_id);
+        $JobApplication = JobApplication::with('job')->find($request->job_application_id);
         $JobApplication->status = $request->status;
         $JobApplication->save();
 
@@ -168,9 +169,15 @@ class JobController extends BaseController
 
         // Send Email
         try {
-            //code...
+            $user = User::find($JobApplication->user_id);
+            $user->notify(new JobApplicationStatusUpdateNotification([
+                'job_title' => $JobApplication->job->title,
+                'name' => $user->name,
+                'status' => $JobApplication->status,
+                'company' => $JobApplication->job->company->name,
+            ]));
         } catch (\Throwable $th) {
-            //throw $th;
+            // throw $th;   
         }
         return response()->json($JobApplication, 200);
     }

@@ -54,7 +54,13 @@ class JobApplicationService implements JobApplicationServiceInterface
                 // }
 
 
-                //$user->notify((new GuestUserRegistrationNotification($user, $plainTextPassword))->afterCommit());
+
+                try {
+                    $user->notify((new GuestUserRegistrationNotification($user, $plainTextPassword))
+                        ->afterCommit());
+                } catch (\Throwable $th) {
+                    //throw $th;
+                }
             }
 
             ### FIX CLOUDINARY ISSUE TO SAVE RESUME #####
