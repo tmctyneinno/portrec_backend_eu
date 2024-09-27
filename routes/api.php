@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\RecruiterAuthController;
 use App\Http\Controllers\Auth\UserAuthController;
+use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\Users\{
     CvBuilderController,
     FuncsController,
@@ -100,6 +101,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('from-profile', [CvBuilderController::class, 'fromProfile']);
         Route::post('user/build/profile', [CvBuilderController::class, 'fromCv']);
     });
+
+    // notifications
+    Route::get("notifications/user", [NotificationsController::class, "unread"]);
 });
 
 Route::get("skills", [SkillController::class, "getSkill"]);
@@ -109,6 +113,8 @@ Route::controller(CompanyController::class)->group(function () {
     Route::get('companies/{type?}/{param?}', 'Index');
     Route::get('company/details/{company_id}', 'CompanyDetails');
 });
+
+Route::get("notification/read/{id}", [NotificationsController::class, "read"]);
 
 
 require __DIR__ . '/recruiter.php';

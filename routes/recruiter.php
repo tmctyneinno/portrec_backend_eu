@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RecruiterAuthController;
+use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\Recruiters\{
     CvBuilderController,
     FuncsController,
@@ -46,6 +47,9 @@ Route::prefix("recruiter")->group(function () {
         // Route::post("company/create", [CompanyController::class, "createCompany"]);
         Route::post("company/update", [CompanyController::class, "updateCompany"]);
         Route::get("company/resources", [CompanyController::class, "companyResourses"]);
+
+        // notifications
+        Route::get("notifications/recruiter", [NotificationsController::class, "unread"]);
     });
 });
 

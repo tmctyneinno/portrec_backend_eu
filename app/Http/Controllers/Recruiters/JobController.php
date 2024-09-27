@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Recruiters;
 
 use App\Http\Controllers\Base\BaseController;
+use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\Recruiters\Trait\RecruiterTrait;
 use App\Http\Requests\JobOpeningRequest;
 use App\Models\JobApplication;
 use App\Models\JobOpening;
 use App\Models\JobOpeningQuestion;
+use App\Models\Notification;
 use App\Models\RecruiterProfile;
 use App\Models\Skill;
 use App\Models\User;
@@ -160,6 +162,16 @@ class JobController extends BaseController
         $JobApplication = JobApplication::find($request->job_application_id);
         $JobApplication->status = $request->status;
         $JobApplication->save();
+
+        // save Notification
+        NotificationsController::save($request, 'user', 'JOB', 'Job Application Status', 'There is an update on your job application', $request->job_application_id);
+
+        // Send Email
+        try {
+            //code...
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
         return response()->json($JobApplication, 200);
     }
 }
