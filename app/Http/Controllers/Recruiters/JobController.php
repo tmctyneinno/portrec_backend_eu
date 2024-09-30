@@ -15,6 +15,7 @@ use App\Models\Skill;
 use App\Models\User;
 use App\Models\UserProfile;
 use App\Notifications\JobApplicationStatusUpdateNotification;
+use App\Notifications\JobApplicationViewedNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -138,7 +139,17 @@ class JobController extends BaseController
 
         // update is_viewed
         if ($jobApplication->is_viewed == 0) {
-            #### send email
+            try {
+                $user = User::find($jobApplication->user_id);
+                $user->notify(new JobApplicationViewedNotification([
+                    'job_title' => $jobApplication->job->title,
+                    'name' => $user->name,
+                    'status' => $jobApplication->status,
+                    'company' => $jobApplication->job->company->name,
+                ]));
+            } catch (\Throwable $th) {
+                // throw $th;   
+            }
         }
         $jobApplication->update(['is_viewed' => 1]);
 

@@ -8,13 +8,12 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class JobApplicationStatusUpdateNotification extends Notification implements ShouldQueue
+class JobApplicationViewedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
     protected $job_title;
     protected $name;
-    protected $status;
     protected $company;
 
     /**
@@ -24,7 +23,6 @@ class JobApplicationStatusUpdateNotification extends Notification implements Sho
     {
         $this->name = $mailObj['name'];
         $this->job_title = $mailObj['job_title'];
-        $this->status = $mailObj['status'];
         $this->company = $mailObj['company'];
     }
 
@@ -44,20 +42,13 @@ class JobApplicationStatusUpdateNotification extends Notification implements Sho
     public function toMail(): MailMessage
     {
 
-        $statusMessages = [
-            'Interviewing' => 'Invitation for interview',
-            'Shortlisted' => 'You have been Shortlisted',
-            'Rejected' => 'Your application was rejected.',
-            'Offered' => 'You have been offered This Job',
-            'In-Review' => 'Aplication In review',
-        ];
 
 
         return (new MailMessage)
             ->greeting("Dear {$this->name},")
             ->subject('Update on Job Application TEST')
-            ->line("Update on Job Application (**{$this->job_title}** at **{$this->company}**")
-            ->line("{$statusMessages[$this->status]}");
+            ->line("Update on Job Application, (**{$this->job_title}**.")
+            ->line("You application has been viewed by **{$this->company}**");
     }
 
     /**
