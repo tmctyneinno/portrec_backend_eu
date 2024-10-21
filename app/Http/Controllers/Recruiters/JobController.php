@@ -34,7 +34,7 @@ class JobController extends BaseController
         $start_date = $request->get("start_date") ?? Carbon::now()->toDateString();
         $end_date = $request->get("end_date") ??  Carbon::now()->addDays(30)->toDateString();
 
-        $query->whereBetween('deadline', [$start_date, $end_date]);
+        $query->whereBetween('created_at', [$start_date, $end_date]);
 
         if ($profile)
             $query->where('company_id', $profile->company_id);
