@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RecruiterAuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\Recruiters\{
     CvBuilderController,
@@ -50,6 +51,8 @@ Route::prefix("recruiter")->group(function () {
 
         // notifications
         Route::get("notifications/recruiter", [NotificationsController::class, "unread"]);
+
+        Route::get("dashboard/recruiter/info", [DashboardController::class, "recruiterInfo"]);
     });
 });
 

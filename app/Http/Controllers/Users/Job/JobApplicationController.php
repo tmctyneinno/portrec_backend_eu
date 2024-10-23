@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Users\Job;
 use App\Dtos\CoverLetterUploadDto;
 use App\Dtos\JobApplicationAnswerDto;
 use App\Dtos\JobApplicationDto;
+use App\Enums\JobApplicationStatus;
 use App\Http\Controllers\Base\BaseController;
 use App\Http\Controllers\Users\Trait\UserTrait;
 use App\Http\Requests\CoverLetterRequest;
@@ -104,12 +105,12 @@ class JobApplicationController extends BaseController
     {
         $data = [
             'ALL' => $this->queryAndMapApplications($request),
-            'IN_REVIEW' => $this->queryAndMapApplications($request, 'IN_REVIEW'),
-            'SHORTLISTED' => $this->queryAndMapApplications($request, 'SHORTLISTED'),
-            'OFFERED' => $this->queryAndMapApplications($request, 'OFFERED'),
-            'INTERVIEWING' => $this->queryAndMapApplications($request, 'INTERVIEWING'),
-            'REJECTED' => $this->queryAndMapApplications($request, 'REJECTED'),
-            'SHORTLISTED' => $this->queryAndMapApplications($request, 'SHORTLISTED'),
+            'IN_REVIEW' => $this->queryAndMapApplications($request, JobApplicationStatus::IN_REVIEW->value),
+            'SHORTLISTED' => $this->queryAndMapApplications($request, JobApplicationStatus::SHORTLISTED->value),
+            'OFFERED' => $this->queryAndMapApplications($request, JobApplicationStatus::OFFERED->value),
+            'INTERVIEWING' => $this->queryAndMapApplications($request, JobApplicationStatus::INTERVIEWING->value),
+            'REJECTED' => $this->queryAndMapApplications($request, JobApplicationStatus::REJECTED->value),
+            'SHORTLISTED' => $this->queryAndMapApplications($request, JobApplicationStatus::SHORTLISTED->value),
         ];
         return response()->json($data, 200);
     }

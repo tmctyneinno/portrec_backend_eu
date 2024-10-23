@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Interfaces\DashboardServiceInterface;
 use App\Interfaces\Users\CoverLetterServiceInterface;
 use App\Interfaces\Users\FileUploadServiceInterface;
 use App\Interfaces\Users\JobApplicationAnswerServiceInterface;
@@ -10,6 +11,7 @@ use App\Interfaces\Users\MessageServiceInterface;
 use App\Interfaces\Users\UserServiceInterface;
 use App\Services\Users\CloudinaryFileUploadService;
 use App\Services\Users\CoverLetterService;
+use App\Services\Users\DashboardService;
 use App\Services\Users\JobApplicationAnswerService;
 use App\Services\Users\JobApplicationService;
 use App\Services\Users\MessageService;
@@ -29,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
         app()->bind(CoverLetterServiceInterface::class, CoverLetterService::class);
         app()->bind(JobApplicationAnswerServiceInterface::class, JobApplicationAnswerService::class);
         app()->bind(MessageServiceInterface::class, MessageService::class);
+        app()->bind(DashboardServiceInterface::class, DashboardService::class);
     }
 
     /**

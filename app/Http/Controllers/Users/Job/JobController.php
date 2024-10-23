@@ -47,13 +47,13 @@ class JobController extends BaseController
             $similarJobs =  $query->inRandomOrder()->take(8)->get();
 
             // for devlopmwnt purpose only
-            $similarJobs->each(function ($data) {
-                $category = Industry::where("id", $data->sub_category->industry_id)->first(['name', 'id']);
-                $data->category = $category;
-                $data->company->country = Str::random(8);
-                $data->company->city = Str::random(8);
-                return $data;
-            });
+            // $similarJobs->each(function ($data) {
+            //     $category = Industry::where("id", $data->sub_category->industry_id)->first(['name', 'id']);
+            //     $data->category = $category;
+            //     $data->company->country = Str::random(8);
+            //     $data->company->city = Str::random(8);
+            //     return $data;
+            // });
 
             return $this->successMessage($similarJobs);
         }

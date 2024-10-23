@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\RecruiterAuthController;
 use App\Http\Controllers\Auth\UserAuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\Users\{
     CvBuilderController,
@@ -104,6 +105,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // notifications
     Route::get("notifications/user", [NotificationsController::class, "unread"]);
+
+    Route::get("dashboard/user/info", [DashboardController::class, "userInfo"]);
 });
 
 Route::get("skills", [SkillController::class, "getSkill"]);
