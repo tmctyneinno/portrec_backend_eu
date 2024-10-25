@@ -35,4 +35,9 @@ class Company extends Model
     {
         return $this->belongsTo(Industry::class, 'industry_id', 'id');
     }
+
+    public function avatar()
+    {
+        return $this->belongsTo(ProfilePicture::class, 'image', 'id');
+    }
 }

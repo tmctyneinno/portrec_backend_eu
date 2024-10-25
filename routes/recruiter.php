@@ -47,6 +47,7 @@ Route::prefix("recruiter")->group(function () {
         Route::get("company/info", [CompanyController::class, "companyInformation"]);
         // Route::post("company/create", [CompanyController::class, "createCompany"]);
         Route::post("company/update", [CompanyController::class, "updateCompany"]);
+        Route::post("company/image", [CompanyController::class, "uploadImage"]);
         Route::get("company/resources", [CompanyController::class, "companyResourses"]);
 
         // notifications
