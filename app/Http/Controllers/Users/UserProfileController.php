@@ -52,22 +52,7 @@ class UserProfileController extends BaseController
         return $this->successMessage("user updated succes", "profile updated", 201);
     }
 
-    // public function uploadProfileImage(Request $request, $id = "")
-    // {
-    //     $userId = $this->userID()->id;
 
-    //     $resp = FileUpload::uploadFile($request->file("img"), "profile_pic");
-
-    //     if ($resp instanceof Response) return $resp;
-
-    //     if (!$id) {
-    //         $upload = ProfilePicture::create(["user_id" => $userId, "image" => $resp]);
-    //         return $this->successMessage($upload);
-    //     }
-
-    //     ProfilePicture::where($this->condition($id, $userId))->update(["image" => $resp]);
-    //     return $this->successMessage($resp);
-    // }
 
     public function skill(Request $request)
     {
@@ -149,8 +134,12 @@ class UserProfileController extends BaseController
     {
         $userId =  $this->userID()->id;
         UserResume::where([
-            "id", "=", $id,
-            "user_id", "=",  $userId
+            "id",
+            "=",
+            $id,
+            "user_id",
+            "=",
+            $userId
         ])->delete();
         return $this->successMessage("", "", 204);
     }

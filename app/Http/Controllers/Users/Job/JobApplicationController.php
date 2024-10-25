@@ -75,43 +75,9 @@ class JobApplicationController extends BaseController
         return $this->uploadJobApplicationAnswers($request);
     }
 
-
-    public function queryAndMapApplications($request, $status = null)
-    {
-        $id = $this->userID()->id;
-        $start_date = $request->start_date ? Carbon::parse($request->start_date)->toDateString() : Carbon::now()->toDateString();
-        $end_date = $request->end_date ? Carbon::parse($request->end_date)->toDateString() : Carbon::now()->toDateString();
-
-        $query = JobApplication::with(['user', 'job'])
-            ->where('user_id', $id)
-            ->whereNotNull('status');
-
-        // Apply the status filter only if $status is not null
-        if (!is_null($status)) {
-            $query->where('status', $status);
-        }
-
-        $query = $query
-            ->whereBetween('applied_date', [$start_date, $end_date])
-            ->get()->map(function ($item) {
-                $item['company'] = $item->job->company;
-                return $item;
-            });
-
-        return $query;
-    }
-
     public function myApplications(Request $request)
     {
-        $data = [
-            'ALL' => $this->queryAndMapApplications($request),
-            'IN_REVIEW' => $this->queryAndMapApplications($request, JobApplicationStatus::IN_REVIEW->value),
-            'SHORTLISTED' => $this->queryAndMapApplications($request, JobApplicationStatus::SHORTLISTED->value),
-            'OFFERED' => $this->queryAndMapApplications($request, JobApplicationStatus::OFFERED->value),
-            'INTERVIEWING' => $this->queryAndMapApplications($request, JobApplicationStatus::INTERVIEWING->value),
-            'REJECTED' => $this->queryAndMapApplications($request, JobApplicationStatus::REJECTED->value),
-            'SHORTLISTED' => $this->queryAndMapApplications($request, JobApplicationStatus::SHORTLISTED->value),
-        ];
+        $data = $this->jobApplicationService->jobApplications($request);
         return response()->json($data, 200);
     }
 }

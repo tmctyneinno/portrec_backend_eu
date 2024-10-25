@@ -68,4 +68,23 @@ class ProfileController extends BaseController
         $user->save();
         return $this->successMessage("", "password update success");
     }
+
+
+
+    public function uploadProfileImage(Request $request, $id = "")
+    {
+        $userId = $this->userID()->id;
+
+        $resp = FileUpload::uploadFile($request->file("img"), "profile_pic");
+
+        // if ($resp instanceof Response) return $resp;
+
+        // if (!$id) {
+        //     $upload = ProfilePicture::create(["user_id" => $userId, "image" => $resp]);
+        //     return $this->successMessage($upload);
+        // }
+
+        // ProfilePicture::where($this->condition($id, $userId))->update(["image" => $resp]);
+        return $this->successMessage($resp);
+    }
 }

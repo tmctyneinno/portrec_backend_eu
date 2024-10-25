@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Models\JobApplication;
 use App\Models\JobOpening;
 use App\Notifications\GuestUserRegistrationNotification;
+use App\Notifications\JobApplicationSentNotification;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\UploadedFile;
@@ -102,6 +103,21 @@ class JobApplicationService implements JobApplicationServiceInterface
             $job->total_applied = $job->total_applied + 1;
             $job->save();
 
+
+            // send email to logged-in user
+            try {
+                $user = User::find($applicationData->user_id);
+                $user->notify(new JobApplicationSentNotification([
+                    'job_title' => $job->title,
+                    'name' => $user->name,
+                    'company' => $job->company->name,
+                ]));
+            } catch (\Throwable $th) {
+                // throw $th;   
+            }
+
+
+
             DB::commit();
             return $JobApplication;
         } catch (Throwable $e) {
@@ -131,5 +147,46 @@ class JobApplicationService implements JobApplicationServiceInterface
         } catch (ModelNotFoundException $e) {
             return null;
         }
+    }
+
+
+    private function queryAndMapApplications($request, $status = null)
+    {
+        $id = auth()->user()->id;
+        $start_date = $request->start_date ? Carbon::parse($request->start_date)->toDateString() : Carbon::now()->toDateString();
+        $end_date = $request->end_date ? Carbon::parse($request->end_date)->toDateString() : Carbon::now()->toDateString();
+
+        $query = JobApplication::with(['user', 'job'])
+            ->where('user_id', $id)
+            ->whereNotNull('status');
+
+        // Apply the status filter only if $status is not null
+        if (!is_null($status)) {
+            $query->where('status', $status);
+        }
+
+        $query = $query
+            ->whereBetween('applied_date', [$start_date, $end_date])
+            ->get()->map(function ($item) {
+                $item['company'] = $item->job->company;
+                return $item;
+            });
+
+        return $query;
+    }
+
+
+    public function jobApplications($request)
+    {
+        $data = [
+            'ALL' => $this->queryAndMapApplications($request),
+            'IN_REVIEW' => $this->queryAndMapApplications($request, JobApplicationStatus::IN_REVIEW->value),
+            'SHORTLISTED' => $this->queryAndMapApplications($request, JobApplicationStatus::SHORTLISTED->value),
+            'OFFERED' => $this->queryAndMapApplications($request, JobApplicationStatus::OFFERED->value),
+            'INTERVIEWING' => $this->queryAndMapApplications($request, JobApplicationStatus::INTERVIEWING->value),
+            'REJECTED' => $this->queryAndMapApplications($request, JobApplicationStatus::REJECTED->value),
+            'SHORTLISTED' => $this->queryAndMapApplications($request, JobApplicationStatus::SHORTLISTED->value),
+        ];
+        return $data;
     }
 }
