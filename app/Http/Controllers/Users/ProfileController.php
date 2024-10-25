@@ -26,6 +26,10 @@ class ProfileController extends BaseController
         $profile['skills'] = $profile->skill->each(function ($data) {
             $data["name"] = Skill::find($data['skill_id'])->name;
         });
+
+        $avatar = ProfilePicture::find($profile->profile->avatar);
+        $profile['avatar'] =  $avatar?->url ?? null;
+
         return $this->successMessage($profile, "profile updated", 201);
     }
 
@@ -71,20 +75,33 @@ class ProfileController extends BaseController
 
 
 
-    public function uploadProfileImage(Request $request, $id = "")
+    public function uploadProfileImage(Request $request)
     {
         $userId = $this->userID()->id;
+        $folder_path = 'profile_pics';
 
-        $resp = FileUpload::uploadFile($request->file("img"), "profile_pic");
+        $profile = UserProfile::where('user_id', $userId)->first();
 
-        // if ($resp instanceof Response) return $resp;
+        // delete existing photo
+        if ($profile->avatar) {
+            $profilePic = $profile->profilePic;
+            FileUpload::deleteFileInPath($profilePic->folder_path, $profilePic->name);
+        }
 
-        // if (!$id) {
-        //     $upload = ProfilePicture::create(["user_id" => $userId, "image" => $resp]);
-        //     return $this->successMessage($upload);
-        // }
+        // upload the new file and URL
+        $fileUploaded = FileUpload::uploadFileToPath($request, 'img', $folder_path);
+        $ProfilePic = ProfilePicture::updateOrCreate(
+            ['id' => $profile->avatar],
+            [
+                'name' => $fileUploaded['name'],
+                'folder_path' => $folder_path,
+                'url' => $fileUploaded['url'],
+            ]
+        );
 
-        // ProfilePicture::where($this->condition($id, $userId))->update(["image" => $resp]);
-        return $this->successMessage($resp);
+        // update avatar
+        $profile->update(["avatar" => $ProfilePic->id]);
+
+        return $this->successMessage($fileUploaded);
     }
 }
