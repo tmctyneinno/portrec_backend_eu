@@ -9,6 +9,7 @@ use App\Models\JobFunction;
 use App\Models\JobLevel;
 use App\Models\JobOpening;
 use App\Models\JobType;
+use App\Models\ProfilePicture;
 use App\Models\Qualification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -45,7 +46,14 @@ class JobController extends BaseController
             $this->filter($query, "industry", $industry);
             $this->filter($query, "level", $level);
 
+
             $allJobs = $query->paginate(10);
+
+            $allJobs->getCollection()->transform(function ($job) {
+                $avatar = ProfilePicture::find($job?->company?->image);
+                $job->image = $avatar?->url ?? $job->company->image;
+                return $job;
+            });
 
 
             // for development purpose only
@@ -80,14 +88,20 @@ class JobController extends BaseController
         if ($type === "latest") {
             $latestJobs = $query->take(8)->latest()->get();
 
-            // this line is for development purpose only
-            $latestJobs->each(function ($data) {
-                $category = Industry::where("id", $data->industry_id)->first(['name', 'id']);
-                $data->category = $category;
-                $data->company->country = Str::random(8);
-                $data->company->city = Str::random(8);
-                return $data;
+            $latestJobs->transform(function ($job) {
+                $avatar = ProfilePicture::find($job?->company?->image);
+                $job->image = $avatar?->url ?? $job->company->image;
+                return $job;
             });
+
+            // // this line is for development purpose only
+            // $latestJobs->each(function ($data) {
+            //     $category = Industry::where("id", $data->industry_id)->first(['name', 'id']);
+            //     $data->category = $category;
+            //     $data->company->country = Str::random(8);
+            //     $data->company->city = Str::random(8);
+            //     return $data;
+            // });
             return $this->successMessage($latestJobs);
         }
     }
@@ -156,6 +170,9 @@ class JobController extends BaseController
         $job = JobOpening::where("id", $id)->with(["questions", "industry", "jobType", "company"])->first();
         $job->applications = JobApplication::where('job_opening_id', $id)->pluck('user_id');
 
+        $avatar = ProfilePicture::find($job?->company?->image);
+        $job->image = $avatar?->url ?? $job->company->image;
+
         // $category = Industry::where("id", $job->sub_category->id)->first(['name', 'id']);
         // $job->category = $category;
         // $job->company->city = Str::random(8);
@@ -196,6 +213,14 @@ class JobController extends BaseController
             $query->where("location",  "like",  "%" . $location . "%");
 
         $search = $query->paginate(10);
+
+
+        $search->getCollection()->transform(function ($job) {
+            $avatar = ProfilePicture::find($job?->company?->image);
+            $job->image = $avatar?->url ?? $job->company->image;
+            return $job;
+        });
+
         return $this->successMessage($search);
     }
 }
