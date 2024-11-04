@@ -8,8 +8,8 @@ use App\Http\Controllers\Recruiters\Trait\RecruiterTrait;
 use App\Http\Requests\CompanyRequest;
 use App\Models\Company;
 use App\Models\CompanySize;
+use App\Models\FileUploadPath;
 use App\Models\Industry;
-use App\Models\ProfilePicture;
 use App\Models\RecruiterProfile;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -27,7 +27,7 @@ class CompanyController extends Controller
             return response()->json('No company found', 204);
         } else {
             $company = Company::with(['recruiters', 'jobs', 'sizes', 'industries'])->find($profile->company_id);
-            $avatar = ProfilePicture::find($company->image);
+            $avatar = FileUploadPath::find($company->image);
             $company['avatar'] =  $avatar?->url ?? null;
 
             return response()->json($company, 200);
@@ -87,7 +87,7 @@ class CompanyController extends Controller
 
         // upload the new file and URL
         $fileUploaded = FileUpload::uploadFileToPath($request, 'img', $folder_path);
-        $ProfilePic = ProfilePicture::updateOrCreate(
+        $ProfilePic = FileUploadPath::updateOrCreate(
             ['id' => $company->image],
             [
                 'name' => $fileUploaded['name'],

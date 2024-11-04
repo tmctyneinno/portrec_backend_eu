@@ -36,7 +36,7 @@ class JobApplicationController extends BaseController
     {
         try {
             $jobApplicationData = JobApplicationDto::fromRequest($request->validated());
-            $jobApplication = $this->jobApplicationService->saveJobApplication($jobApplicationData);
+            $jobApplication = $this->jobApplicationService->saveJobApplication($jobApplicationData, $request);
         } catch (\Exception $e) {
             return $this->errorMessage($e->getMessage(), Response::HTTP_SERVICE_UNAVAILABLE);
         }

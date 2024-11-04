@@ -38,6 +38,6 @@ class Company extends Model
 
     public function avatar()
     {
-        return $this->belongsTo(ProfilePicture::class, 'image', 'id');
+        return $this->belongsTo(FileUploadPath::class, 'image', 'id');
     }
 }

@@ -9,7 +9,7 @@ use App\Models\JobFunction;
 use App\Models\JobLevel;
 use App\Models\JobOpening;
 use App\Models\JobType;
-use App\Models\ProfilePicture;
+use App\Models\FileUploadPath;
 use App\Models\Qualification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -26,6 +26,8 @@ class JobController extends BaseController
                 $query->whereIn($pointer, explode(',', $delimeter));
             });
     }
+
+
     public function showJobs(Request $request, $type = null, $id = null)
     {
 
@@ -46,11 +48,10 @@ class JobController extends BaseController
             $this->filter($query, "industry", $industry);
             $this->filter($query, "level", $level);
 
-
             $allJobs = $query->paginate(10);
 
             $allJobs->getCollection()->transform(function ($job) {
-                $avatar = ProfilePicture::find($job?->company?->image);
+                $avatar = FileUploadPath::find($job?->company?->image);
                 $job->image = $avatar?->url ?? $job->company->image;
                 return $job;
             });
@@ -89,7 +90,7 @@ class JobController extends BaseController
             $latestJobs = $query->take(8)->latest()->get();
 
             $latestJobs->transform(function ($job) {
-                $avatar = ProfilePicture::find($job?->company?->image);
+                $avatar = FileUploadPath::find($job?->company?->image);
                 $job->image = $avatar?->url ?? $job->company->image;
                 return $job;
             });
@@ -170,7 +171,7 @@ class JobController extends BaseController
         $job = JobOpening::where("id", $id)->with(["questions", "industry", "jobType", "company"])->first();
         $job->applications = JobApplication::where('job_opening_id', $id)->pluck('user_id');
 
-        $avatar = ProfilePicture::find($job?->company?->image);
+        $avatar = FileUploadPath::find($job?->company?->image);
         $job->image = $avatar?->url ?? $job->company->image;
 
         // $category = Industry::where("id", $job->sub_category->id)->first(['name', 'id']);
@@ -216,7 +217,7 @@ class JobController extends BaseController
 
 
         $search->getCollection()->transform(function ($job) {
-            $avatar = ProfilePicture::find($job?->company?->image);
+            $avatar = FileUploadPath::find($job?->company?->image);
             $job->image = $avatar?->url ?? $job->company->image;
             return $job;
         });

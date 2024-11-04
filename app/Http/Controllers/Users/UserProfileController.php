@@ -9,7 +9,6 @@ use App\Models\AcquiredSkill;
 use App\Models\CoverLetter;
 use App\Models\Education;
 use App\Models\UserPortfolio;
-use App\Models\ProfilePicture;
 use App\Models\Skill;
 use App\Models\User;
 use App\Models\UserResume;

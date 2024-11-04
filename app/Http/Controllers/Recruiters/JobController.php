@@ -188,7 +188,7 @@ class JobController extends BaseController
         $JobApplication->save();
 
         // save Notification
-        NotificationsController::save($request, 'user', 'JOB', 'Job Application Status', 'There is an update on your job application', $request->job_application_id);
+        NotificationsController::save(null, $JobApplication->user_id, 'JOB', 'Job Application Status', 'There is an update on your job application', $request->job_application_id);
 
         // Send Email
         try {

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\UserProfile;
 
 class UserAuthController extends AuthController
 {
@@ -36,6 +37,13 @@ class UserAuthController extends AuthController
         try {
             $user = User::create($req);
             $user->password = $validation['password'];
+
+
+            // create user profile
+            UserProfile::create(array_merge(
+                $req,
+                ['user_id' => $user->id,]
+            ));
             // if ($user) {
             // event(new CreateUserProfile($user));
             // event(new RegistrationEmails($validation));
@@ -67,7 +75,5 @@ class UserAuthController extends AuthController
         return $this->successMessage(["token" => $token, 'user' => $login], "login success");
     }
 
-    public function changePassword(Request $request)
-    {
-    }
+    public function changePassword(Request $request) {}
 }

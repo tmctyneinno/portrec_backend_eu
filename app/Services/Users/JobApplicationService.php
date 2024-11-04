@@ -5,6 +5,7 @@ namespace App\Services\Users;
 use App\Dtos\JobApplicationDto;
 use App\Dtos\UserRegistrationDto;
 use App\Enums\JobApplicationStatus;
+use App\Helper\FileUpload;
 use App\Interfaces\Users\FileUploadServiceInterface;
 use App\Interfaces\Users\JobApplicationAnswerServiceInterface;
 use App\Interfaces\Users\JobApplicationServiceInterface;
@@ -30,9 +31,10 @@ class JobApplicationService implements JobApplicationServiceInterface
         public readonly JobApplicationAnswerServiceInterface $jobApplicationAnswerService,
     ) {}
 
-    public function saveJobApplication(JobApplicationDto $applicationData)
+    public function saveJobApplication(JobApplicationDto $applicationData, $request)
     {
 
+        $uploadFolder = 'resumes';
         try {
             DB::beginTransaction();
 
@@ -46,15 +48,13 @@ class JobApplicationService implements JobApplicationServiceInterface
                 [$user, $plainTextPassword] = $this->userService->saveUser($userData);
                 Auth::loginUsingId($user->id);
 
-                ### FIX CLOUDINARY ISSUE TO SAVE RESUME #####
-                // if ($applicationData->resume instanceof UploadedFile) {
-                //     [$fileName, $filePath, $publicId] = $this->fileUploadService->upload($applicationData->resume, 'resumes/' . $user->id);
-                //     $resume = $this->userService->saveResume($filePath, $fileName, $user, $publicId);
-                //     $applicationData->resume = $resume->id;
-                //     $applicationData->user_id = $user->id;
-                // }
-
-
+                // Saving Resume to Local
+                if ($applicationData->resume instanceof UploadedFile) {
+                    $fileUploaded = FileUpload::uploadFileToPath($request, 'resume',  $uploadFolder);
+                    // [$fileName, $filePath, $publicId] = $this->fileUploadService->upload($applicationData->resume, 'resumes/' . $user->id);
+                    $resume = $this->userService->saveResume($fileUploaded['url'], $fileUploaded['name'], $user, null);
+                    $applicationData->resume = $resume->id;
+                }
 
                 try {
                     $user->notify((new GuestUserRegistrationNotification($user, $plainTextPassword))
@@ -64,17 +64,14 @@ class JobApplicationService implements JobApplicationServiceInterface
                 }
             }
 
-            ### FIX CLOUDINARY ISSUE TO SAVE RESUME #####
-
-            // if ($applicationData->resume instanceof UploadedFile) {
-            //     $user = auth()->user();
-            //     [$fileName, $filePath, $publicId] = $this->fileUploadService->upload($applicationData->resume, 'resumes/' . $user->id);
-            //     $resume = $this->userService->saveResume($filePath, $fileName, $user, $publicId);
-            //     $applicationData->resume = $resume->id;
-            //     $applicationData->user_id = $user->id;
-            // }
-
-            $applicationData->resume = 1; //REMOVE AFTER FIX
+            // Saving Resume to Local
+            if ($applicationData->resume instanceof UploadedFile) {
+                $user = auth()->user();
+                $fileUploaded = FileUpload::uploadFileToPath($request, 'resume',  $uploadFolder);
+                // [$fileName, $filePath, $publicId] = $this->fileUploadService->upload($applicationData->resume, 'resumes/' . $user->id);
+                $resume = $this->userService->saveResume($fileUploaded['url'], $fileUploaded['name'], $user, null);
+                $applicationData->resume = $resume->id;
+            }
 
             CoverLetter::query()
                 ->create([

@@ -17,12 +17,12 @@ use Illuminate\Support\Facades\Validator;
 
 class NotificationsController extends BaseController
 {
-    public static function save(Request $request, $isUser = 'user', $notification_type = null, $title = null,  $message = null, $ref_id = null)
+    public static function save($recruiterId = null, $userId = null, $notification_type = null, $title = null,  $message = null, $ref_id = null)
     {
-        $id = $request->user()->id;
+        // $recuiter_id = $request->user()->id;
         $notification = Notification::create([
-            'user_id' => $isUser == 'user' ? $id : null,
-            'recruiter_id' => $isUser == 'user' ? null : $id,
+            'user_id' => $userId,
+            'recruiter_id' => $recruiterId,
             'notification_type' => $notification_type,
             'title' => $title,
             'message' => $message,
