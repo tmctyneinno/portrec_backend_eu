@@ -65,13 +65,6 @@ class FileUpload
 		}
 	}
 
-
-
-
-
-
-
-
 	public function ech()
 	{
 		return "word";

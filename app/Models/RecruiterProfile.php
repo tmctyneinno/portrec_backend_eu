@@ -21,6 +21,12 @@ class RecruiterProfile extends Model
         'country',
         'state',
         'address',
-        'description'
+        'description',
+        'avatar'
     ];
+
+    public function FileUploadPath()
+    {
+        return $this->belongsTo(FileUploadPath::class, 'avatar', 'id');
+    }
 }

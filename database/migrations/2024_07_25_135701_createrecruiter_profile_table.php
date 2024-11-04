@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('state')->nullable();
             $table->text("address")->nullable();
             $table->text('description')->nullable();
+            $table->integer('avatar')->nullable();
             $table->timestamp("deleted_at")->nullable();
             $table->timestamps();
         });

@@ -6,7 +6,7 @@ use App\Helper\FileUpload;
 use App\Http\Controllers\Base\BaseController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Recruiters\Trait\RecruiterTrait;
-use App\Models\ProfilePicture;
+use App\Models\FileUploadPath;
 use App\Models\Recruiter;
 use App\Models\RecruiterProfile;
 use App\Services\Users\CloudinaryFileUploadService;
@@ -22,6 +22,10 @@ class ProfileController extends BaseController
         $recruiter = $this->RecruiterID();
         $associations = ['profile'];
         $profile = Recruiter::with($associations)->find($recruiter->id);
+
+        $avatar = FileUploadPath::find($profile->profile->avatar);
+        $profile['avatar'] =  $avatar?->url ?? null;
+
         return $this->successMessage($profile, "profile updated", 201);
     }
 
@@ -61,5 +65,36 @@ class ProfileController extends BaseController
         $recruiter->password = Hash::make($request->newPassword);
         $recruiter->save();
         return $this->successMessage("", "password update success", 201);
+    }
+
+
+    public function uploadProfileImage(Request $request)
+    {
+        $id = $this->RecruiterID()->id;
+        $folder_path = 'profile_pics';
+
+        $profile = RecruiterProfile::where('recruiter_id', $id)->first();
+
+        // delete existing photo
+        if ($profile->avatar) {
+            $profilePic = $profile->FileUploadPath;
+            FileUpload::deleteFileInPath($profilePic->folder_path, $profilePic->name);
+        }
+
+        // upload the new file and URL
+        $fileUploaded = FileUpload::uploadFileToPath($request, 'img', $folder_path);
+        $FileUploadPath = FileUploadPath::updateOrCreate(
+            ['id' => $profile->avatar],
+            [
+                'name' => $fileUploaded['name'],
+                'folder_path' => $folder_path,
+                'url' => $fileUploaded['url'],
+            ]
+        );
+
+        // update avatar
+        $profile->update(["avatar" => $FileUploadPath->id]);
+
+        return $this->successMessage($fileUploaded);
     }
 }

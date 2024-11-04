@@ -26,7 +26,6 @@ trait RecruiterTrait
 
         if (!$profile) {
             return [
-                'company_id' => $request->company_id ?? null,
                 'recruiter_level_id' => $request->recruiter_level_id ?? null,
                 'image_path' => $request->image_path ?? null,
                 'phone' => $request->phone ?? null,
@@ -42,7 +41,6 @@ trait RecruiterTrait
         }
 
         return [
-            'company_id' => $request->company_id ?? $profile->company_id,
             'recruiter_level_id' => $request->recruiter_level_id ?? $profile->recruiter_level_id,
             'image_path' => $request->image_path ?? $profile->image_path,
             'phone' => $request->phone ?? $profile->phone,

@@ -6,7 +6,7 @@ use App\Helper\FileUpload;
 use App\Http\Controllers\Base\BaseController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Users\Trait\UserTrait;
-use App\Models\ProfilePicture;
+use App\Models\FileUploadPath;
 use App\Models\Skill;
 use App\Models\User;
 use App\Services\Users\CloudinaryFileUploadService;
@@ -27,7 +27,7 @@ class ProfileController extends BaseController
             $data["name"] = Skill::find($data['skill_id'])->name;
         });
 
-        $avatar = ProfilePicture::find($profile->profile->avatar);
+        $avatar = FileUploadPath::find($profile->profile->avatar);
         $profile['avatar'] =  $avatar?->url ?? null;
 
         return $this->successMessage($profile, "profile updated", 201);
@@ -84,13 +84,13 @@ class ProfileController extends BaseController
 
         // delete existing photo
         if ($profile->avatar) {
-            $profilePic = $profile->profilePic;
+            $profilePic = $profile->FileUploadPath;
             FileUpload::deleteFileInPath($profilePic->folder_path, $profilePic->name);
         }
 
         // upload the new file and URL
         $fileUploaded = FileUpload::uploadFileToPath($request, 'img', $folder_path);
-        $ProfilePic = ProfilePicture::updateOrCreate(
+        $FileUploadPath = FileUploadPath::updateOrCreate(
             ['id' => $profile->avatar],
             [
                 'name' => $fileUploaded['name'],
@@ -100,7 +100,7 @@ class ProfileController extends BaseController
         );
 
         // update avatar
-        $profile->update(["avatar" => $ProfilePic->id]);
+        $profile->update(["avatar" => $FileUploadPath->id]);
 
         return $this->successMessage($fileUploaded);
     }

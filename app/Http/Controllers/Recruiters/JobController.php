@@ -34,7 +34,10 @@ class JobController extends BaseController
         $start_date = $request->get("start_date") ?? Carbon::now()->toDateString();
         $end_date = $request->get("end_date") ??  Carbon::now()->addDays(30)->toDateString();
 
-        $query->whereBetween('created_at', [$start_date, $end_date]);
+        $startOfDay = Carbon::parse($start_date)->startOfDay();
+        $endOfDay = Carbon::parse($end_date)->endOfDay();
+
+        $query->whereBetween('created_at', [$startOfDay, $endOfDay]);
 
         if ($profile)
             $query->where('company_id', $profile->company_id);
@@ -116,6 +119,8 @@ class JobController extends BaseController
 
         $jobOpeningIdFilter = $request->job_opening_id;
 
+        $search = $request->search;
+
         $recruiter = RecruiterProfile::where('recruiter_id', $id)->first();
 
         $jobOpeningIds = JobOpening::where('company_id', $recruiter->company_id)->pluck('id');
@@ -126,6 +131,13 @@ class JobController extends BaseController
             $query->whereIn('job_opening_id', $jobOpeningIds);
         else
             $query->where('job_opening_id', $jobOpeningIdFilter);
+
+
+        if ($search) {
+            $query->whereHas('user', function ($query) use ($search) {
+                $query->where('name', 'like', "%{$search}%");
+            });
+        }
 
         $applicants = $query->paginate($request->rowsPerPage);
 

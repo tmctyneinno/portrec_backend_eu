@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('profile_pictures', function (Blueprint $table) {
+        Schema::create('file_upload_paths', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
             $table->string('folder_path')->nullable();
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('profile_pictures');
+        Schema::dropIfExists('file_upload_paths');
     }
 };
