@@ -13,6 +13,37 @@ class SkillSeeder extends Seeder
      */
     public function run(): void
     {
-        Skill::factory(20)->create();
+        $data = [
+
+            ['name' => 'Active Directory'],
+            ['name' => 'Analysis skills'],
+            ['name' => 'CSS'],
+            ['name' => 'Full-stack development'],
+            ['name' => 'Git'],
+            ['name' => 'GitHub'],
+            ['name' => 'HTML'],
+            ['name' => 'iOS'],
+            ['name' => 'JavaScript'],
+            ['name' => 'jQuery'],
+            ['name' => 'Laravel'],
+            ['name' => 'Leadership'],
+            ['name' => 'Linux'],
+            ['name' => 'Microsoft SQL Server'],
+            ['name' => 'MySQL'],
+            ['name' => 'Operating systems'],
+            ['name' => 'Organizational skills'],
+            ['name' => 'PHP'],
+            ['name' => 'PostgreSQL'],
+            ['name' => 'Project management'],
+            ['name' => 'SharePoint'],
+            ['name' => 'SQL'],
+            ['name' => 'Technical support'],
+            ['name' => 'Test cases'],
+            ['name' => 'VPN'],
+            ['name' => 'Vue.js'],
+            ['name' => 'Web development'],
+            ['name' => 'Windows']
+        ];
+       foreach($data as $ss) Skill::create($ss);
     }
 }
