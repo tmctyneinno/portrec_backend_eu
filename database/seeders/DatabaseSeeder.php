@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
             // UserSeeder::class,
             AvailabilitySeeder::class,
             // RecruiterSeeder::class,
-            JobFunctionSeeder::class,
+            JobIndustrySeeder::class,
             // CompanySeeder::class,
             CompanyTypeSeeder::class,
             // JobSeeder::class,

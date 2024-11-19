@@ -2,11 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Models\Industry;
 use App\Models\JobFunction;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class JobFunctionSeeder extends Seeder
+class JobIndustrySeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -45,6 +46,6 @@ class JobFunctionSeeder extends Seeder
         ['name' => 'Quality Control & Assurance'],
        ];
 
-       foreach($data as $dats)JobFunction::create($dats);
+       foreach($data as $dats)Industry::create($dats);
     }
 }
