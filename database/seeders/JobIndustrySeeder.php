@@ -47,5 +47,18 @@ class JobIndustrySeeder extends Seeder
        ];
 
        foreach($data as $dats)Industry::create($dats);
+
+
+       $industry = Industry::get();
+       if(count($industry) > 0) { 
+
+        foreach($industry as $dar) 
+        {
+            JobFunction::create([
+                'name' => $dar->name,
+                'industry_id' => $dar->id
+            ]);
+        }
+        }
     }
 }
