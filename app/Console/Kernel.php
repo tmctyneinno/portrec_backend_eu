@@ -13,6 +13,11 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->job(new \App\Jobs\UpdateTopCareerTable)->everyTenSeconds();
+
+        $schedule->call(function() {
+            logger('Scheduler executed at: ' . now());
+        });
     }
 
     /**

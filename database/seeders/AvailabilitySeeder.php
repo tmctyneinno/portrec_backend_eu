@@ -13,6 +13,17 @@ class AvailabilitySeeder extends Seeder
      */
     public function run(): void
     {
-        Availability::factory(5)->create();
+  
+        $data = [
+
+            ['name' => 'Immediately'],
+            ['name' => '1 Week'],
+            ['name' => '2 Weeks'],
+            ['name' => '3 Weeks'],
+            ['name' => '1 month'],
+            ['name' => 'more than 3 months'],
+
+        ];
+        foreach($data as $dd)Availability::create($dd);
     }
 }

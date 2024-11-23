@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('resume_id')->nullable()->constrained('user_resumes')->nullOnDelete();
+        Schema::create('user_ratings', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->unsigned();
+            $table->string('rating')->nullable();
+            $table->string('reviews')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -21,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('resume_id');
-        });
+        Schema::dropIfExists('user_ratings');
     }
 };

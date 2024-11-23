@@ -13,6 +13,18 @@ class HiringStageSeeder extends Seeder
      */
     public function run(): void
     {
-        HiringStage::factory(5)->create();
+        $data = [
+            ['name' => 'In-Review'],
+            ['name' => 'Interviewing'],
+            ['name' => 'Shortlisted'],
+            ['name' => 'Offered'],
+            ['name' => 'Rejected'],
+        ];
+
+
+        foreach($data as $dd)
+        {
+            HiringStage::create($dd);
+        }
     }
 }

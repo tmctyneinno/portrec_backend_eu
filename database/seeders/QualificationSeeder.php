@@ -14,6 +14,18 @@ class QualificationSeeder extends Seeder
      */
     public function run(): void
     {
-        Qualification::factory(10)->create();
+
+        $data = [
+            ['name' => 'Degree'],
+            ['name' => 'Diploma'],
+            ['name' => 'High School (S.S.C.E)'],
+            ['name' => 'MBA / MSc'],
+            ['name' => 'MBBS'],
+            ['name' => 'MPhil / PhD'],
+            ['name' => 'N.C.E'],
+            ['name' => 'OND'],
+        ];
+
+        foreach($data as $datas)Qualification::create($datas);
     }
 }

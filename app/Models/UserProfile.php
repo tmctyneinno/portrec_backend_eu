@@ -40,7 +40,8 @@ class UserProfile extends Model
         'location',
         'about_me',
         'skills',
-        'avatar'
+        'avatar',
+        'public_url'
     ];
 
 
