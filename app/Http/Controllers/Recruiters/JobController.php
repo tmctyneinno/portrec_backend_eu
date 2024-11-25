@@ -50,6 +50,18 @@ class JobController extends BaseController
         return $this->successMessage($allJobs);
     }
 
+    public function showJobsAll(Request $request)
+    {
+
+        $id = $this->RecruiterID()->id;
+        $profile = RecruiterProfile::where('recruiter_id', $id)->first();
+        $query = JobOpening::select('*', 'title AS label')->with(["recruiter:id,name,email,phone", "company", "jobType", "industry", "questions"]);
+        $query->where('company_id', $profile->company_id);
+
+        return $this->successMessage($query->get());
+    }
+
+
 
     public function postJobOpening(JobOpeningRequest $request)
     {

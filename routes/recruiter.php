@@ -34,6 +34,7 @@ Route::prefix("recruiter")->group(function () {
 
         // Jobs
         Route::post("job/list", [JobController::class, "showJobs"]);
+        Route::get("job/listAll", [JobController::class, "showJobsAll"]);
         Route::get("jobs/select", [JobController::class, "jobsSelect"]);
         Route::post("job/post", [JobController::class, "postJobOpening"]);
         Route::post("job/update/{id}", [JobController::class, "updateJobOpening"]);
