@@ -19,6 +19,3 @@ class UserRating extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }
-
-
-// * * * * * /usr/bin/php  /Applications/XAMPP/xamppfiles/htdocs/portrec_backend/artisan schedule:run >> /dev/null 2>&1
