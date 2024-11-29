@@ -24,6 +24,7 @@ class UserAuthController extends AuthController
         $req['role'] = "user";
         $req['phone'] = $validation['phone'];
 
+    
         if (User::where('email', $validation['email'])->exists()) {
 
             return response()->json('Email Already Taken', 203);
