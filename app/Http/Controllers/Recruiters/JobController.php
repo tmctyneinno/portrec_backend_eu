@@ -26,7 +26,6 @@ class JobController extends BaseController
     use RecruiterTrait;
     public function showJobs(Request $request)
     {
-
         $id = $this->RecruiterID()->id;
         $profile = RecruiterProfile::where('recruiter_id', $id)->first();
         $query = JobOpening::with(["recruiter:id,name,email,phone", "company", "jobType", "industry", "questions"]);
@@ -128,15 +127,10 @@ class JobController extends BaseController
     {
 
         $id = $this->RecruiterID()->id;
-
         $jobOpeningIdFilter = $request->job_opening_id;
-
         $search = $request->search;
-
         $recruiter = RecruiterProfile::where('recruiter_id', $id)->first();
-
         $jobOpeningIds = JobOpening::where('company_id', $recruiter->company_id)->pluck('id');
-
         $query = JobApplication::with(['user',  'job'])->whereNotNull('status');
 
         if (!$jobOpeningIdFilter)

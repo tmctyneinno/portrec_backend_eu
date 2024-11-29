@@ -18,9 +18,10 @@ Route::controller(JobApplicationController::class)->group(function () {
 });
 
 
-Route::controller(JobController::class)->group(function() {
+Route::controller(JobController::class)->group(function () {
     Route::get("all/{type?}/{id?}", "showJobs");
     Route::get("industries/{id?}",  "jobIndustries");
+    Route::get("skills/{id?}",  "jobSkills");
     Route::get("types/{id?}",  "jobTypes");
     Route::get("levels/{id?}", "jobLevels");
     Route::get("functions/{id?}",  "jobFunctions");
@@ -28,6 +29,4 @@ Route::controller(JobController::class)->group(function() {
     Route::get("salary/{from}/{to}", "jobSalaryRansge");
     Route::get("search", "jobSearch");
     Route::get("/{id}",  "jobDetails");
-    
-
 });

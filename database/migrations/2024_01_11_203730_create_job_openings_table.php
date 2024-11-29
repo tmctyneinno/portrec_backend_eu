@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('job_function_id')->nullable();
             $table->integer('industry_id')->nullable();
             $table->string("job_type_id")->constrained();
+            $table->string("job_url")->nullable();
             $table->string('title');
             $table->text("description");
             $table->text("required_skills");

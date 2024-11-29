@@ -11,6 +11,7 @@ use App\Models\JobOpening;
 use App\Models\JobType;
 use App\Models\FileUploadPath;
 use App\Models\Qualification;
+use App\Models\Skill;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -121,6 +122,20 @@ class JobController extends BaseController
         ]);
     }
 
+    public function jobSkills($id = null)
+    {
+        if (!$id) {
+            $skills = Skill::all();
+            return $this->successMessage($skills);
+        }
+        $skills = Skill::findorfail($id);
+        $jobs = $skills->jobs()->paginate(10);
+        return $this->successMessage([
+            "skills" => $skills,
+            "jobs" => $jobs
+        ]);
+    }
+
     public function jobQualifications($id = null)
     {
         // return 'ddddd';
@@ -128,7 +143,7 @@ class JobController extends BaseController
             $data = Qualification::select('id', 'name', 'status')->get();
             return $this->successMessage($data);
         }
-        $data = Industry::findorfail($id);
+        $data = Qualification::findorfail($id);
         $jobs = $data->jobs()->paginate(10);
         return $this->successMessage([
             "qualifications" => $data,
