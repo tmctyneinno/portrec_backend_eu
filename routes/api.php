@@ -25,11 +25,14 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    __DIR__.'/cvBuilder.php';
-    __DIR__.'/cvBuilder.php';
-    __DIR__.'/userMessages.php';
-    __DIR__.'/userNotification.php';
+    require __DIR__.'/cvBuilder.php';
+    require __DIR__.'/cvBuilder.php';
+    require  __DIR__.'/userMessages.php';
+    require  __DIR__.'/userNotification.php';
 });
 
-
+require __DIR__.'/user.php';
+require __DIR__.'/job.php';
 require __DIR__ . '/recruiter.php';
+require __DIR__.'/landing.php';
+

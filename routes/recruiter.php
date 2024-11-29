@@ -5,19 +5,8 @@ use App\Http\Controllers\Auth\RecruiterAuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\Recruiters\{
-    CvBuilderController,
-    FuncsController,
     JobController,
-    MessageController,
-    SkillController,
-    CoverLetterController,
-    EducationController,
-    JobApplicationController,
-    ResumeController,
-    WorkExperienceController,
-    PortolioController,
     ProfileController,
-    UserProfileController,
     CompanyController
 };
 
@@ -44,15 +33,11 @@ Route::prefix("recruiter")->group(function () {
         Route::post("job/application/status/update", [JobController::class, "jobApplicationStatusUpdate"]);
 
 
-
-        // company
         Route::get("company/info", [CompanyController::class, "companyInformation"]);
         // Route::post("company/create", [CompanyController::class, "createCompany"]);
         Route::post("company/update", [CompanyController::class, "updateCompany"]);
         Route::post("company/image", [CompanyController::class, "uploadImage"]);
         Route::get("company/resources", [CompanyController::class, "companyResourses"]);
-
-        // notifications
         Route::get("notifications/recruiter", [NotificationsController::class, "unread"]);
 
         Route::get("dashboard/recruiter/info", [DashboardController::class, "recruiterInfo"]);
