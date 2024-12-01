@@ -6,6 +6,7 @@ use App\Events\CreateUserProfile;
 use App\Events\RegistrationEmails;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
+use App\Models\AcquiredSkill;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -24,7 +25,7 @@ class UserAuthController extends AuthController
         $req['role'] = "user";
         $req['phone'] = $validation['phone'];
 
-    
+
         if (User::where('email', $validation['email'])->exists()) {
 
             return response()->json('Email Already Taken', 203);
@@ -39,12 +40,30 @@ class UserAuthController extends AuthController
             $user = User::create($req);
             $user->password = $validation['password'];
 
+            $id = $user->id;
 
-            // create user profile
+
+            // #### create user profile #####
             UserProfile::create(array_merge(
                 $req,
-                ['user_id' => $user->id,]
+                [
+                    'user_id' => $id,
+                    'industries_id' => $request->industry_id ?? null,
+                    'about_me' => $request->about_me ?? null,
+                    // 'desired_pay' => $request->desired_pay ?? null,
+                ]
             ));
+
+            // #### add skills ####
+            $skills = [];
+            collect($request->skills)
+                ->each(function ($sk) use (&$skills, &$id) {
+                    $dt =  ["skill_id" => $sk, "user_id" => $id, "created_at" => now(), "updated_at" => now()];
+                    array_push($skills, $dt);
+                });
+            AcquiredSkill::insert($skills);
+
+
             // if ($user) {
             // event(new CreateUserProfile($user));
             // event(new RegistrationEmails($validation));

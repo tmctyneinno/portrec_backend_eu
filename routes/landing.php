@@ -14,9 +14,8 @@ Route::controller(CompanyController::class)->group(function () {
     Route::get('company/details/{company_id}', 'CompanyDetails');
 });
 
-Route::controller(TopCareerController::class)->group(function() {
+Route::controller(TopCareerController::class)->group(function () {
 
-Route::get('/get/industry/careers/{id}', 'getIndustryCareer');
-Route::get('/get/all/careers/', 'getAllCareers');
-
+    Route::get('/get/industry/careers/{id}', 'getIndustryCareer');
+    Route::get('/get/all/careers/', 'getAllCareers');
 });
