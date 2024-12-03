@@ -3,7 +3,7 @@ namespace App\routes;
 
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\Recruiters\ProfileController;
+use App\Http\Controllers\Users\ProfileController;
 use App\Http\Controllers\Users\CoverLetterController;
 use App\Http\Controllers\Users\EducationController;
 use App\Http\Controllers\Users\PortolioController;

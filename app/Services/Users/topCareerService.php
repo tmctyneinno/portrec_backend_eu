@@ -9,7 +9,8 @@ class topCareerService
 
     public function fetchIndustryCareer($industries_id)
     {
-        $topCareer = TopCareer::where(['industry_id' => $industries_id])->query()->paginate(20);
+        
+        $topCareer = TopCareer::query()->where(['industry_id' => $industries_id])->paginate(20);
         if($topCareer)return  $topCareer;
         return false;
     }

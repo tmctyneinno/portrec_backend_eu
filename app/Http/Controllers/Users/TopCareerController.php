@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
 use App\Services\Users\topCareerService;
+use App\Http\Controllers\Base\BaseController;
 use Illuminate\Http\Request;
 
-class TopCareerController extends Controller
+class TopCareerController extends BaseController
 {
     public function __construct(
         public readonly topCareerService $topCareerService
@@ -19,11 +20,9 @@ class TopCareerController extends Controller
     {
         try{
             $career = $this->topCareerService->fetchIndustryCareer($industries_id);
-            if($career)
             return  $this->successMessage($career, 'success', 200);
-            }catch(\Exception $e)
-        {
-            $this->errorMessage($e->getMessage(), 302);
+            }catch(\Exception $e){
+           return $this->errorMessage($e->getMessage(), 302);
         }
     }
 
@@ -31,7 +30,6 @@ class TopCareerController extends Controller
     {
         try{
         $career = $this->topCareerService->fetchRandCareer();
-        if($career)
         return  $this->successMessage($career, 'success', 200);
         }catch(\Exception $e)
     {

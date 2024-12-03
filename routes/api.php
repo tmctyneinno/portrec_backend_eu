@@ -33,7 +33,6 @@ require __DIR__.'/landing.php';
 
 Route::middleware(['auth:sanctum'])->group(function () {
     require __DIR__.'/cvBuilder.php';
-    require __DIR__.'/cvBuilder.php';
     require  __DIR__.'/userMessages.php';
     require  __DIR__.'/userNotification.php';
 });
