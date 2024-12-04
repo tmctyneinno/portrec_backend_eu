@@ -59,7 +59,7 @@ Route::prefix("user")->group(function () {
             Route::delete("experience/{id}",  "deleteExperience");
     
         });
-        Route::get("dashboard/user/info", [DashboardController::class, "userInfo"]);
+        Route::get("dashboard/info", [DashboardController::class, "userInfo"]);
 
         Route::controller(PortolioController::class)->group(function() {
             Route::post("portfolio",  "portfolio");
