@@ -16,6 +16,10 @@ return new class extends Migration
 
             $table->longText('description')->nullable();
             $table->text('team_members')->nullable();
+            $table->string('password')->nullable();
+            $table->string('meeting_id')->nullable();
+            $table->string('join_url')->nullable();
+            $table->string('host_url')->nullable();
         });
     }
 
@@ -25,7 +29,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('interviews', function (Blueprint $table) {
-            $table->dropColumn(['description', 'team_members']);
+            $table->dropColumn(['description', 'team_members', 'password', 'join_url', 'host_id']);
         });
     }
 };

@@ -36,3 +36,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     require  __DIR__.'/userMessages.php';
     require  __DIR__.'/userNotification.php';
 });
+
+require __DIR__.'/interviewProcesses.php';
