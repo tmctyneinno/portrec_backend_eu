@@ -18,8 +18,8 @@ return new class extends Migration
             $table->text('team_members')->nullable();
             $table->string('password')->nullable();
             $table->string('meeting_id')->nullable();
-            $table->string('join_url')->nullable();
-            $table->string('host_url')->nullable();
+            $table->longText('join_url')->nullable();
+            $table->longText('host_url')->nullable();
             $table->text('message')->nullable();
         });
     }

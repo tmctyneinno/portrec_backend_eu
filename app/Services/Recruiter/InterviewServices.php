@@ -5,6 +5,7 @@ namespace App\Services\Recruiter;
 use App\Services\Recruiter\ClientBase;
 use App\Interfaces\Recruiter\InterviewInterface;
 use App\Models\Interview;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 
 class InterviewServices  implements InterviewInterface
@@ -75,7 +76,7 @@ class InterviewServices  implements InterviewInterface
             'assigned_to' => $meeting['host_email']??$request['host_email'],
             'interview_channel_id' => $request['channel'],
             'location' => $request->location,
-            'interview_date' => $meeting['start_time']??$request['start_time'],
+            'interview_date' => Carbon::parse($request->start_time)->format('Y-m-d H:i:s'),
             'status' => $meeting['status']??'active',
             'description' => $request['topic'],
             'password' => $meeting['password']??'',
