@@ -22,7 +22,7 @@ class ScheduleInterview extends Controller
 
     public function GenerateMeetingLink(Request $request)
     {
-        $meeting = $this->interview->GenerateMeetingLink($request->only(['topic','type', 'start_time', 'duration', 'UTC', 'token'],));
+        $meeting = $this->interview->GenerateMeetingLink($request);
         return $meeting;
     }
 }

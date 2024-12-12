@@ -9,16 +9,13 @@ use App\Http\Requests\JobOpeningRequest;
 use App\Models\JobApplication;
 use App\Models\JobOpening;
 use App\Models\JobOpeningQuestion;
-use App\Models\Notification;
 use App\Models\RecruiterProfile;
 use App\Models\Skill;
 use App\Models\User;
-use App\Models\UserProfile;
 use App\Notifications\JobApplicationStatusUpdateNotification;
 use App\Notifications\JobApplicationViewedNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class JobController extends BaseController
 {
@@ -35,28 +32,21 @@ class JobController extends BaseController
 
         $startOfDay = Carbon::parse($start_date)->startOfDay();
         $endOfDay = Carbon::parse($end_date)->endOfDay();
-
         $query->whereBetween('created_at', [$startOfDay, $endOfDay]);
-
         if ($profile)
             $query->where('company_id', $profile->company_id);
-
         if ($search)
             $query->where("title", "like", "%" .  $search . "%");
-
         $allJobs = $query->paginate($request->rowsPerPage);
-
         return $this->successMessage($allJobs);
     }
 
     public function showJobsAll(Request $request)
     {
-
         $id = $this->RecruiterID()->id;
         $profile = RecruiterProfile::where('recruiter_id', $id)->first();
         $query = JobOpening::select('*', 'title AS label')->with(["recruiter:id,name,email,phone", "company", "jobType", "industry", "questions"]);
         $query->where('company_id', $profile->company_id);
-
         return $this->successMessage($query->get());
     }
 
@@ -76,8 +66,6 @@ class JobController extends BaseController
                 ]));
             }
         }
-
-
         return response()->json($jobOpening, 201);
     }
 
@@ -87,8 +75,6 @@ class JobController extends BaseController
         $validatedData = $request->validated();
         $jobOpening = JobOpening::find($id);
         $jobOpening->update($validatedData);
-
-
         JobOpeningQuestion::where('job_opening_id', $id)->delete();
         if ($request->questions) {
             $questions = json_decode($request->questions);
@@ -137,8 +123,6 @@ class JobController extends BaseController
             $query->whereIn('job_opening_id', $jobOpeningIds);
         else
             $query->where('job_opening_id', $jobOpeningIdFilter);
-
-
         if ($search) {
             $query->whereHas('user', function ($query) use ($search) {
                 $query->where('name', 'like', "%{$search}%");
@@ -146,7 +130,6 @@ class JobController extends BaseController
         }
 
         $applicants = $query->paginate($request->rowsPerPage);
-
         return $this->successMessage($applicants);
     }
 
@@ -154,8 +137,6 @@ class JobController extends BaseController
     function jobApplicationDetails($jobApplicationId)
     {
         $jobApplication = JobApplication::with(['answers', 'cover_letter', 'resume',])->find($jobApplicationId);
-
-        // update is_viewed
         if ($jobApplication->is_viewed == 0) {
             try {
                 $user = User::find($jobApplication->user_id);

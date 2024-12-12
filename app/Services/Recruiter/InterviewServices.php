@@ -5,7 +5,6 @@ namespace App\Services\Recruiter;
 use App\Services\Recruiter\ClientBase;
 use App\Interfaces\Recruiter\InterviewInterface;
 use App\Models\Interview;
-use App\Models\ZoomClient;
 use GuzzleHttp\Client;
 
 class InterviewServices  implements InterviewInterface
@@ -38,42 +37,52 @@ class InterviewServices  implements InterviewInterface
 
     public function GenerateMeetingLink($request)
     {
-        $token = $request['token'];
-        $request['settings'] =
+        if($request->meeting_type == 'online'){
+        $token = $this->GenerateToken();
+        if($token)
+        {
+            $tokens = $token->access_token;
+        $data = $request->only(['topic','type', 'start_time', 'duration', 'UTC']);
+        $data['settings'] =
             [
                 'host_video' => true,
                 'participant_video' => true,
             ];
-
         $meeting =  $this->client->post('https://api.zoom.us/v2/users/me/meetings', [
             'headers' => [
-                'Authorization' => "Bearer $token",
+                'Authorization' => "Bearer $tokens",
                 'Content-Type'  => 'application/json',
             ],
-            'body' => json_encode($request),
+            'body' => json_encode($data),
         ]);
-
-        if ($meeting) {
-            Interview::create([
-                'user_id' => $request['user_id'],
-                'recruiter_id' => auth('recruiter')->id,
-                'job_application_id' => $request['job_application_id'],
-                'assigned_to' => $meeting['host_email'],
-                'interview_channel_id' => $request['channel'],
-                'location' => $request['location'],
-                'interview_date' => $request['start_time'],
-                'status' => $meeting['status'],
-                'description' => $request['topic'],
-                'password' => $meeting['password'],
-                'meeting_id' => $meeting['id'],
-                'join_url' => $meeting['join_url'],
-                'host_url' => $meeting['start_url']
-            ]);
+        if($request->meeting_type == 'online' &&  isset($meeting))
+        $meeting = json_decode($meeting->getBody(), true);
+        self::UpdateMeetingInfo($request, $meeting);
         }
-
-        return $meeting;
+    }else
+    {
+       $this->UpdateMeetingInfo($request, ''); 
+    }
+    return false;
     }
 
 
-    public function UpdateMeetingInfo() {}
+    public function UpdateMeetingInfo($request, $meeting) {
+        Interview::create([
+            'user_id' => $request->user_id,
+            'recruiter_id' => 1,
+            'job_application_id' => $request->job_application_id,
+            'assigned_to' => $meeting['host_email']??$request['host_email'],
+            'interview_channel_id' => $request['channel'],
+            'location' => $request->location,
+            'interview_date' => $meeting['start_time']??$request['start_time'],
+            'status' => $meeting['status']??'active',
+            'description' => $request['topic'],
+            'password' => $meeting['password']??'',
+            'meeting_id' => $meeting['id']??'',
+            'join_url' => $meeting['join_url']??'',
+            'host_url' => $meeting['start_url']??''
+        ]);
+
+    }
 }

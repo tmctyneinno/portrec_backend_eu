@@ -6,6 +6,6 @@ interface InterviewInterface
     
     public function GenerateToken();
     public function GenerateMeetingLink($request);
-    public function UpdateMeetingInfo();
+    public function UpdateMeetingInfo($request, $data);
 
 }

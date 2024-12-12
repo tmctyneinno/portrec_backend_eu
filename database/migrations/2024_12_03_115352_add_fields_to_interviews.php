@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('meeting_id')->nullable();
             $table->string('join_url')->nullable();
             $table->string('host_url')->nullable();
+            $table->text('message')->nullable();
         });
     }
 
@@ -29,7 +30,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('interviews', function (Blueprint $table) {
-            $table->dropColumn(['description', 'team_members', 'password', 'join_url', 'host_id']);
+            $table->dropColumn(['description', 'team_members', 'password', 'join_url', 'host_id', 'message', 'meeting_id']);
         });
     }
 };
