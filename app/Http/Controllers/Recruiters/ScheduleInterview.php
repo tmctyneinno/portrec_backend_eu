@@ -25,4 +25,9 @@ class ScheduleInterview extends Controller
         $meeting = $this->interview->GenerateMeetingLink($request);
         return $meeting;
     }
+
+    public function AcceptInterview(Request $params)
+    {
+        return $params;
+    }
 }

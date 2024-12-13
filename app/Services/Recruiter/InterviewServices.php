@@ -4,9 +4,11 @@ namespace App\Services\Recruiter;
 
 use App\Services\Recruiter\ClientBase;
 use App\Interfaces\Recruiter\InterviewInterface;
+use App\Mail\InterviewInvitationMail;
 use App\Models\Interview;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Mail;
 
 class InterviewServices  implements InterviewInterface
 {
@@ -38,12 +40,15 @@ class InterviewServices  implements InterviewInterface
 
     public function GenerateMeetingLink($request)
     {
+
+        $users =  getUserAttributes($request->user_id);
         if($request->meeting_type == 'online'){
         $token = $this->GenerateToken();
         if($token)
         {
             $tokens = $token->access_token;
-        $data = $request->only(['topic','type', 'start_time', 'duration', 'UTC']);
+        $data = $request->only(['topic', 'start_time', 'duration', 'UTC']);
+        $data['type'] = 2;
         $data['settings'] =
             [
                 'host_video' => true,
@@ -58,22 +63,27 @@ class InterviewServices  implements InterviewInterface
         ]);
         if($request->meeting_type == 'online' &&  isset($meeting))
         $meeting = json_decode($meeting->getBody(), true);
-        self::UpdateMeetingInfo($request, $meeting);
+        $emailData = self::UpdateMeetingInfo($request, $meeting);
+        $emailData['user'] = $users;
+        Mail::to($users->email)->send(new InterviewInvitationMail($emailData));
         }
     }else
     {
-       $this->UpdateMeetingInfo($request, ''); 
+      $data = $this->UpdateMeetingInfo($request, ''); 
+      $data['user'] = $users;
+
+      Mail::to($users->email)->send(new InterviewInvitationMail($data));
     }
     return false;
     }
 
 
     public function UpdateMeetingInfo($request, $meeting) {
-        Interview::create([
+      return  Interview::create([
             'user_id' => $request->user_id,
             'recruiter_id' => 1,
             'job_application_id' => $request->job_application_id,
-            'assigned_to' => $meeting['host_email']??$request['host_email'],
+            'assigned_to' => $meeting['host_email']??'',
             'interview_channel_id' => $request['channel'],
             'location' => $request->location,
             'interview_date' => Carbon::parse($request->start_time)->format('Y-m-d H:i:s'),
@@ -82,7 +92,8 @@ class InterviewServices  implements InterviewInterface
             'password' => $meeting['password']??'',
             'meeting_id' => $meeting['id']??'',
             'join_url' => $meeting['join_url']??'',
-            'host_url' => $meeting['start_url']??''
+            'host_url' => $meeting['start_url']??'',
+            'message' => $request->message
         ]);
 
     }

@@ -1,4 +1,6 @@
 <?php
+
+use App\Http\Controllers\Recruiters\ScheduleInterview;
 use App\Http\Controllers\Users\{
     SkillController,
     CompanyController
@@ -37,4 +39,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     require  __DIR__.'/userNotification.php';
 });
 
+Route::get('candidate/accept/{params?}', [ScheduleInterview::class, 'AcceptInterview']);
 require __DIR__.'/interviewProcesses.php';
