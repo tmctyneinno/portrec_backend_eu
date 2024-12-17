@@ -7,7 +7,8 @@ use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\Recruiters\{
     JobController,
     ProfileController,
-    CompanyController
+    CompanyController,
+    ScheduleInterview
 };
 
 Route::prefix("recruiter")->group(function () {

@@ -71,7 +71,6 @@ class InterviewServices  implements InterviewInterface
     {
       $data = $this->UpdateMeetingInfo($request, ''); 
       $data['user'] = $users;
-
       Mail::to($users->email)->send(new InterviewInvitationMail($data));
     }
     return false;
@@ -96,5 +95,10 @@ class InterviewServices  implements InterviewInterface
             'message' => $request->message
         ]);
 
+    }
+
+    public function getAllInterviews()
+    {
+        return Interview::where('recruiter_id', auth('recruiter')->user()?->id)->get();
     }
 }

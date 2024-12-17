@@ -30,4 +30,10 @@ class ScheduleInterview extends Controller
     {
         return $params;
     }
+
+    public function getAllInterviews()
+    {
+        $interview = $this->interview->getAllInterviews();
+        return $interview;
+    }
 }
