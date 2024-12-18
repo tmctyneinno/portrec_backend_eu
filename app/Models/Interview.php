@@ -24,4 +24,10 @@ class Interview extends Model
     {
         return $this->belongsTo(Recruiter::class, 'id', 'recruiter_id');
     }
+
+    public function getJobs()
+    {
+        return $this->belongsTo(JobApplication::class, 'id', 'job_application_id');
+    }
 }
+
