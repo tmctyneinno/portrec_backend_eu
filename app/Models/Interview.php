@@ -17,17 +17,17 @@ class Interview extends Model
 
     public function getUser()
     {
-        return $this->belongsTo(User::class, 'id', 'user_id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function getRecruiter()
     {
-        return $this->belongsTo(Recruiter::class, 'id', 'recruiter_id');
+        return $this->belongsTo(Recruiter::class, 'recruiter_id', 'id');
     }
 
     public function getJobs()
     {
-        return $this->belongsTo(JobApplication::class, 'id', 'job_application_id')->with('job');
+        return $this->belongsTo(JobApplication::class, 'job_application_id','id',)->with('job');
     }
 }
 

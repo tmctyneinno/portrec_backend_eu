@@ -118,9 +118,10 @@ class InterviewServices  implements InterviewInterface
     private function sendEmailToRecruiters($request)
     {
     
-        $emailData = [
-            
-        ];
+      foreach($request->team_members as $team)
+      {
+        
+      } 
 
     }
 }

@@ -46,7 +46,7 @@ class ScheduleInterview extends Controller
         $meeting = Interview::where('id', $meeting_id)->first();
         if($meeting)
         {
-             $meeting->with('getUser','getRecruiter', 'getJobs');
+             $meeting->load('getUser','getRecruiter', 'getJobs');
              return response()->json($meeting, HttpStatusCode::OK);  
         }
     return response()->json(['error' => 'request failed'], 302);
