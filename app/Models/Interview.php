@@ -27,7 +27,7 @@ class Interview extends Model
 
     public function getJobs()
     {
-        return $this->belongsTo(JobApplication::class, 'id', 'job_application_id');
+        return $this->belongsTo(JobApplication::class, 'id', 'job_application_id')->with('job');
     }
 }
 
