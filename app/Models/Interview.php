@@ -14,4 +14,14 @@ class Interview extends Model
     [
         'candidate_approved' => 'nullable'
     ];
+
+    public function getUser()
+    {
+        return $this->belongsTo(User::class, 'id', 'user_id');
+    }
+
+    public function getRecruiter()
+    {
+        return $this->belongsTo(Recruiter::class, 'id', 'recruiter_id');
+    }
 }

@@ -31,7 +31,7 @@
                             <td class="px-3 px-sm-1 pb-2" style="padding-bottom: 12px !important;padding-right: 44px !important;padding-left: 44px !important;">
                                 <p style="margin: 0 !important;">{!! $data['message'] !!}</p>
                                 <p style="margin-top: 0;"> Date: {{date('D d M, Y', strtotime($data['interview_date']))}}</p>
-                                <p style="margin-top: 0;"> Time: {{date('H:ia', strtotime($data['interview_date']))}}</p>
+                                <p style="margin-top: 0;"> Time: {{date('h:ia', strtotime($data['interview_date']))}}</p>
                                 <p style="margin-top: 0;">Duration: {{$data['duration']}}</p>
                                 {{-- <p style="margin-top: 0;margin-bottom: 16px;">Interview Location: {{$data['location']}}</p> --}}
                                 <br>

@@ -63,6 +63,7 @@ class InterviewServices  implements InterviewInterface
         $meeting = json_decode($meeting->getBody(), true);
         $emailData = self::UpdateMeetingInfo($request, $meeting);
         $emailData['user'] = $users;
+        $emailData['duraction'] = $meeting['duration'];
         Mail::to($users->email)->send(new InterviewInvitationMail($emailData));
         return $emailData;
         }catch(\Exception $e)
@@ -110,5 +111,14 @@ class InterviewServices  implements InterviewInterface
         $interview = Interview::whereId($request->interview_id)->first();
         if($interview)$interview->update(['candidate_approved' => $request->candidate_approved]);
         return $interview;
+    }
+
+    private function sendEmailToRecruiters($request)
+    {
+    
+        $emailData = [
+            
+        ];
+
     }
 }
