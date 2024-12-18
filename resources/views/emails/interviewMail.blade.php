@@ -35,7 +35,7 @@
                                 <p style="margin-top: 0;">Duration: {{$data['duration']}}</p>
                                 {{-- <p style="margin-top: 0;margin-bottom: 16px;">Interview Location: {{$data['location']}}</p> --}}
                                 <br>
-                                    <a href="{{url('api/candidate/accept/view/?jobid='.$data['job_application_id'])}}"
+                                    <a href="{{url('candidate/accept/view/?jobid='.base64_encode($data['job_application_id']))}}"
                                         target="_blank" class="email-btn"
                                     style="background-color: #303e67; border-radius: 4px;color: #fff !important;display: inline-block;font-size: 13px;font-weight: 600;line-height: 44px;text-align: center;text-decoration: none;text-transform: uppercase;padding: 0 30px;">Click Here Accept Interview</a>
                                 </td>

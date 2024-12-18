@@ -57,7 +57,6 @@ Route::prefix("user")->group(function () {
             Route::post("experience",  "workExperience");
             Route::put("experience/{id}","updateExperience");
             Route::delete("experience/{id}",  "deleteExperience");
-    
         });
         Route::get("dashboard/info", [DashboardController::class, "userInfo"]);
 
@@ -69,6 +68,5 @@ Route::prefix("user")->group(function () {
             Route::post("portfolio/image", "uploadProjectImage");
             Route::delete("portfolio/image/{id}",  "deletePortfolioImage");
         });
-      
     });
 });

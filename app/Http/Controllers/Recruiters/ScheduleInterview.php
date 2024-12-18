@@ -26,14 +26,15 @@ class ScheduleInterview extends Controller
         return $meeting;
     }
 
-    public function AcceptInterview(Request $params)
+    public function AcceptInterview(Request $request)
     {
-        return $params;
+        $interview = $this->interview->updateInterview($request);
+        return $interview;
     }
 
     public function getAllInterviews()
     {
         $interview = $this->interview->getAllInterviews();
-        return $interview;
+       return response()->json($interview, 200);
     }
 }

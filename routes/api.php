@@ -39,5 +39,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     require  __DIR__.'/userNotification.php';
 });
 
-Route::get('candidate/accept/{params?}', [ScheduleInterview::class, 'AcceptInterview']);
+Route::post('candidate/accept/', [ScheduleInterview::class, 'AcceptInterview']);
 require __DIR__.'/interviewProcesses.php';

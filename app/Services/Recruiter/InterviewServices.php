@@ -40,12 +40,10 @@ class InterviewServices  implements InterviewInterface
 
     public function GenerateMeetingLink($request)
     {
-
         $users =  getUserAttributes($request->user_id);
         if($request->meeting_type == 'online'){
+        try{
         $token = $this->GenerateToken();
-        if($token)
-        {
             $tokens = $token->access_token;
         $data = $request->only(['topic', 'start_time', 'duration', 'UTC']);
         $data['type'] = 2;
@@ -61,17 +59,21 @@ class InterviewServices  implements InterviewInterface
             ],
             'body' => json_encode($data),
         ]);
-        if($request->meeting_type == 'online' &&  isset($meeting))
+        // if($request->meeting_type == 'online' &&  isset($meeting)){
         $meeting = json_decode($meeting->getBody(), true);
         $emailData = self::UpdateMeetingInfo($request, $meeting);
         $emailData['user'] = $users;
         Mail::to($users->email)->send(new InterviewInvitationMail($emailData));
+        return $emailData;
+        }catch(\Exception $e)
+        {
+            return false;
         }
-    }else
-    {
+    }else{
       $data = $this->UpdateMeetingInfo($request, ''); 
       $data['user'] = $users;
       Mail::to($users->email)->send(new InterviewInvitationMail($data));
+      return $data;
     }
     return false;
     }
@@ -99,6 +101,14 @@ class InterviewServices  implements InterviewInterface
 
     public function getAllInterviews()
     {
-        return Interview::where('recruiter_id', auth('recruiter')->user()?->id)->get();
+        return Interview::where('recruiter_id', 1)->get();
+    }
+
+
+    public function updateInterview($request)
+    {
+        $interview = Interview::whereId($request->interview_id)->first();
+        if($interview)$interview->update(['candidate_approved' => $request->candidate_approved]);
+        return $interview;
     }
 }
