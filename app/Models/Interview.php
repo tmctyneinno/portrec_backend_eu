@@ -29,5 +29,10 @@ class Interview extends Model
     {
         return $this->belongsTo(JobApplication::class, 'job_application_id','id',)->with('job');
     }
+
+    public function company()
+    {
+        return $this->hasOneThrough(Company::class, RecruiterProfile::class, 'recruiter_id', 'id', 'recruiter_id','company_id');
+    }
 }
 
