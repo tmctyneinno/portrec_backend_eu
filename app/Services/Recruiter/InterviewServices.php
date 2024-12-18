@@ -95,7 +95,9 @@ class InterviewServices  implements InterviewInterface
             'meeting_id' => $meeting['id']??'',
             'join_url' => $meeting['join_url']??'',
             'host_url' => $meeting['start_url']??'',
-            'message' => $request->message
+            'message' => $request->message,
+            'team_members' => $request->team_members,
+            'meeting_type' => $request->meeting_type
         ]);
 
     }

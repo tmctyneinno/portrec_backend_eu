@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('candidate_approved')->default(0);
             $table->longText('join_url')->nullable();
             $table->longText('host_url')->nullable();
+            $table->longText('meeting_type')->nullable();
             $table->text('message')->nullable();
         });
     }
@@ -31,7 +32,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('interviews', function (Blueprint $table) {
-            $table->dropColumn(['description', 'team_members', 'password', 'join_url', 'host_url', 'message', 'meeting_id', 'candidate_approved']);
+            $table->dropColumn(['description', 'team_members', 'password', 'join_url', 'host_url', 'message', 'meeting_id', 'candidate_approved', 'meeting_type']);
         });
     }
 };
