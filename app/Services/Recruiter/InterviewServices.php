@@ -108,7 +108,9 @@ class InterviewServices  implements InterviewInterface
 
     public function getAllInterviews()
     {
-        return Interview::where('recruiter_id', 1)->get();
+        $interview = Interview::where('recruiter_id', 1)->get();
+        $interview->load('getUser','getRecruiter', 'getJobs', 'company');
+        return $interview;
     }
 
 
