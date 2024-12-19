@@ -1,106 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Portrec Resourcing</title>
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
-        <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Candidate Interview </title>
 
-        <!--[if mso]><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch><o:AllowPNG/></o:OfficeDocumentSettings></xml><![endif]-->
-    </head>
+  <style>
+    /* General reset */
+* {
+  margin: 5px;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
 
-    <body>
-    <table class="email-wraper" style="background-color:#f5f6fa;font-size:14px;line-height:22px;font-weight:400; font-family:Poppins, sans-serif;color:#8094ae;width:100%">
-    <tbody>
-        <tr>
-            <td class="py-5" style="padding-top: 44px !important;padding-bottom: 44px !important;">
-                <table class="email-header" style="width:100%;max-width:620px;margin:0 auto">
-                    <tbody>
-                        <tr>
-                            <td class="text-center pb-4" style="text-align: center !important;padding-bottom: 24px !important;">
-                                    <img class="email-logo" src="" alt="logo" style="height: 40px;max-width: 100%;vertical-align:middle;">
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <table class="email-body" style="width: 96%;max-width: 620px;margin: 0 auto;background-color: #fff;">
-                    <tbody>
-                        <tr>
-                            <td class="px-3 px-sm-5 pt-3 pt-sm-5 pb-3" style="padding-bottom: 16px !important;padding-top: 44px !important;padding-right: 44px !important;padding-left: 44px !important;">
-                                <h2 class="email-heading" style="font-size: 18px;color: #303e67;font-weight: 600;margin: 0;line-height: 1.4;">Welcome {{$data['fullName']}}</h2>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-3 px-sm-5 pb-2" style="padding-bottom: 12px !important;padding-right: 44px !important;padding-left: 44px !important;">
-                                <!-- <p style="margin-top: 0;margin-bottom: 16px;">Hi Ishtiyak,</p> -->
-                                <p style="margin-top: 0;margin-bottom: 16px;">Thank you for creating an account with the number one recruiting company in Nigeria.</p>
-                                <p style="margin-top: 0;margin-bottom: 16px;">Your account have been created successfully you can use the credentials below to access your account.</p>
-                                <p style="margin: 0 !important;">Email: <span><strong>{{$data['email']}}</strong></span></p>
-                                <p style="margin-top: 0;margin-bottom: 24px !important;">Default Password: <span><strong>{{$data['password']}}</strong></span></p>
-                                <a href="https://oysterchecks.com/login" target="_blank" class="email-btn" style="background-color: #303e67; border-radius: 4px;color: #fff !important;display: inline-block;font-size: 13px;font-weight: 600;line-height: 44px;text-align: center;text-decoration: none;text-transform: uppercase;padding: 0 30px;">Login Here</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-3 px-sm-5 pt-4" style="padding-top: 24px !important;padding-right: 44px !important;padding-left: 44px !important;">
-                                <h4 class="email-heading-s2" style="font-size: 16px;color: #526484;font-weight: 600;margin: 0;text-transform: uppercase;margin-bottom: 10px;">or</h4>
-                                <p style="margin-top: 0;margin-bottom: 0;">If the button above does not work, paste this link into your web browser:</p>
-                                <a href="https://oysterchecks.com/login" class="link-block" style="color:#303e67;word-break:break-all;display:block"></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-3 px-sm-5 pt-4 pb-3 pb-sm-5" style="padding-bottom: 44px !important;padding-right: 44px !important;padding-left: 44px !important;padding-top: 24px !important;">
-                                <p style="margin-top: 0;margin-bottom: 0;">If you have any queries, please contact our support team at:</p>
-                                <a href="mailto:support@oysterchecks.com" class="link-block" style="color:#303e67;word-break:break-all;display:block">support@portrec.ng</a>
-                                <p class="email-note" style="margin: 0; margin-top:16px;font-size: 13px;line-height: 22px;"><strong>P.S.</strong> This is an automatically generated email, please do not reply to this email.</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-3 px-sm-5 pt-4 pb-3 pb-sm-5" style="padding-bottom: 44px !important;padding-right: 44px !important;padding-left: 44px !important;">
-                                <p style="margin-top: 0;margin-bottom: 0.16px;">Kind Regards,</p>
-                                <p class="email-note" style="margin: 0;line-height: 22px;">The Portrec Team</p>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <table class="email-footer" style="width:100%;max-width:480px;margin:0 auto">
-                    <tbody>
-                        <tr>
-                            <td class="text-center pt-4" style="text-align: center !important;padding-top: 24px !important;">
-                                <p class="fs-12px pt-4" style="margin-top: 0;font-size: 12px; padding:0;">
-                                    You are receiving this email beacause you requested to be registered on our platform 
-                                    <a style="color:#854fff;word-break:break-all">https://portrec.ng</a>
-                                    . Please ignore this email, if you're not the intended recipient.
-                                </p>
-                                {{-- <div class="email-social" style=" margin-top: 0;margin-bottom: 16px; padding-top: 24px !important;">
-                                    <div style="display: inline-block;padding: 4px;">
-                                        <a href="" style="color:#854fff;word-break:break-all">
-                                            <img src="https://res.cloudinary.com/the-morgans-consortium/image/upload/v1663080328/oysterchecks/emails/facebook_w0moeb.png" height="25" width="25" alt="Oysterchecks Facebook">
-                                        </a>
-                                    </div>
-                                    <div style="display: inline-block;padding: 4px;">
-                                        <a href="" style="color:#854fff;word-break:break-all">
-                                            <img src="https://res.cloudinary.com/the-morgans-consortium/image/upload/v1663080328/oysterchecks/emails/instagram_wxalc4.png" height="25" width="25" alt="Oysterchecks Instagram">
-                                        </a>
-                                    </div>
-                                    <div style="display: inline-block;padding: 4px;">
-                                        <a href="" style="color:#854fff;word-break:break-all">
-                                            <img src="https://res.cloudinary.com/the-morgans-consortium/image/upload/v1663080328/oysterchecks/emails/linkedin_dioou3.png" height="25" width="25" alt="Oysterchecks Linkedin">
-                                        </a>
-                                    </div>
-                                    <div style="display: inline-block;padding: 4px;">
-                                        <a href="" style="color:#854fff;word-break:break-all">
-                                            <img src="https://res.cloudinary.com/the-morgans-consortium/image/upload/v1663080328/oysterchecks/emails/twitter_k4ren0.png" height="25" width="25" alt="Oysterchecks Twitter">
-                                        </a>
-                                    </div>
-                                </div> --}}
-                                <p class="email-copyright-text" style="font-size: 12px;margin: 0;padding: 0;">Copyright © {{date('Y')}} Portrec.ng. All rights reserved. <br> 1, Adeola Adeoye Street, Off Toyin Street, Ikeja, Lagos State.</p>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </td>
-        </tr>
-    </tbody>
+body {
+  background: #eee;
+  color: #333;
+}
 
-</table>
-    </body>
+/* Container */
+.container {
+  max-width: 700px;
+  margin: 20px auto;
+  background-color: #fff;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+/* Header */
+.header {
+  background-color: #f9fafc;
+  display: flex;
+  margin:5px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 10px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+  color: #3a092b;
+}
+
+.logo span {
+  color: #571041;
+  font-size: 14px;
+}
+
+.header nav a {
+  margin-left: 15px;
+  color: #873A70;
+  padding:10px;
+  text-decoration: none;
+  font-size: 14px;
+  float:right;
+}
+
+.header nav a:hover {
+  text-decoration: underline;
+}
+
+/* Candidate Card */
+.candidate-card {
+  padding: 10px;
+}
+
+.candidate-card h1 {
+  font-size: 22px;
+  line-height: 1.4;
+  color: #333;
+}
+
+.view-candidate {
+  background-color: #2557a7;
+  color: #fff;
+  border: none;
+  padding: 10px 10px;
+  margin-top: 0px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.view-candidate:hover {
+  background-color: #1d4b8f;
+}
+
+.details {
+  margin-top: 20px;
+  font-size: 15px;
+}
+
+.highlight {
+  font-weight: bold;
+  color: #333;
+}
+
+.qualifications {
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.interview {
+  margin: 10px 0;
+  color: #333;
+}
+
+.green-text {
+  color: #b98409;
+}
+
+.applied-to {
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.view-resume {
+  display: inline-block;
+  color: #2557a7;
+  text-decoration: none;
+  margin: 15px 0 5px;
+}
+
+.view-resume:hover {
+  text-decoration: underline;
+}
+
+.note {
+  font-size: 12px;
+  color: #777;
+  margin-top: 5px;
+}
+
+  </style>
+</head>
+<body style="background:#eee; padding:20px">
+  <div class="container">
+    <!-- Header Section -->
+    <header class="header">
+      <div class="logo">Portrec <span> For Employers</span></div>
+      <nav >
+        <a href="https://portrec.ng/search-talent">Search Talents</a>
+        <a href="https://portrec.ng/contact">Contact Us</a>
+      </nav>
+    </header>
+
+    <!-- Candidate Section -->
+    <section class="candidate-card">
+      <h1>Your interview request has been sent to <span style="text-transform: uppercase; color:#3a092b"> <a href="{{$data['resume']}}"> {{$data['user']}}</a>   </span>  </h1>
+     
+      <div class="details">
+        <span style="font-size:20px; font-weight:bolder; text-transform:uppercase">{{$data['position']}}</span>
+        <p><strong>Date:</strong> <span class="highlight">{{date('D d M, Y', strtotime($data['interview_date']))}}</span></p>
+        <p><strong>Time:</strong> <span class="highlight">{{date('h:ia', strtotime($data['interview_date']))}}</span></p>
+        <p><strong>Location :</strong> <span class="highlight">{{$data['location']}}</span></p>
+        <p><strong>Duration :</strong> <span class="highlight">{{$data['duration']}} minutes</span></p>
+
+        <p class="qualifications">
+          @if(isset($data['host_url']))
+         Click Here to Join:  <strong> {{substr($data['host_url'], 0,100)}}..</strong>
+          @endif
+        </p>
+        <div class="interview">
+          ↔️  <span class="warning-text" style="background:#b98409; padding:5px; color:#fff; border-radius:10px">Awaiting Candiate Confirmation </strong>
+        </div>
+
+        {{-- <p class="applied-to">
+          ↔️ <strong>Applied to 1 of your other jobs</strong>
+        </p> --}}
+        <a href="{{$data['resume']}}" class="view-resume">View Resume</a>
+      </div>
+    </section>
+  </div>
+  <footer style="text-align:center">
+    <div style><img src="https://portrec.ng/images/site_logo.png" width="100px"></div>
+    <p style="font-size: 12px;margin: 0;padding: 0;">Copyright © {{date('Y')}} Portrec.ng. All rights reserved. <br> 1, Adeola Adeoye Street, Off Toyin Street, Ikeja, Lagos State.</p>
+    <ul style="list-style: none;  text-align:center; display:inline"> 
+      <li style="display:inline-block;"> <a href="https://portrec.ng/" > Home </a></li>
+      <li  style="display:inline-block;"> <a href="https://portrec.ng/about-us" >  About Us </a></li>
+      <li style="display:inline-block;"> <a href="https://portrec.ng/contact" > Contact Us </a></li>
+    </ul>
+  </footer>
+</body>
 </html>

@@ -17,4 +17,9 @@ class UserResume extends Model
     //         get: fn (string $value) => urlencode($value)
     //     );
     // }
+
+    public function UserResume()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

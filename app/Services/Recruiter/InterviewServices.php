@@ -5,7 +5,9 @@ namespace App\Services\Recruiter;
 use App\Services\Recruiter\ClientBase;
 use App\Interfaces\Recruiter\InterviewInterface;
 use App\Mail\InterviewInvitationMail;
+use App\Mail\RecruiterInterviewMail;
 use App\Models\Interview;
+use App\Models\JobOpening;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Mail;
@@ -63,12 +65,14 @@ class InterviewServices  implements InterviewInterface
         $meeting = json_decode($meeting->getBody(), true);
         $emailData = self::UpdateMeetingInfo($request, $meeting);
         $emailData['user'] = $users;
-        $emailData['duraction'] = $meeting['duration'];
+        $emailData['duration'] = $meeting['duration'];
         Mail::to($users->email)->send(new InterviewInvitationMail($emailData));
+        // return $request->team_members;
+        self::sendEmailToRecruiters($emailData, $request);
         return $emailData;
         }catch(\Exception $e)
         {
-            return false;
+            return $e->getMessage();
         }
     }else{
       $data = $this->UpdateMeetingInfo($request, ''); 
@@ -87,7 +91,7 @@ class InterviewServices  implements InterviewInterface
             'job_application_id' => $request->job_application_id,
             'assigned_to' => $meeting['host_email']??'',
             'interview_channel_id' => $request['channel'],
-            'location' => $request->location,
+            'location' => $request->location??'Zoom Interview',
             'interview_date' => Carbon::parse($request->start_time)->format('Y-m-d H:i:s'),
             'status' => $meeting['status']??'active',
             'description' => $request['topic'],
@@ -96,7 +100,7 @@ class InterviewServices  implements InterviewInterface
             'join_url' => $meeting['join_url']??'',
             'host_url' => $meeting['start_url']??'',
             'message' => $request->message,
-            'team_members' => $request->team_members,
+            // 'team_members' => $request->team_members,
             'meeting_type' => $request->meeting_type
         ]);
 
@@ -115,13 +119,31 @@ class InterviewServices  implements InterviewInterface
         return $interview;
     }
 
-    private function sendEmailToRecruiters($request)
+    private function sendEmailToRecruiters($emailData, $request)
     {
     
       foreach($request->team_members as $team)
       {
         
+      $mailler =  Mail::to($team)->send(new RecruiterInterviewMail([
+            'subject' => 'Interview request sent to '.$emailData['user']['name'].' for '.$emailData->getJobs->job->title,
+            'user' => $emailData['user']['name'],
+            'interview_id' => $emailData['interview_id'],
+            'host_url' => $emailData['host_url'],
+            'position' => $emailData->getJobs->job->title,
+            'interview_date' => Carbon::parse($request->start_time)->format('Y-m-d H:i:s'),
+            'location' => $emailData['location'],
+            'duration' =>$emailData['duration'],
+            'resume' => $emailData['user']->userResume->resume_url
+            ]));
       } 
+      return $mailler;
+ 
+    }
+
+    public function getJobPosition($job_id)
+    {
+       
 
     }
 }
