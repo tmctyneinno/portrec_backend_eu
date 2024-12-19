@@ -9,5 +9,10 @@ if(!function_exists('getUserAttributes')){
 
         return User::where('id', $user_id)->first();
     }
+}
 
+
+function auth_user() 
+{
+    return auth()->user();
 }

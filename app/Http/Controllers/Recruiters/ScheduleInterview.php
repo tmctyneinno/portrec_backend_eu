@@ -29,12 +29,6 @@ class ScheduleInterview extends Controller
         return  response()->json(['error' => 'request failed'], 302);
     }
 
-    public function AcceptInterview(Request $request)
-    {
-        $interview = $this->interview->updateInterview($request);
-        return $interview;
-    }
-
     public function getAllInterviews()
     {
         $interview = $this->interview->getAllInterviews();
@@ -50,5 +44,12 @@ class ScheduleInterview extends Controller
              return response()->json($meeting, HttpStatusCode::OK);  
         }
     return response()->json(['error' => 'request failed'], 302);
+    }
+
+    public function DeleteRecruiterInterview(Request $request)
+    {
+        $interview = $this->interview->DeleteInterview($request);
+        if($interview) return response()->json(['data' => 'Interview Deleted Successfully'], HttpStatusCode::OK); 
+        return response()->json(['data' => 'No Interview with the Id found'], 302);  
     }
 }

@@ -4,6 +4,7 @@ namespace App\Services\Recruiter;
 
 use App\Services\Recruiter\ClientBase;
 use App\Interfaces\Recruiter\InterviewInterface;
+use App\Mail\InterviewAcceptanceMail;
 use App\Mail\InterviewInvitationMail;
 use App\Mail\RecruiterInterviewMail;
 use App\Models\Interview;
@@ -113,14 +114,6 @@ class InterviewServices  implements InterviewInterface
         return $interview;
     }
 
-
-    public function updateInterview($request)
-    {
-        $interview = Interview::whereId($request->interview_id)->first();
-        if($interview)$interview->update(['candidate_approved' => $request->candidate_approved]);
-        return $interview;
-    }
-
     private function sendEmailToRecruiters($emailData, $request)
     {
     
@@ -143,9 +136,15 @@ class InterviewServices  implements InterviewInterface
  
     }
 
-    public function getJobPosition($job_id)
+    public function DeleteInterview($request)
     {
-       
-
+        $interview = Interview::where('id', $request->interview_id)->first();
+        if($interview)
+        { 
+            $interview->delete();
+            return true;
+        }
+        return false;
     }
+
 }

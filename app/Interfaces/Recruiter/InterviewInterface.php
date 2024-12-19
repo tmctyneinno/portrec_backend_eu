@@ -8,6 +8,6 @@ interface InterviewInterface
     public function GenerateMeetingLink($request);
     public function UpdateMeetingInfo($request, $data);
     public function getAllInterviews();
-    public function updateInterview($request);
+    public function DeleteInterview($request);
 
 }

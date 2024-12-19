@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Users\ProfileController;
 use App\Http\Controllers\Users\CoverLetterController;
 use App\Http\Controllers\Users\EducationController;
+use App\Http\Controllers\Users\InterviewProcess;
 use App\Http\Controllers\Users\PortolioController;
 use App\Http\Controllers\Users\ResumeController;
 use App\Http\Controllers\Users\SkillController;
@@ -67,6 +68,10 @@ Route::prefix("user")->group(function () {
             Route::delete("portfolio/{id}", "deletePortfolio");
             Route::post("portfolio/image", "uploadProjectImage");
             Route::delete("portfolio/image/{id}",  "deletePortfolioImage");
+        });
+
+        Route::controller(InterviewProcess::class)->group(function() {
+        Route::get('get/interviews', 'getUserInterview');
         });
     });
 });

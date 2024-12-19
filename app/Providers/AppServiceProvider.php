@@ -17,6 +17,8 @@ use App\Services\Users\DashboardService;
 use App\Services\Users\JobApplicationAnswerService;
 use App\Services\Users\JobApplicationService;
 use App\Services\Users\MessageService;
+use App\Interfaces\Users\InterviewInterface as UserInterviewInterface;
+use App\Services\Users\InterviewServices as UserInterviewServices;
 use App\Services\Users\UserService;
 use Illuminate\Support\ServiceProvider;
 
@@ -35,6 +37,7 @@ class AppServiceProvider extends ServiceProvider
         app()->bind(MessageServiceInterface::class, MessageService::class);
         app()->bind(DashboardServiceInterface::class, DashboardService::class);
         app()->bind(InterviewInterface::class, InterviewServices::class);
+        app()->bind(UserInterviewInterface::class, UserInterviewServices::class);
     }
 
     /**
