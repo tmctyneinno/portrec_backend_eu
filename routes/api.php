@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FeatureJobsController;
 use App\Http\Controllers\Recruiters\ScheduleInterview;
 use App\Http\Controllers\Users\{
     SkillController,
@@ -40,4 +41,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 Route::post('candidate/accept/', [ScheduleInterview::class, 'AcceptInterview']);
+Route::get('/get/featured/jobs', [FeatureJobsController::class,'FeatureJobs']);
+
 require __DIR__.'/interviewProcesses.php';
+require __DIR__.'/userSubscription.php';

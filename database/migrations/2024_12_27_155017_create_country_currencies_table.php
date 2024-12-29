@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('subscriptions', function (Blueprint $table) {
+        Schema::create('country_currencies', function (Blueprint $table) {
             $table->id();
-            $table->string('plan_name')->nullable();
-            $table->integer('duration')->nullable();
-            $table->string('period')->nullable();
-            $table->double('amount')->nullable();
-            $table->timestamp("deleted_at")->nullable();
+            $table->string('country')->nullable();
+            $table->string('currency')->nullable();
+            $table->string('exchange_rate')->nullable();
+            $table->string('last_updated')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('subscriptions');
+        Schema::dropIfExists('country_currencies');
     }
 };

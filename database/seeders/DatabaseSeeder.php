@@ -16,11 +16,11 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             // UserSeeder::class,
-            AvailabilitySeeder::class,
+            // AvailabilitySeeder::class,
             // RecruiterSeeder::class,
-            JobIndustrySeeder::class,
+            // JobIndustrySeeder::class,
             // CompanySeeder::class,
-            CompanyTypeSeeder::class,
+            // CompanyTypeSeeder::class,
             // JobSeeder::class,
             // EducationSeeder::class,
             // ApplicationQuestionSeeder::class,
@@ -28,14 +28,15 @@ class DatabaseSeeder extends Seeder
             // ProfilePictureSeeder::class,
             // WorkExperienceSeeder::class,
             // CoverLetterSeeder::class,
-            SkillSeeder::class,
+            // SkillSeeder::class,
             // UserJobApplicationSeeder::class,
-            HiringStageSeeder::class,
+            // HiringStageSeeder::class,
             // ApplicationSeeder::class,
             // InterviewSeeder::class,
             // AdminSeeder::class,
             // CompanySeeder::class,
-            QualificationSeeder::class,
+            // QualificationSeeder::class,
+            CountryCurrencySeeder::class
         ]);
     }
 }
