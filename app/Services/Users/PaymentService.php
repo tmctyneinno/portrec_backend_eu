@@ -68,9 +68,10 @@ class PaymentService extends baseFuncs implements PaymentInterface
     }
     public function ProcessFlutterPayment($request)
     {
-        return $request;
-        $Subscription = UserSubscription::where(['user_id' => auth_user()->id, 'trans_id' =>$request['transaction_id']])->first();
         $res =  parent::flutterwaveVerify($request['transaction_id']);
+        dd($res);
+
+        $Subscription = UserSubscription::where(['user_id' => auth_user()->id, 'trans_id' =>$request['transaction_id']])->first();
         if ($res['status'] == 'success') {
             $Subscription->update([
                 'payment_ref' => $res['data']['flw_ref'],

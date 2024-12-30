@@ -39,7 +39,7 @@ public function __construct(PaymentInterface $subscription)
     {
         try{
            $res = $this->subscription->ProcessFlutterPayment($request);
-        return redirect(route('users.orders'));
+        return redirect($res);
         }catch(\Exception $e)
         {
             return $e;

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Users;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Services\Users\topCareerService;
+use App\Services\Recruiter\topCareerService;
 use App\Http\Controllers\Base\BaseController;
 use Illuminate\Http\Request;
 
@@ -26,10 +26,10 @@ class TopCareerController extends BaseController
         }
     }
 
-    public function getAllCareers()
+    public function getAllCareers(Request $request)
     {
         try{
-        $career = $this->topCareerService->fetchRandCareer();
+        $career = $this->topCareerService->fetchRandCareer($request);
         return  $this->successMessage($career, 'success', 200);
         }catch(\Exception $e)
     {

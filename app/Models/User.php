@@ -93,9 +93,9 @@ class User extends Authenticatable
         return $this->hasMany(UserPortfolio::class);
     }
 
-    public function skill()
+    public function acquiredSkills()
     {
-        return $this->hasMany(AcquiredSkill::class)->select("skill_id", 'user_id');
+        return $this->hasMany(AcquiredSkill::class)->with('Skills');
     }
 
 

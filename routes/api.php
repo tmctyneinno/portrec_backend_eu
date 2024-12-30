@@ -4,7 +4,8 @@ use App\Http\Controllers\FeatureJobsController;
 use App\Http\Controllers\Recruiters\ScheduleInterview;
 use App\Http\Controllers\Users\{
     SkillController,
-    CompanyController
+    CompanyController,
+    SubscriptionController
 };
 
 use Illuminate\Support\Facades\Route;
@@ -42,6 +43,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 Route::post('candidate/accept/', [ScheduleInterview::class, 'AcceptInterview']);
 Route::get('/get/featured/jobs', [FeatureJobsController::class,'FeatureJobs']);
+Route::get('verify/payment/flutter', [SubscriptionController::class,'handleFlutterCallback']);
 
 require __DIR__.'/interviewProcesses.php';
 require __DIR__.'/userSubscription.php';

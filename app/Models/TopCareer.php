@@ -18,4 +18,15 @@ class TopCareer extends Model
         'is_promoted',
         'subscription_id'
     ];
+
+
+    public function UserProfile()
+    {
+      return  $this->hasOneThrough(UserProfile::class, User::class, 'id', 'user_id', 'user_id','id');
+    }
+
+    public function User()
+    {
+        return $this->belongsTo(User::class)->with('cover_letter', 'skill', 'profile');
+    }
 }
