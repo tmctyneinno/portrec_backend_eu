@@ -27,6 +27,6 @@ class TopCareer extends Model
 
     public function User()
     {
-        return $this->belongsTo(User::class)->with('cover_letter', 'skill', 'profile');
+        return $this->belongsTo(User::class)->with('cover_letter', 'acquiredSkills', 'profile');
     }
 }

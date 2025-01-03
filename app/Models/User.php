@@ -98,7 +98,6 @@ class User extends Authenticatable
         return $this->hasMany(AcquiredSkill::class)->with('Skills');
     }
 
-
     public function rating()
     {
         return $this->hasOne(UserRating::class, 'user_id', 'id');
