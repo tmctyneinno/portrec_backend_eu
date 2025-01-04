@@ -20,12 +20,11 @@ class topCareerService
         $topCareer = TopCareer::with('User')->whereHas('User', function($query) use ($request){
                         $query->where('name', 'LIKE', "%$request->search%")
                         ->orWhere('email', 'LIKE', "%$request->search%")
-                        ->wherehas('profile', function($profileSearch) use ($request){
+                        ->orWherehas('profile', function($profileSearch) use ($request){
                             $profileSearch->where('preference', 'LIKE', "%$request->search%")
                             ->orWhere('description', 'LIKE', "%$request->search%");
-                        })
-                        ->wherehas('Skills.skill', function($SkillsSearch) use ($request){
-                            $SkillsSearch->where('name', 'LIKE', "%$request->search%");
+                        })->orWherehas('skill.Skills', function($SkillsSearch) use ($request){
+                          $SkillsSearch->where('name', 'LIKE', "%$request->search%");
                         });
              })->get();
       

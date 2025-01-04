@@ -30,10 +30,11 @@ class TopCareerController extends BaseController
     {
         try{
         $career = $this->topCareerService->fetchRandCareer($request);
+        if($career)
         return  $this->successMessage($career, 'success', 200);
         }catch(\Exception $e)
     {
-        $this->errorMessage($e->getMessage(), 302);
+       return  $this->errorMessage($e->getMessage(), 302);
     }
     }
 

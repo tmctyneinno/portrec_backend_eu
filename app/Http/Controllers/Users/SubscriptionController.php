@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class SubscriptionController extends Controller
 {
-    //
+
 protected $subscription;
 public function __construct(PaymentInterface $subscription)
 {

@@ -9,7 +9,6 @@ class TopCareer extends Model
 {
     use HasFactory;
 
-
     protected $table = "top_careers";
     protected $fillable = 
     [
@@ -19,7 +18,6 @@ class TopCareer extends Model
         'subscription_id'
     ];
 
-
     public function UserProfile()
     {
       return  $this->hasOneThrough(UserProfile::class, User::class, 'id', 'user_id', 'user_id','id');
@@ -27,6 +25,6 @@ class TopCareer extends Model
 
     public function User()
     {
-        return $this->belongsTo(User::class)->with('cover_letter', 'acquiredSkills', 'profile');
+        return $this->belongsTo(User::class)->with('cover_letter', 'skill', 'profile');
     }
 }
