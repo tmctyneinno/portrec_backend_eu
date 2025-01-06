@@ -6,6 +6,7 @@ use App\Interfaces\Users\PaymentInterface;
 use App\Models\CountryCurrency;
 use App\Models\Subscription;
 use App\Models\UserSubscription;
+use Carbon\Carbon;
 
 class PaymentService extends baseFuncs implements PaymentInterface 
 {
@@ -37,7 +38,7 @@ class PaymentService extends baseFuncs implements PaymentInterface
             $plans = Subscription::where('id', $request->subscription_id)->first();
             $userData =   getUserLocationData();
             $currency = CountryCurrency::where('country', $userData['country'])->first();
-            $txRef = 'PRT-' . time();
+            $txRef = 'prtc' . time();
             $data = [
                 'tx_ref' =>  $txRef,
                 'amount' => isset($currency->exchange_rate) ? $request->amount * $currency->exchange_rate : $request->amount,
@@ -69,17 +70,21 @@ class PaymentService extends baseFuncs implements PaymentInterface
     public function ProcessFlutterPayment($request)
     {
         $res =  parent::flutterwaveVerify($request['transaction_id']);
-        dd($res);
-
-        $Subscription = UserSubscription::where(['user_id' => auth_user()->id, 'trans_id' =>$request['transaction_id']])->first();
+        $Subscription = UserSubscription::where(['trans_id' => $res['data']['tx_ref']])->first();
         if ($res['status'] == 'success') {
+            $dates = Carbon::now();
             $Subscription->update([
                 'payment_ref' => $res['data']['flw_ref'],
                 'is_paid' => 1,
+                'payment_ref' => $res['data']['flw_ref'],
+                'card_info' => $res['data']['card']['first_6digits'].'*******'.$res['data']['card']['last_4digits'],
+                'status' => 1,
+                'next_billing' =>  $dates->copy()->addMonth()->toDateString(),
+                'start_date' => $dates->toDateString(),
+                'end_date' => $dates->copy()->addMonth()->toDateString()
             ]);
-            return $Subscription;
-            // $this->storePaymentInfo($order_no, $res['data'], $ref, 'Flutterwave');
-            // $this->sendPaymentEmail($request, $order_no, $ref);
+            $this->storePaymentInfo($Subscription,$res['data']['flw_ref'], 'Flutterwave');
+            $this->sendPaymentEmail($request, $res['data']['flw_ref'], $res['data']['tx_ref']);
         }
         return false;
     }

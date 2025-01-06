@@ -37,7 +37,6 @@ return new class extends Migration
             $table->text("responsibilities");
             $table->string('capacity');
             $table->integer('total_applied')->default(0);
-            $table->string('job_url')->nullable();
             $table->timestamps();
         });
     }

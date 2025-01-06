@@ -17,8 +17,13 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->dateTime('start_date')->nullable();
             $table->dateTime('end_date')->nullable();
-            $table->integer('status')->nullable()->comment('1 = active, -1 = cancel, 0 =active');
+            $table->integer('status')->nullable();
             $table->integer('is_paid')->nullable();
+            $table->string('trans_id')->nullable();
+            $table->string('payment_ref')->nullable();
+            $table->string('card_info')->nullable();
+            $table->string('next_billing')->nullable();
+            $table->string('currency')->nullable();
             $table->timestamp("deleted_at")->nullable();
             $table->timestamps();
         });

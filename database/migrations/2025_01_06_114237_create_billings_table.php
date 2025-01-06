@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('user_subscriptions', function (Blueprint $table) {
-            //
-            $table->string('trans_id')->nullable();
+        Schema::create('billings', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained();
             $table->string('payment_ref')->nullable();
-            $table->string('card_info')->nullable();
-            $table->string('next_billing')->nullable();
-            $table->string('currency')->nullable();
-
+            $table->string('external_ref')->nullable();
+            $table->integer('status')->nullable();
+            $table->string('channel')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -27,8 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('user_subscriptions', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('billings');
     }
 };

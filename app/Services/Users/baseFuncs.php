@@ -1,10 +1,37 @@
 <?php 
 namespace App\Services\Users;
 
+use App\Mail\paymentMail;
+use App\Models\Billing;
 use App\Models\UserSubscription;
+use Illuminate\Support\Facades\Mail;
 
 class baseFuncs 
 {
+
+    public function storePaymentInfo($request, $ref, $channel)
+    {
+            
+        Billing::create([
+            'user_id' => auth_user()->id, 
+            'payment_ref' => $ref, 
+            'external_ref' => $request['reference'], 
+            'status' => 1, 
+            'channel' => $channel,
+            'amount' => $request['amount']
+        ]);
+    }
+
+
+    public function sendPaymentEmail($request, $ref)
+    {
+        Mail::to(auth_user()->email)->send(new paymentMail([
+            'amount' => $request['amount'],
+            'payment_ref' => $ref,
+            'external_ref' => $request['reference'],
+           ]));
+    }
+
 
     public function getFlutterPaymentLink($url,$jsonBody)
     {

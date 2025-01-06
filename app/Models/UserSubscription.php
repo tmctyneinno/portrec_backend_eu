@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserSubscription extends Model
 {
     use HasFactory;
-    protected $fillable = ['subscription_id', 'user_id', 'start_date', 'end_date', 'status', 'is_paid'];
+    protected $fillable = ['subscription_id', 'user_id', 'start_date', 'end_date', 'status', 'is_paid', 'trans_id', 'payment_ref', 'card_info', 'next_billing', 'currency'];
 
     public function user()
     {

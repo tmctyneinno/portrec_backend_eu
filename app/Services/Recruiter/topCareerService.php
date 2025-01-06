@@ -10,7 +10,7 @@ class topCareerService
     public function fetchIndustryCareer($industries_id)
     {
         
-        $topCareer = TopCareer::query()->where(['industry_id' => $industries_id])->get();
+        $topCareer = TopCareer::query()->where(['industry_id' => $industries_id])->inRandomOrder()->get();
         if($topCareer)return  $topCareer->load('UserProfile', 'User');
         return false;
     }
@@ -26,7 +26,7 @@ class topCareerService
                         })->orWherehas('skill.Skills', function($SkillsSearch) use ($request){
                           $SkillsSearch->where('name', 'LIKE', "%$request->search%");
                         });
-             })->get();
+             })->inRandomOrder()->get();
       
    if($topCareer) return $topCareer;
         return false;
