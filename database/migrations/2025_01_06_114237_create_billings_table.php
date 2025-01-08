@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('billings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_subscription_id')->unsigned();
             $table->string('payment_ref')->nullable();
             $table->string('external_ref')->nullable();
             $table->integer('status')->nullable();

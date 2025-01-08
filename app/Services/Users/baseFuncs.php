@@ -13,22 +13,23 @@ class baseFuncs
     {
             
         Billing::create([
-            'user_id' => auth_user()->id, 
+            'user_id' => 1, 
             'payment_ref' => $ref, 
-            'external_ref' => $request['reference'], 
+            'user_subscription_id' => $request->id, 
+            'external_ref' => $request['payment_ref'], 
             'status' => 1, 
             'channel' => $channel,
-            'amount' => $request['amount']
         ]);
     }
 
 
     public function sendPaymentEmail($request, $ref)
     {
-        Mail::to(auth_user()->email)->send(new paymentMail([
-            'amount' => $request['amount'],
+        Mail::to('mikkynoble@gmail.com')->send(new paymentMail([
+            'amount' => $request->subscription->amount,
             'payment_ref' => $ref,
-            'external_ref' => $request['reference'],
+            'external_ref' => $request['payment_ref'],
+            'topic' => 'Subscription of '.$request->subscription->name.' completed Successfully'
            ]));
     }
 

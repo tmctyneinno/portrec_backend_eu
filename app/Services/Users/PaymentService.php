@@ -5,6 +5,7 @@ use App\Http\Middleware\UserSubcription;
 use App\Interfaces\Users\PaymentInterface;
 use App\Models\CountryCurrency;
 use App\Models\Subscription;
+use App\Models\User;
 use App\Models\UserSubscription;
 use Carbon\Carbon;
 
@@ -83,8 +84,9 @@ class PaymentService extends baseFuncs implements PaymentInterface
                 'start_date' => $dates->toDateString(),
                 'end_date' => $dates->copy()->addMonth()->toDateString()
             ]);
+             User::where('id', auth_user()->id)->update(['is_subscribed' => 1]);
             $this->storePaymentInfo($Subscription,$res['data']['flw_ref'], 'Flutterwave');
-            $this->sendPaymentEmail($request, $res['data']['flw_ref'], $res['data']['tx_ref']);
+            $this->sendPaymentEmail($Subscription, $res['data']['flw_ref'], $res['data']['tx_ref']);
         }
         return false;
     }

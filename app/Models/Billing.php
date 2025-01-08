@@ -9,5 +9,5 @@ class Billing extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'payment_ref', 'external_ref', 'status', 'amount', 'channel'];
+    protected $fillable = ['user_id', 'payment_ref', 'external_ref', 'status', 'amount', 'channel', 'user_subscription_id'];
 }

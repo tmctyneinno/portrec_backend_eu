@@ -23,7 +23,8 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
             QualificationSeeder::class,
             CountryCurrencySeeder::class,
-            SubscriptionSeeder::class
+            SubscriptionSeeder::class,
+            SubscriptionDataSeeder::class
         ]);
     }
 }
