@@ -4,6 +4,7 @@ namespace App\Services\Users;
 use App\Mail\paymentMail;
 use App\Models\Billing;
 use App\Models\UserSubscription;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
 
 class baseFuncs 
@@ -23,13 +24,19 @@ class baseFuncs
     }
 
 
-    public function sendPaymentEmail($request, $ref)
+    public function sendPaymentEmail($request, $res, $user)
     {
-        Mail::to('mikkynoble@gmail.com')->send(new paymentMail([
+        Mail::to($user->email)->send(new paymentMail([
             'amount' => $request->subscription->amount,
-            'payment_ref' => $ref,
-            'external_ref' => $request['payment_ref'],
-            'topic' => 'Subscription of '.$request->subscription->name.' completed Successfully'
+            'payment_ref' => $res['data']['tx_ref'],
+            'external_ref' => $res['data']['flw_ref'],
+            'topic' => 'Payment for '.$request->subscription->plan_name.' Subscription completed Successfully',
+            'name' => $user->name,
+            'subscription' => $request->subscription->plan_name,
+            'currency' => $request->currency,
+            'payment_method'=> 'Online Payment',
+            'start_date' => $request->start_date,
+            'end_date' => $request->start_date
            ]));
     }
 
@@ -48,7 +55,6 @@ class baseFuncs
                 ]
             ]);
             $response = curl_exec($curl);
-            // dd( $response);
             $error = curl_error($curl);
             curl_close($curl);
             $res = json_decode($response, true);
@@ -80,6 +86,7 @@ class baseFuncs
 
 public function createSubscription($request)
 {
+    $dates = Carbon::now();
     return UserSubscription::create([
                'subscription_id' => $request['subscription_id'], 
                'user_id' => auth_user()->id,
@@ -91,7 +98,8 @@ public function createSubscription($request)
                 'next_billing' => '',
                 'currency' =>  $request['currency'] ,
                 'trans_id' => $request['trans_id'],
-                'payment_ref' => ''
+                'payment_ref' => '',
+                'end_date' => $dates->copy()->addDays($request['duration'])->toDateString(),
     ]);
 }
 }

@@ -14,7 +14,8 @@ class PaymentService extends baseFuncs implements PaymentInterface
 
     public function getSubscription()
     {
-     return Subscription::get()->with('subcriptionData');
+     $sub = Subscription::get();
+     return $sub->load('subcriptionData');
     }
 
 
@@ -80,13 +81,14 @@ class PaymentService extends baseFuncs implements PaymentInterface
                 'payment_ref' => $res['data']['flw_ref'],
                 'card_info' => $res['data']['card']['first_6digits'].'*******'.$res['data']['card']['last_4digits'],
                 'status' => 1,
-                'next_billing' =>  $dates->copy()->addMonth()->toDateString(),
+                'next_billing' =>  $Subscription->end_date,
                 'start_date' => $dates->toDateString(),
-                'end_date' => $dates->copy()->addMonth()->toDateString()
             ]);
-             User::where('id', auth_user()->id)->update(['is_subscribed' => 1]);
+            $user = User::where('id', 1)->first();
+            $user->update(['is_subscribed' => 1]);
             $this->storePaymentInfo($Subscription,$res['data']['flw_ref'], 'Flutterwave');
-            $this->sendPaymentEmail($Subscription, $res['data']['flw_ref'], $res['data']['tx_ref']);
+            $this->sendPaymentEmail($Subscription, $res, $user);
+        return $Subscription;
         }
         return false;
     }
