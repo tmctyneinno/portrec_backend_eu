@@ -13,7 +13,7 @@ class UserController extends Controller
     public function getUserProfile($user_id)
     {
         $user = User::where('id', $user_id)->first();
-        $user->load('profile', 'education', 'resume', 'default_cover_letter', 'experience', 'portfolios', 'userResume');
+        $user->load('profile', 'education', 'resume', 'default_cover_letter', 'experience', 'portfolios', 'userResume', 'isTopCareer', 'skill');
         return response()->json(['data' => $user], 200);
     }
 }

@@ -39,7 +39,9 @@ class PaymentService extends baseFuncs implements PaymentInterface
     public function initiateFlutterCheckout($request)
     {
      
-            $recruiter = Recruiter::where('id', 1)->first();
+       
+            $recruiter = Recruiter::where('id', auth_recruiter()->id)->first();
+            return $recruiter;
             $plans = Subscription::where('id', $request->subscription_id)->first();
             $userData =   getUserLocationData();
             $currency = CountryCurrency::where('country', $userData['country'])->first();

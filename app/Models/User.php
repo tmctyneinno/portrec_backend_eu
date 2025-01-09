@@ -107,4 +107,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserResume::class);
     }
+
+    public function isTopCareer()
+    {
+        return $this->hasOne(TopCareer::class, 'user_id', 'id');
+        
+    }
 }
