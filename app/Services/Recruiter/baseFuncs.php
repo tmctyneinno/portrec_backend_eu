@@ -1,18 +1,17 @@
 <?php 
-namespace App\Services\Users;
+namespace App\Services\Recruiter;
 
 use App\Mail\paymentMail;
 use App\Models\Billing;
+use App\Models\RecruiterSubscription;
 use App\Models\UserSubscription;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
 
 class baseFuncs 
 {
-
     public function storePaymentInfo($request, $ref, $channel)
-    {
-            
+    {     
         Billing::create([
             'user_id' => 1, 
             'payment_ref' => $ref, 
@@ -84,20 +83,21 @@ class baseFuncs
     }
 }
 
-public function createSubscription($request)
+public function createSubscription($request, $recruiter)
 {
     $dates = Carbon::now();
-    return UserSubscription::create([
+    return RecruiterSubscription::create([
                'subscription_id' => $request['subscription_id'], 
-               'user_id' => auth_user()->id,
+               'recruiter_id' => auth_user()->id,
                 'start_date'=> null,
                 'end_date'=> null,
                 'status'=> 0,
                 'is_paid' => 0,
                 'card_info'=> '',
-                'next_billing' => '',
+                'next_billing' => '', 
                 'currency' =>  $request['currency'] ,
                 'trans_id' => $request['trans_id'],
+                'company_id' => $recruiter->company->id,
                 'payment_ref' => '',
                 'end_date' => $dates->copy()->addDays($request['duration'])->toDateString(),
     ]);

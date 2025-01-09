@@ -17,6 +17,11 @@ function auth_user()
     return auth()->user();
 }
 
+function auth_recruiter()
+{
+    return auth('recruiter')->user();
+}
+
 function getUserLocationData()
 {
 // $getIP = request()->ip();  

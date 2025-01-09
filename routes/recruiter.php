@@ -8,7 +8,8 @@ use App\Http\Controllers\Recruiters\{
     JobController,
     ProfileController,
     CompanyController,
-    ScheduleInterview
+    ScheduleInterview,
+    UserController
 };
 
 Route::prefix("recruiter")->group(function () {
@@ -40,6 +41,7 @@ Route::prefix("recruiter")->group(function () {
         Route::get("notifications/recruiter", [NotificationsController::class, "unread"]);
 
         Route::get("dashboard/recruiter/info", [DashboardController::class, "recruiterInfo"]);
+        Route::get("get/user/profile/{id}", [UserController::class, 'getUserProfile']);
     });
 });
 

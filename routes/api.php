@@ -47,3 +47,4 @@ Route::get('verify/payment/flutter', [SubscriptionController::class,'handleFlutt
 
 require __DIR__.'/interviewProcesses.php';
 require __DIR__.'/userSubscription.php';
+require __DIR__.'/recruiterSubscription.php';

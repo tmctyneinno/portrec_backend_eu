@@ -1,9 +1,11 @@
 <?php 
-namespace App\Services\Users;
+namespace App\Services\Recruiter;
 
-use App\Http\Middleware\UserSubcription;
-use App\Interfaces\Users\PaymentInterface;
+// use App\Http\Middleware\UserSubcription;
+use App\Interfaces\Recruiter\PaymentInterface;
 use App\Models\CountryCurrency;
+use App\Models\Recruiter;
+use App\Models\RecruiterSubscription;
 use App\Models\Subscription;
 use App\Models\User;
 use App\Models\UserSubscription;
@@ -19,16 +21,15 @@ class PaymentService extends baseFuncs implements PaymentInterface
     }
 
 
-    public function getUserSubscription()
+    public function getRecruiterSubscription()
     {
-        $Subscription = UserSubscription::where('user_id', auth_user())->paginate(10);
-        return $Subscription->load('user');
+        $Subscription = RecruiterSubscription::where('recruiter_id', auth_recruiter()->id)->paginate(10);
+        return $Subscription->load('recruiter');
     }
 
-    public function getUserActiveSubscription(){}
+    public function getRecruiterActiveSubscription(){}
 
     public function InitiatePayment($request){
-
         // if ($request->payment_method == 'paystack') return $this->initiatePaystackCheckout($request);
         if ($request->payment_method == 'flutterwave')  return $this->initiateFlutterCheckout($request);
     }
@@ -37,7 +38,8 @@ class PaymentService extends baseFuncs implements PaymentInterface
 
     public function initiateFlutterCheckout($request)
     {
-
+     
+            $recruiter = Recruiter::where('id', 1)->first();
             $plans = Subscription::where('id', $request->subscription_id)->first();
             $userData =   getUserLocationData();
             $currency = CountryCurrency::where('country', $userData['country'])->first();
@@ -49,9 +51,9 @@ class PaymentService extends baseFuncs implements PaymentInterface
                 // 'redirect_url' => url('flutter/callback'),
                 'redirect_url' => 'https://api.flutterwave.com/v3/payments',
                 'customer' => [
-                    'email' => auth_user()->email,
-                    'name' => auth_user()->first_name . ' ' .auth_user()->first_name,
-                    'phonenumber' => auth_user()->phone
+                    'email' => $recruiter->email,
+                    'name' => $recruiter->first_name . ' ' .$recruiter->first_name,
+                    'phonenumber' => $recruiter->phone
                 ],
                 'customizations' => [
                     'title' => $plans->plan_name .' '.$plans->period.' Subscription',
@@ -64,7 +66,7 @@ class PaymentService extends baseFuncs implements PaymentInterface
                 $request = (array)$request->all();
                 $request['trans_id'] =  $txRef;
                 $request['currency'] = $currency->currency;
-                parent::createSubscription($request);
+                parent::createSubscription($request, $recruiter);
             return $res['data'];
             }else{
         return false;
