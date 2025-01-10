@@ -60,6 +60,7 @@ class PaymentService extends baseFuncs implements PaymentInterface
                 ]
             ];
             $res = parent::getFlutterPaymentLink('https://api.flutterwave.com/v3/payments', $data);
+            return $res;
             if($res['data'])
             {
                 $request = (array)$request->all();
