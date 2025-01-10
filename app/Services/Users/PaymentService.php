@@ -75,7 +75,9 @@ class PaymentService extends baseFuncs implements PaymentInterface
     public function ProcessFlutterPayment($request)
     {
         $res =  parent::flutterwaveVerify($request['transaction_id']);
+      
         $Subscription = UserSubscription::where(['trans_id' => $res['data']['tx_ref']])->first();
+        //    return $Subscription;
         if ($res['status'] == 'success') {
             $dates = Carbon::now();
             $Subscription->update([
@@ -87,6 +89,8 @@ class PaymentService extends baseFuncs implements PaymentInterface
                 'next_billing' =>  $Subscription->end_date,
                 'start_date' => $dates->toDateString(),
             ]);
+
+          
             $user = User::where('id', 1)->first();
             $user->update(['is_subscribed' => 1]);
             $this->storePaymentInfo($Subscription,$res['data']['flw_ref'], 'Flutterwave');
