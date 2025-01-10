@@ -47,8 +47,8 @@ class PaymentService extends baseFuncs implements PaymentInterface
                 'tx_ref' =>  $txRef,
                 'amount' => isset($currency->exchange_rate) ? $request->amount * $currency->exchange_rate : $request->amount,
                 'currency' => $currency->currency ?? 'USD',
-                // 'redirect_url' => url('flutter/callback'),
-                'redirect_url' => 'https://api.flutterwave.com/v3/payments',
+                'redirect_url' => "https://localhost:8181/user/initiate/subscription/payment",
+                // 'redirect_url' => 'https://api.flutterwave.com/v3/payments',
                 'customer' => [
                     'email' => auth_user()->email,
                     'name' => auth_user()->first_name . ' ' .auth_user()->first_name,
@@ -60,7 +60,6 @@ class PaymentService extends baseFuncs implements PaymentInterface
                 ]
             ];
             $res = parent::getFlutterPaymentLink('https://api.flutterwave.com/v3/payments', $data);
-            return $res;
             if($res['data'])
             {
                 $request = (array)$request->all();
