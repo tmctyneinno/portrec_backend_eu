@@ -88,7 +88,7 @@ public function createSubscription($request, $recruiter)
     $dates = Carbon::now();
     return RecruiterSubscription::create([
                'subscription_id' => $request['subscription_id'], 
-               'recruiter_id' => auth_user()->id,
+               'recruiter_id' => auth_recruiter()->id,
                 'start_date'=> null,
                 'end_date'=> null,
                 'status'=> 0,

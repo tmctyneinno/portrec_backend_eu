@@ -37,6 +37,7 @@ class PaymentService extends baseFuncs implements PaymentInterface
 
     public function initiateFlutterCheckout($request)
     {
+        try{
 
             $plans = Subscription::where('id', $request->subscription_id)->first();
             $userData =   getUserLocationData();
@@ -66,9 +67,10 @@ class PaymentService extends baseFuncs implements PaymentInterface
                 $request['currency'] = $currency->currency;
                 parent::createSubscription($request);
             return $res['data'];
-            }else{
-        return false;
             }
+        }catch(\Exception $e){
+            return $e->getMessage();
+        }
     }
     public function ProcessFlutterPayment($request)
     {

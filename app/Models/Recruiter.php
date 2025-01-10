@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -27,9 +27,13 @@ class Recruiter extends Authenticatable
         'password' => 'hashed',
     ];
 
-
     public function profile()
     {
         return $this->hasOne(RecruiterProfile::class, 'recruiter_id', 'id');
+    }
+
+    public function company()
+    {
+        return $this->hasOneThrough(Company::class, RecruiterProfile::class, 'recruiter_id', 'id', 'id', 'company_id');
     }
 }

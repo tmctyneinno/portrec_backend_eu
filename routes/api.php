@@ -43,7 +43,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 Route::post('candidate/accept/', [ScheduleInterview::class, 'AcceptInterview']);
 Route::get('/get/featured/jobs', [FeatureJobsController::class,'FeatureJobs']);
-Route::get('verify/payment/flutter', [SubscriptionController::class,'handleFlutterCallback']);
+Route::get('user/verify/payment/', [SubscriptionController::class,'handleFlutterCallback']);
+Route::get('recruiter/verify/payment/', [SubscriptionController::class,'handleFlutterCallback']);
 
 require __DIR__.'/interviewProcesses.php';
 require __DIR__.'/userSubscription.php';

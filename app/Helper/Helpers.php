@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 if(!function_exists('getUserAttributes')){
 
@@ -19,7 +20,7 @@ function auth_user()
 
 function auth_recruiter()
 {
-    return auth('recruiter')->user();
+    return Auth::user('recruiter');
 }
 
 function getUserLocationData()

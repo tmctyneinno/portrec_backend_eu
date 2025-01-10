@@ -10,6 +10,7 @@ use App\Models\Subscription;
 use App\Models\User;
 use App\Models\UserSubscription;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class PaymentService extends baseFuncs implements PaymentInterface 
 {
@@ -23,6 +24,7 @@ class PaymentService extends baseFuncs implements PaymentInterface
 
     public function getRecruiterSubscription()
     {
+
         $Subscription = RecruiterSubscription::where('recruiter_id', auth_recruiter()->id)->paginate(10);
         return $Subscription->load('recruiter');
     }
@@ -39,12 +41,11 @@ class PaymentService extends baseFuncs implements PaymentInterface
     public function initiateFlutterCheckout($request)
     {
      
-       
             $recruiter = Recruiter::where('id', auth_recruiter()->id)->first();
-            return $recruiter;
             $plans = Subscription::where('id', $request->subscription_id)->first();
             $userData =   getUserLocationData();
             $currency = CountryCurrency::where('country', $userData['country'])->first();
+
             $txRef = 'prtc' . time();
             $data = [
                 'tx_ref' =>  $txRef,
