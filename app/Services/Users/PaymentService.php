@@ -77,7 +77,6 @@ class PaymentService extends baseFuncs implements PaymentInterface
         $res =  parent::flutterwaveVerify($request['transaction_id']);
       
         $Subscription = UserSubscription::where(['trans_id' => $res['data']['tx_ref']])->first();
-        //    return $Subscription;
         if ($res['status'] == 'success') {
             $dates = Carbon::now();
             $Subscription->update([

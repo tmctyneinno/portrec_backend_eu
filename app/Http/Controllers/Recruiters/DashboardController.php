@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Recruiters;
 
 use App\Enums\NotificationTypes;
 use App\Http\Controllers\Base\BaseController;

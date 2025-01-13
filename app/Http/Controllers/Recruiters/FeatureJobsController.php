@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Recruiters;
 
 use App\Models\JobOpening;
 use Illuminate\Http\Request;
 use App\Enums\FeaturedJobs;
 
+use App\Http\Controllers\Controller;
 class FeatureJobsController extends Controller
 {
     //

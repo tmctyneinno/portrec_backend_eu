@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RecruiterAuthController;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Recruiters\DashboardController;
 use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\Recruiters\{
     JobController,

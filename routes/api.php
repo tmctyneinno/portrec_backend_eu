@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FeatureJobsController;
+use App\Http\Controllers\Recruiters\FeatureJobsController as RecruitersFeatureJobsController;
 use App\Http\Controllers\Recruiters\ScheduleInterview;
 use App\Http\Controllers\Users\{
     SkillController,
@@ -42,7 +43,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 Route::post('candidate/accept/', [ScheduleInterview::class, 'AcceptInterview']);
-Route::get('/get/featured/jobs', [FeatureJobsController::class,'FeatureJobs']);
+Route::get('/get/featured/jobs', [RecruitersFeatureJobsController::class,'FeatureJobs']);
 Route::get('user/verify/payment/', [SubscriptionController::class,'handleFlutterCallback']);
 Route::get('recruiter/verify/payment/', [SubscriptionController::class,'handleFlutterCallback']);
 
