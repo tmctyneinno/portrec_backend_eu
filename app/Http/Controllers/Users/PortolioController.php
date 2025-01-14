@@ -29,10 +29,10 @@ class PortolioController extends BaseController
         }
         $portfolio = UserPortfolio::create([
             'user_id' => $this->userID()->id,
-            'project_title' => $request->project_title,
-            'project_role' => $request->project_role, 
-            'project_task' => $request->project_task, 
-            'project_solution' => $request->project_solution,
+            'title' => $request->project_title,
+            'description' => $request->description, 
+            'goals' => $request->goals, 
+            'achievements' => $request->achievements,
             'project_url' => $request->project_url, 
             'images' => $jsonImages
         ]);
@@ -75,10 +75,10 @@ class PortolioController extends BaseController
         $portfolio->update(
             [
             'user_id' => $this->userID()->id,
-            'project_title' => $request->project_title,
-            'project_role' => $request->project_role, 
-            'project_task' => $request->project_task, 
-            'project_solution' => $request->project_solution,
+            'title' => $request->project_title,
+            'description' => $request->description, 
+            'goals' => $request->goals, 
+            'achievements' => $request->achievements,
             'project_url' => $request->project_url, 
             'images' => $jsonImages??$portfolio  
             ]

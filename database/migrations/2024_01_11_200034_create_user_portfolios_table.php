@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('user_portfolios', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->string('project_title')->nullable();
-            $table->string('project_role')->nullable();
-            $table->text('project_task')->nullable();
-            $table->text('project_solution')->nullable();
-            $table->text('project_url')->nullable();
+            $table->string('title')->nullable();
+            $table->longText('description')->nullable();
+            $table->longText('achievements')->nullable();
+            $table->longText('goals')->nullable();
+            $table->text('project_url')->nullable(); 
             $table->text('images')->nullable();
             $table->timestamp("deleted_at")->nullable();
             $table->timestamps();
