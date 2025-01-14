@@ -18,10 +18,14 @@ class PortolioController extends BaseController
 
     public function portfolio(PortfolioRequest $request)
     {
-        $image = "";
-        if($request->file('image')){
+        $jsonImages = [];
+        if($request->file('images')){
+            foreach($request->file('images') as $image){
+                $name = $image->getClientOriginalName();
             $upl = new CloudinaryFileUploadService;
-            $image = $upl->upload($request->image, "portfolio");
+            $images[] = $upl->upload($image, "portfolio", $name);
+            }
+            $jsonImages = json_encode(array_column($images, 1));
         }
         $portfolio = UserPortfolio::create([
             'user_id' => $this->userID()->id,
@@ -30,7 +34,7 @@ class PortolioController extends BaseController
             'project_task' => $request->project_task, 
             'project_solution' => $request->project_solution,
             'project_url' => $request->project_url, 
-            'images' => $image?$image[1]:''
+            'images' => $jsonImages
         ]);
 
         return $this->successMessage($portfolio, "");
@@ -62,4 +66,6 @@ class PortolioController extends BaseController
 
         return $this->successMessage($portfolio, "successful");
     }
+
+ 
 }

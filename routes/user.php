@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Users\ProfileController;
 use App\Http\Controllers\Users\CoverLetterController;
+use App\Http\Controllers\Users\DashboardController as UsersDashboardController;
 use App\Http\Controllers\Users\EducationController;
 use App\Http\Controllers\Users\InterviewProcess;
 use App\Http\Controllers\Users\PortolioController;
@@ -59,7 +60,7 @@ Route::prefix("user")->group(function () {
             Route::put("experience/{id}","updateExperience");
             Route::delete("experience/{id}",  "deleteExperience");
         });
-        Route::get("dashboard/info", [DashboardController::class, "userInfo"]);
+        Route::get("dashboard/info", [UsersDashboardController::class, "userInfo"]);
 
         Route::controller(PortolioController::class)->group(function() {
             Route::post("portfolio",  "portfolio");
