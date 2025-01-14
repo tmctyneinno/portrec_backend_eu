@@ -58,11 +58,31 @@ class PortolioController extends BaseController
         return $this->successMessage($portfolio);
     }
 
-    public function updatePortfolio(PortfolioRequest $request, $id)
+    public function updatePortfolio(Request $request, $id)
     {
-        $userId = $this->userID()->id;
-        $validate = $request->validated();
-        $portfolio = UserPortfolio::where("user_id", $userId)->where("id", $id)->update($validate);
+        $jsonImages = [];
+        if($request->file('images')){
+            foreach($request->file('images') as $image){
+                $name = $image->getClientOriginalName();
+            $upl = new CloudinaryFileUploadService;
+            $images[] = $upl->upload($image, "portfolio", $name);
+            }
+            $jsonImages = array_column($images, 1);
+        }
+        $userId = $this->userID()->id;; 
+        $portfolio = UserPortfolio::where("user_id", $userId)->where("id", $id)->first();
+        if(empty($jsonImages))$jsonImages = $portfolio->images;
+        $portfolio->update(
+            [
+            'user_id' => $this->userID()->id,
+            'project_title' => $request->project_title,
+            'project_role' => $request->project_role, 
+            'project_task' => $request->project_task, 
+            'project_solution' => $request->project_solution,
+            'project_url' => $request->project_url, 
+            'images' => $jsonImages??$portfolio  
+            ]
+        );
 
         return $this->successMessage($portfolio, "successful");
     }

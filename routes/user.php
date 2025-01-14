@@ -65,7 +65,7 @@ Route::prefix("user")->group(function () {
         Route::controller(PortolioController::class)->group(function() {
             Route::post("portfolio",  "portfolio");
             Route::get("portfolio",  "getPortfolio");
-            Route::put("portfolio/{id}",  "updatePortfolio");
+            Route::post("portfolio/{id}",  "updatePortfolio");
             Route::delete("portfolio/{id}", "deletePortfolio");
             Route::post("portfolio/image", "uploadProjectImage");
             Route::delete("portfolio/image/{id}",  "deletePortfolioImage");

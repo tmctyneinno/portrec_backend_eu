@@ -27,6 +27,7 @@ class PortfolioRequest extends FormRequest
             "project_task" => "sometimes",
             "project_solution" => "sometimes",
             "project_url" => "sometimes",
+            'images' => 'nullable'
         ];
     }
 }
