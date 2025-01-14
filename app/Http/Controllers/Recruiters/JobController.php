@@ -85,8 +85,6 @@ class JobController extends BaseController
                 ]));
             }
         }
-
-
         return response()->json($jobOpening, 201);
     }
 
@@ -111,7 +109,6 @@ class JobController extends BaseController
 
     public function jobApplicationsList(Request $request)
     {
-
         $id = $this->RecruiterID()->id;
         $jobOpeningIdFilter = $request->job_opening_id;
         $search = $request->search;
@@ -128,7 +125,6 @@ class JobController extends BaseController
                 $query->where('name', 'like', "%{$search}%");
             });
         }
-
         $applicants = $query->paginate($request->rowsPerPage);
         return $this->successMessage($applicants);
     }
@@ -147,11 +143,9 @@ class JobController extends BaseController
                     'company' => $jobApplication->job->company->name,
                 ]));
             } catch (\Throwable $th) {
-                // throw $th;   
             }
         }
         $jobApplication->update(['is_viewed' => 1]);
-
         $user = User::with(["experience",  "education", "profile", "portfolios"])
             ->find($jobApplication->user_id);
         $user['skills'] = $user->skill->each(function ($data) {

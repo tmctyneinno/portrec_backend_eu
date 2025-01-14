@@ -10,14 +10,14 @@ class topCareerService
     public function fetchIndustryCareer($industries_id)
     {
         
-        $topCareer = TopCareer::query()->where(['industry_id' => $industries_id])->inRandomOrder()->get();
-        if($topCareer)return  $topCareer->load('UserProfile', 'User');
+        $topCareer = TopCareer::with(['User','User.userAvatar'])->query()->where(['industry_id' => $industries_id])->inRandomOrder()->get();
+        if($topCareer)return  $topCareer;
         return false;
     }
 
     public function fetchRandCareer($request)
     {
-        $topCareer = TopCareer::with('User')->whereHas('User', function($query) use ($request){
+        $topCareer = TopCareer::with(['User','User.userAvatar'])->whereHas('User', function($query) use ($request){
                         $query->where('name', 'LIKE', "%$request->search%")
                         ->orWhere('email', 'LIKE', "%$request->search%")
                         ->orWherehas('profile', function($profileSearch) use ($request){
@@ -26,7 +26,9 @@ class topCareerService
                         })->orWherehas('skill.Skills', function($SkillsSearch) use ($request){
                           $SkillsSearch->where('name', 'LIKE', "%$request->search%");
                         });
+                       
              })->inRandomOrder()->get();
+             
       
    if($topCareer) return $topCareer;
         return false;

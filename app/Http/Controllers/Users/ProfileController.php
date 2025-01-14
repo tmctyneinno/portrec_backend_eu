@@ -27,8 +27,8 @@ class ProfileController extends BaseController
             $data["name"] = Skill::find($data['skill_id'])->name;
         });
 
-        $avatar = FileUploadPath::find($profile->profile->avatar);
-        $profile['avatar'] =  $avatar?->url ?? null;
+        // $avatar = FileUploadPath::find($profile->profile->avatar);
+        $profile['avatar'] = $profile->userAvatar;
 
         return $this->successMessage($profile, "profile updated", 201);
     }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\FileUploadPath;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -50,3 +51,4 @@ curl_setopt_array($curl, [
  $res = json_decode($resp, true);
  return $res;
 }
+

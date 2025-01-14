@@ -113,4 +113,11 @@ class User extends Authenticatable
         return $this->hasOne(TopCareer::class, 'user_id', 'id');
         
     }
+
+    public function userAvatar()
+    {
+        return $this->hasOneThrough(FileUploadPath::class, UserProfile::class, 'user_id', 'id', 'id', 'avatar');
+    }
+
+    
 }
