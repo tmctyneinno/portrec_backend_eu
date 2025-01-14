@@ -25,7 +25,7 @@ class PortolioController extends BaseController
             $upl = new CloudinaryFileUploadService;
             $images[] = $upl->upload($image, "portfolio", $name);
             }
-            $jsonImages = json_encode(array_column($images, 1));
+            $jsonImages = array_column($images, 1);
         }
         $portfolio = UserPortfolio::create([
             'user_id' => $this->userID()->id,
