@@ -10,7 +10,7 @@ class topCareerService
     public function fetchIndustryCareer($industries_id)
     {
         
-        $topCareer = TopCareer::with(['User','User.userAvatar'])->query()->where(['industry_id' => $industries_id])->inRandomOrder()->get();
+        $topCareer = TopCareer::with(['User','User.userAvatar'])->where(['industry_id' => $industries_id])->inRandomOrder()->get();
         if($topCareer)return  $topCareer;
         return false;
     }
