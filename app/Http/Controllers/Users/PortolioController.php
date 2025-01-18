@@ -7,6 +7,7 @@ use App\Http\Controllers\Base\BaseController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Users\Trait\UserTrait;
 use App\Http\Requests\PortfolioRequest;
+use App\Models\PortfolioImage;
 use App\Models\UserPortfolio;
 use Illuminate\Http\Request;
 use App\Services\Users\CloudinaryFileUploadService;
@@ -18,15 +19,6 @@ class PortolioController extends BaseController
 
     public function portfolio(PortfolioRequest $request)
     {
-        $jsonImages = [];
-        if($request->file('images')){
-            foreach($request->file('images') as $image){
-                $name = $image->getClientOriginalName();
-            $upl = new CloudinaryFileUploadService;
-            $images[] = $upl->upload($image, "portfolio", $name);
-            }
-            $jsonImages = array_column($images, 1);
-        }
         $portfolio = UserPortfolio::create([
             'user_id' => $this->userID()->id,
             'title' => $request->project_title,
@@ -34,9 +26,17 @@ class PortolioController extends BaseController
             'goals' => $request->goals, 
             'achievements' => $request->achievements,
             'project_url' => $request->project_url, 
-            'images' => $jsonImages
         ]);
-
+        if($request->file('images')){
+            foreach($request->file('images') as $image){
+                $name = $image->getClientOriginalName();
+            $upl = new CloudinaryFileUploadService;
+            $images = $upl->upload($image, "portfolio", $name);
+            self::AddPortfolioImage($portfolio->id, array_column($images, 1));
+            // $jsonImages = array_column($images, 1);
+        }
+        }
+    
         return $this->successMessage($portfolio, "");
     }
 
@@ -85,6 +85,29 @@ class PortolioController extends BaseController
         );
 
         return $this->successMessage($portfolio, "successful");
+    }
+
+
+    public function AddPortfolioImage($portfolio_id, $image)
+    {
+        $portfolio = PortfolioImage::create([
+            'user_portfolio_id' => $portfolio_id,
+            'image' => $image
+        ]);
+        return $portfolio;
+    }
+
+    public function deletePortfolioImage($portfolio_id)
+    {
+        try{
+        $portfolio = PortfolioImage::where('id', $portfolio_id)->exist();
+        $portfolio->delete();
+        return response()->json(['data' => 'Image removed']);
+        }catch(\Exception $e)
+        {
+            return response()->json(['error' => 'Image not found']);
+        }
+
     }
 
  
