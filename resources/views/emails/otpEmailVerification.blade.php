@@ -153,8 +153,8 @@ body {
     <section class="candidate-card">
     
       <div class="details">
-        <p>Hi {{$data['name'], __('We received a request to reset your password for your account associated with this email address. To proceed, please verify your email address with the OTP below')}}</p>
-        <p class="qualifications"> {{$data['otp']}}</p>
+        <p>Hi {{$data['name']}},</p>  <p>{{__('We received a request to reset your password for your account associated with this email address. To proceed, please verify your email address with the OTP below')}}</p>
+        <p class="qualifications" style="padding:6px; background:#dad7d7;color:#000; text-align:center "> {{$data['otp']}}</p>
        <p> {{__('If you didn’t request a password reset, you can safely ignore this email. Your account will remain secure, and no changes will be made.')}}</p>
        
       </div>

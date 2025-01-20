@@ -30,7 +30,7 @@ class SendOtpMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address('support@portrec.ng'),
+            from: new Address('support@portrec.ng', 'Portrec Resourcing'),
             subject: 'Verify Your Email Address to Reset Your Password',
         );
     }

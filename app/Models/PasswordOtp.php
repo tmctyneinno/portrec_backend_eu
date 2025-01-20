@@ -10,6 +10,6 @@ class PasswordOtp extends Model
     use HasFactory;
 
     protected $fillable = [
-
+'user_id', 'otp', 'status', 'expiry'
     ];
 }
