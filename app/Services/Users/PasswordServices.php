@@ -27,6 +27,8 @@ class PasswordServices implements PasswordInterface
             ]
             ));
 
+        $password = PasswordOtp::where('user_id', $user->id)->get();
+        if($password) $password->delete();
         PasswordOtp::create([
            'user_id' => $user->id,
             'otp' => $otp, 
@@ -42,7 +44,6 @@ class PasswordServices implements PasswordInterface
         $otp = PasswordOtp::where(['user_id' => $request->user_id, 'otp' => $request->otp])->latest()->first();
         if($otp && $otp->expiry > Carbon::now())
         {   
-            $otp->delete();
             return 
             ['message' => 'Otp verified successfully',
             'user' => User::find($request->user_id)];
@@ -54,6 +55,8 @@ class PasswordServices implements PasswordInterface
     public function ResetPassword($request)
     {
         $user = User::where('id', $request->user_id)->first();
+        $otp = PasswordOtp::where(['user_id' => $user->id, 'otp' => $request->otp])->latest()->first();
+        if($otp) return false;
         if($user)
         {
             $user->update([
@@ -61,7 +64,7 @@ class PasswordServices implements PasswordInterface
             ]);
         return ['message' => 'Password updated', 
         'user' => $user];
-    
+        $otp->delete();
         }
         return false;
         
