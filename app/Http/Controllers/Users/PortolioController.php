@@ -76,7 +76,7 @@ class PortolioController extends BaseController
         $portfolio->update(
             [
             'user_id' => $this->userID()->id,
-            'title' => $request->project_title,
+            'title' => $request->title,
             'description' => $request->description, 
             'goals' => $request->goals, 
             'achievements' => $request->achievements,
