@@ -7,7 +7,10 @@ use App\Mail\SendOtpMail;
 use App\Models\PasswordOtp;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+
+use function PHPUnit\Framework\throwException;
 
 class PasswordServices implements PasswordInterface
 {
@@ -36,23 +39,32 @@ class PasswordServices implements PasswordInterface
 
     }
     public function verifyOTP($request){
-        $otp = PasswordOtp::where(['user_id' => $request->user_id, 'otp' => $request->otp])->first();
+        $otp = PasswordOtp::where(['user_id' => $request->user_id, 'otp' => $request->otp])->latest()->first();
         if($otp && $otp->expiry > Carbon::now())
         {   
             $otp->delete();
-            return true;
+            return 
+            ['message' => 'Otp verified successfully',
+            'user' => User::find($request->user_id)];
         }
-        return false;
+       return false;
     }
+
+
     public function ResetPassword($request)
     {
-        $user = User::where('user_id', $request->user_id)->first();
+        $user = User::where('id', $request->user_id)->first();
         if($user)
         {
             $user->update([
-                'password' => $request->password
+                'password' => Hash::make($request->password)
             ]);
+        return ['message' => 'Password updated', 
+        'user' => $user];
+    
         }
+        return false;
+        
 
     }
     public function changePassword($request){}

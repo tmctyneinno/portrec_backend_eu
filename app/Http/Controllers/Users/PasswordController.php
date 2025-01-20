@@ -18,12 +18,12 @@ class PasswordController extends Controller
         
     }
 
-    public function verifyOTPEmail(PasswordRequest $request)
+    public function sendOTPEmail(PasswordRequest $request)
     {
+        
         try{
             $res = $this->passwordServices->verifyOTPEmail($request);
-        return response()->json(['data' => $res]);
-
+         return response()->json(['data' => $res]);
         }catch(\Exception $e)
     {
         return response()->json(['error' => $e->getMessage()]); ;
@@ -33,15 +33,26 @@ class PasswordController extends Controller
 
     public function verifyOTP(PasswordRequest $request)
     {
+        try{
         $otp = $this->passwordServices->verifyOTP($request);
-        return $otp;
+        if($otp) return response()->json(['data' => $otp]);
+        return response()->json(['error' =>'Otp not correct or expired']); ;
+       }catch(\Exception $e)
+     {
+    return response()->json(['error' => $e->getMessage()]); ;
+}
     }
 
     public function ResetPassword(PasswordRequest $request)
     {
-        $password = $this->passwordServices->ResetPassword($request);
-        return $password;
-    }
+        try{
+            $password = $this->passwordServices->ResetPassword($request);
+            if($password) return response()->json(['data' => $password]);
+            return response()->json(['error' =>'Request Failed, try again']); ;
+           }catch(\Exception $e)
+         {
+        return response()->json(['error' => $e->getMessage()]); ;
+        }
 
-
+  }
 }
