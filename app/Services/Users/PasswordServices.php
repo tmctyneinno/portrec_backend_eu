@@ -62,13 +62,12 @@ class PasswordServices implements PasswordInterface
             $user->update([
                 'password' => Hash::make($request->password)
             ]);
-        return ['message' => 'Password updated', 
+        return [
+        'message' => 'Password updated', 
         'user' => $user];
         $otp->delete();
         }
         return false;
-        
-
     }
     public function changePassword($request){}
 }
