@@ -1,52 +1,54 @@
 <?php 
 
-namespace App\Services\Users;
+namespace App\Services\Recruiter;
 
-use App\Interfaces\Users\PasswordInterface;
+use App\Interfaces\Recruiter\PasswordInterface;
+use App\Mail\RecruiterOtpEmail;
 use App\Mail\SendOtpMail;
 use App\Models\PasswordOtp;
+use App\Models\Recruiter;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
-use function PHPUnit\Framework\throwException;
+
 
 class PasswordServices implements PasswordInterface
 {
     public function verifyOTPEmail($request)
     {
-        $user = User::where('email', $request->email)->first();
-        if($user)
+        $recruiter = Recruiter::where('email', $request->email)->first();
+        if($recruiter)
         {
             $otp = rand(111111,999999);
-        Mail::to($user->email)->send(new SendOtpMail(
+        Mail::to($recruiter->email)->send(new RecruiterOtpEmail(
             [
-                'name' => $user->name,
+                'name' => $recruiter->name,
                 'otp' => $otp
             ]
             ));
 
-        $password = PasswordOtp::where('user_id', $user->id)->get();
+        $password = PasswordOtp::where('user_id', $recruiter->id)->get();
         if($password) $password->each(fn($e) => $e->delete());
         PasswordOtp::create([
-           'user_id' => $user->id,
+           'user_id' => $recruiter->id,
             'otp' => $otp, 
             'status' => 1,
              'expiry' => Carbon::now()->addMinute(10)
         ]);
         }
 
-        return $user;
+        return $recruiter;
 
     }
     public function verifyOTP($request){
-        $otp = PasswordOtp::where(['user_id' => $request->user_id, 'otp' => $request->otp])->latest()->first();
+        $otp = PasswordOtp::where(['user_id' => $request->recruiter_id, 'otp' => $request->otp])->latest()->first();
         if($otp && $otp->expiry > Carbon::now())
         {   
             return 
             ['message' => 'Otp verified successfully',
-            'user' => User::find($request->user_id)];
+            'recruiter' => Recruiter::find($request->recruiter_id)];
         }
        return false;
     }
@@ -54,17 +56,17 @@ class PasswordServices implements PasswordInterface
 
     public function ResetPassword($request)
     {
-        $user = User::where('id', $request->user_id)->first();
-        $otp = PasswordOtp::where(['user_id' => $user->id, 'otp' => $request->otp])->latest()->first();
+        $recruiter = Recruiter::where('id', $request->recruiter_id)->first();
+        $otp = PasswordOtp::where(['user_id' => $recruiter->id, 'otp' => $request->otp])->latest()->first();
         if(!$otp) return false;
-        if($user)
+        if($recruiter)
         {
-            $user->update([
+            $recruiter->update([
                 'password' => Hash::make($request->password)
             ]);
         return [
         'message' => 'Password updated', 
-        'user' => $user];
+        'recruiter' => $recruiter];
         $otp->delete();
         }
         return false;

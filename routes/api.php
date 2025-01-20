@@ -51,3 +51,4 @@ require __DIR__.'/interviewProcesses.php';
 require __DIR__.'/userSubscription.php';
 require __DIR__.'/recruiterSubscription.php';
 require __DIR__.'/UserResetPassword.php';
+require __DIR__.'/recruiterResetPassword.php';

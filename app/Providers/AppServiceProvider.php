@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Interfaces\DashboardServiceInterface;
 use App\Interfaces\Recruiter\InterviewInterface;
+use App\Interfaces\Recruiter\PasswordInterface as RecruiterPasswordInterface;
 use App\Interfaces\Recruiter\PaymentInterface as RecruiterPaymentInterface;
 use App\Interfaces\Users\CoverLetterServiceInterface;
 use App\Interfaces\Users\FileUploadServiceInterface;
@@ -21,6 +22,7 @@ use App\Services\Users\MessageService;
 use App\Interfaces\Users\InterviewInterface as UserInterviewInterface;
 use App\Interfaces\Users\PasswordInterface;
 use App\Interfaces\Users\PaymentInterface;
+use App\Services\Recruiter\PasswordServices as RecruiterPasswordServices;
 use App\Services\Recruiter\PaymentService as RecruiterPaymentService;
 use App\Services\Users\InterviewServices as UserInterviewServices;
 use App\Services\Users\PasswordServices;
@@ -47,6 +49,7 @@ class AppServiceProvider extends ServiceProvider
         app()->bind(PaymentInterface::class, PaymentService::class);
         app()->bind(RecruiterPaymentInterface::class, RecruiterPaymentService::class);
         app()->bind(PasswordInterface::class, PasswordServices::class);
+        app()->bind(RecruiterPasswordInterface::class, RecruiterPasswordServices::class);
         
     }
 
