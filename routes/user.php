@@ -63,16 +63,19 @@ Route::prefix("user")->group(function () {
         Route::get("dashboard/info", [UsersDashboardController::class, "userInfo"]);
 
         Route::controller(PortolioController::class)->group(function() {
-            Route::post("portfolio",  "portfolio");
-            Route::get("portfolio",  "getPortfolio");
-            Route::post("portfolio/{id}",  "updatePortfolio");
-            Route::delete("portfolio/{id}", "deletePortfolio");
-            Route::post("portfolio/image", "uploadProjectImage");
-            Route::delete("portfolio/image/{id}",  "deletePortfolioImage");
+            Route::post("add/portfolio",  "Addportfolio");
+            Route::get("get/user/portfolio",  "getUserPortfolio");
+            Route::get("portfolio/details/{id}",  "getPortfolio");
+            Route::post("portfolio/update/{id}",  "updatePortfolio");
+            Route::post("portfolio/delete/{id}", "deletePortfolio");
+            Route::post("portfolio/add/image", "AddPortfolioImage");
+            Route::post("portfolio/delete/image/{id}",  "deletePortfolioImage");
         });
 
         Route::controller(InterviewProcess::class)->group(function() {
         Route::get('get/interviews', 'getUserInterview');
         });
+
+        
     });
 });

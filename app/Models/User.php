@@ -90,7 +90,7 @@ class User extends Authenticatable
 
     public function portfolios()
     {
-        return $this->hasMany(UserPortfolio::class);
+        return $this->hasMany(UserPortfolio::class)->with('images');
     }
 
     public function skill()

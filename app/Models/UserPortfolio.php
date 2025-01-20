@@ -13,4 +13,9 @@ class UserPortfolio extends Model
     protected $casts = [
         'images' =>'json'
     ];
+
+    public function images()
+    {
+        return $this->hasMany(PortfolioImage::class);
+    }
 }

@@ -9,11 +9,11 @@ class PortfolioImage extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['image', 'user_porfolio_id'];
+    protected $fillable = ['image', 'user_portfolio_id'];
 
     protected $casts =
     [
         'image' => 'string',
-        'user_porfolio_id' => 'integer'
+        'user_portfolio_id' => 'string'
     ];
 }

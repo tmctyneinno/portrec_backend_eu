@@ -19,9 +19,11 @@ use App\Services\Users\JobApplicationAnswerService;
 use App\Services\Users\JobApplicationService;
 use App\Services\Users\MessageService;
 use App\Interfaces\Users\InterviewInterface as UserInterviewInterface;
+use App\Interfaces\Users\PasswordInterface;
 use App\Interfaces\Users\PaymentInterface;
 use App\Services\Recruiter\PaymentService as RecruiterPaymentService;
 use App\Services\Users\InterviewServices as UserInterviewServices;
+use App\Services\Users\PasswordServices;
 use App\Services\Users\PaymentService;
 use App\Services\Users\UserService;
 use Illuminate\Support\ServiceProvider;
@@ -44,6 +46,7 @@ class AppServiceProvider extends ServiceProvider
         app()->bind(UserInterviewInterface::class, UserInterviewServices::class);
         app()->bind(PaymentInterface::class, PaymentService::class);
         app()->bind(RecruiterPaymentInterface::class, RecruiterPaymentService::class);
+        app()->bind(PasswordInterface::class, PasswordServices::class);
         
     }
 
