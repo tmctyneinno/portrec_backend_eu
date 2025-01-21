@@ -29,7 +29,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-
+require __DIR__.'/socialLogin.php';
 require __DIR__.'/user.php';
 require __DIR__.'/job.php';
 require __DIR__ . '/recruiter.php';
