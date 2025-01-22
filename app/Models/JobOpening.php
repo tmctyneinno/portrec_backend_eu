@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class JobOpening extends Model
 {
     use HasFactory;
-    protected $fillable = ['recruiter_id', 'company_id', 'job_level_id', 'industry_id', 'country_id', 'job_function_id', 'job_type_id', 'title', 'description', 'required_skills', 'min_salary', 'max_salary', 'deadline', 'qualifications', 'location', 'experience', 'total_view', 'other_qualifications', 'benefits', 'status', 'responsibilities', 'capacity', 'total_applied', 'job_url', 'is_featured'];
+    protected $fillable = ['recruiter_id', 'company_id', 'job_level_id', 'industry_id', 'country_id', 'job_function_id', 'job_type_id', 'title', 'description', 'required_skills', 'min_salary', 'max_salary', 'deadline', 'qualifications', 'location', 'experience', 'total_view', 'other_qualifications', 'benefits', 'status', 'responsibilities', 'capacity', 'total_applied', 'job_url', 'is_featured', 'currency_id'];
 
     // protected $hidden = [
     //     "recruiter_id",
@@ -51,5 +51,10 @@ class JobOpening extends Model
     public function questions()
     {
         return $this->hasMany(JobOpeningQuestion::class, 'job_opening_id', 'id');
+    }
+
+    public function currency()
+    {
+        return $this->belongsTo(CountryCurrency::class, 'currency_id', 'id');
     }
 }

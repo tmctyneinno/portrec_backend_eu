@@ -25,7 +25,7 @@ class JobController extends BaseController
     {
         $id = $this->RecruiterID()->id;
         $profile = RecruiterProfile::where('recruiter_id', $id)->first();
-        $query = JobOpening::with(["recruiter:id,name,email,phone", "company", "jobType", "industry", "questions"]);
+        $query = JobOpening::with(["recruiter:id,name,email,phone", "company", "jobType", "industry", "questions", "currency"]);
         $search = $request->get("search");
         $start_date = $request->get("start_date") ?? Carbon::now()->toDateString();
         $end_date = $request->get("end_date") ??  Carbon::now()->addDays(30)->toDateString();
@@ -45,7 +45,7 @@ class JobController extends BaseController
     {
         $id = $this->RecruiterID()->id;
         $profile = RecruiterProfile::where('recruiter_id', $id)->first();
-        $query = JobOpening::select('*', 'title AS label')->with(["recruiter:id,name,email,phone", "company", "jobType", "industry", "questions"]);
+        $query = JobOpening::select('*', 'title AS label')->with(["recruiter:id,name,email,phone", "company", "jobType", "industry", "questions", "currency"]);
         $query->where('company_id', $profile->company_id);
         return $this->successMessage($query->get());
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Base\BaseController;
+use App\Models\CountryCurrency;
 use App\Models\Industry;
 use App\Models\JobApplication;
 use App\Models\JobFunction;
@@ -32,7 +33,7 @@ class JobController extends BaseController
     public function showJobs(Request $request, $type = null, $id = null)
     {
 
-        $query = JobOpening::with(["recruiter:id,name,email,phone", "company", "jobType", "industry", "level"]);
+        $query = JobOpening::with(["recruiter:id,name,email,phone", "company", "jobType", "industry", "level", "currency"]);
 
         if (!$type) {
             $jobType = $request->get("type_id");
@@ -183,7 +184,7 @@ class JobController extends BaseController
     public function jobDetails(Request $request, $id)
     {
         // return $this->successMessage(AUTH::id());
-        $job = JobOpening::where("id", $id)->with(["questions", "industry", "jobType", "company"])->first();
+        $job = JobOpening::where("id", $id)->with(["questions", "industry", "jobType", "company", "currency"])->first();
         $job->applications = JobApplication::where('job_opening_id', $id)->pluck('user_id');
 
         $avatar = FileUploadPath::find($job?->company?->image);
@@ -221,7 +222,7 @@ class JobController extends BaseController
     {
         $title = $request->get("title");
         $location = $request->get("location");
-        $query = JobOpening::with(["recruiter:id,name,email,phone", "company", "jobType", "industry"]);
+        $query = JobOpening::with(["recruiter:id,name,email,phone", "company", "jobType", "industry", "currency"]);
 
         if ($title)
             $query->where("title", "like", "%" .  $title . "%");
@@ -238,5 +239,12 @@ class JobController extends BaseController
         });
 
         return $this->successMessage($search);
+    }
+
+
+    public function getCountryCurrencies()
+    {
+        $currencies = CountryCurrency::all();
+        return $this->successMessage($currencies);
     }
 }

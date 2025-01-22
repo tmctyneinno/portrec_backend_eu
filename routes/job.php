@@ -25,6 +25,7 @@ Route::controller(JobController::class)->group(function () {
     Route::get("types/{id?}",  "jobTypes");
     Route::get("levels/{id?}", "jobLevels");
     Route::get("functions/{id?}",  "jobFunctions");
+    Route::get("currencies",  "getCountryCurrencies");
     Route::get("qualifications/{id?}", "jobQualifications");
     Route::get("salary/{from}/{to}", "jobSalaryRansge");
     Route::get("search", "jobSearch");
