@@ -88,6 +88,27 @@ class RecruiterAuthController extends AuthController
         return $this->successMessage(["token" => $token, 'recruiter' => $recruiter], "login success");
     }
 
+
+    public function signinWithGoogle(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => 'required|email',
+            'name' => 'required|string',
+            'id' => 'required|string', // Google User ID
+        ]);
+
+        // Check if the user exists
+        $recruiter = Recruiter::where('email', $validated['email'])->first();
+
+        if (!$recruiter) {
+            return $this->errorMessage('This email is not registered, Please sign up first', 401);
+        }
+
+        $token = $recruiter->createToken("recruiterPortreToken")->plainTextToken;
+
+        return $this->successMessage(["token" => $token, 'recruiter' => $recruiter], "login success");
+    }
+
     // public function updatePassword(Request $request, $id)
     // {
 

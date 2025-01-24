@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\UserProfile;
+use Illuminate\Support\Facades\Auth;
 
 class UserAuthController extends AuthController
 {
@@ -93,6 +94,28 @@ class UserAuthController extends AuthController
 
         $token = $login->createToken("portrecToken")->plainTextToken;
         return $this->successMessage(["token" => $token, 'user' => $login], "login success");
+    }
+
+
+
+    public function signinWithGoogle(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => 'required|email',
+            'name' => 'required|string',
+            'id' => 'required|string', // Google User ID
+        ]);
+
+        // Check if the user exists
+        $user = User::where('email', $validated['email'])->first();
+
+        if (!$user) {
+            return $this->errorMessage('This email is not registered, Please sign up first', 401);
+        }
+
+        $token = $user->createToken("portrecToken")->plainTextToken;
+
+        return $this->successMessage(["token" => $token, 'user' => $user], "login success");
     }
 
     public function changePassword(Request $request) {}

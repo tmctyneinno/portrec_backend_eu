@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 namespace App\routes;
 
 use App\Http\Controllers\Auth\UserAuthController;
@@ -18,9 +19,10 @@ use Illuminate\Support\Facades\Route;
 Route::prefix("user")->group(function () {
     Route::post("signup", [UserAuthController::class, "signup"]);
     Route::post("login", [UserAuthController::class, "signin"])->name('login');
+    Route::post("login-google", [UserAuthController::class, "signinWithGoogle"])->name('signinWithGoogle');
     Route::middleware(["auth:sanctum", "login",])->group(function () {
-        
-        Route::controller(ProfileController::class)->group(function() {
+
+        Route::controller(ProfileController::class)->group(function () {
             Route::get("profile",  "myProfile");
             Route::post("profile/update",  "updateProfile");
             Route::post("profile/picture", "uploadProfileImage");
@@ -28,13 +30,13 @@ Route::prefix("user")->group(function () {
             Route::put("password", "updatePassword");
         });
 
-        Route::controller(SkillController::class)->group(function() {
+        Route::controller(SkillController::class)->group(function () {
             Route::post("skill", "skill");
             Route::delete("skill/{id}",  "deleteSkill");
             Route::get("skill", "getSkills");
         });
 
-        Route::controller(EducationController::class)->group(function() { 
+        Route::controller(EducationController::class)->group(function () {
             Route::post("education",  "education");
             Route::put("education/{id}",  "updateEducation");
             Route::delete("education/{id}", "deleteEducation");
@@ -55,14 +57,14 @@ Route::prefix("user")->group(function () {
             Route::post("/upload", "uploadCoverLetter");
         });
 
-        Route::controller(WorkExperienceController::class)->group(function() { 
+        Route::controller(WorkExperienceController::class)->group(function () {
             Route::post("experience",  "workExperience");
-            Route::put("experience/{id}","updateExperience");
+            Route::put("experience/{id}", "updateExperience");
             Route::delete("experience/{id}",  "deleteExperience");
         });
         Route::get("dashboard/info", [UsersDashboardController::class, "userInfo"]);
 
-        Route::controller(PortolioController::class)->group(function() {
+        Route::controller(PortolioController::class)->group(function () {
             Route::post("add/portfolio",  "Addportfolio");
             Route::get("get/user/portfolio",  "getUserPortfolio");
             Route::get("portfolio/details/{id}",  "getPortfolio");
@@ -72,10 +74,8 @@ Route::prefix("user")->group(function () {
             Route::post("portfolio/delete/image/{id}",  "deletePortfolioImage");
         });
 
-        Route::controller(InterviewProcess::class)->group(function() {
-        Route::get('get/interviews', 'getUserInterview');
+        Route::controller(InterviewProcess::class)->group(function () {
+            Route::get('get/interviews', 'getUserInterview');
         });
-
-        
     });
 });
