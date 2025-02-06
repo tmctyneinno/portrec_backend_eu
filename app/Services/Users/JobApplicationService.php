@@ -86,7 +86,7 @@ class JobApplicationService implements JobApplicationServiceInterface
                     'resume_id' => $applicationData->resume,
                     'status' => JobApplicationStatus::IN_REVIEW->name,
                     'is_viewed' => 0,
-                    'applied_date' => Carbon::now()->toDateString(),
+                    'applied_date' => Carbon::now(),
                     'cover_letter' => $applicationData->cover_letter,
                     'portfolio_links' => $applicationData->portfolio_link
                 ]);
