@@ -18,13 +18,15 @@ class MessageService implements MessageServiceInterface
 {
     public function __construct(
         public readonly FileUploadServiceInterface $fileUploadService
-    ) {
-    }
+    ) {}
 
     public function saveMessage(MessageCreationDto $messageData): ?Conversation
     {
-        $user = auth()->user();
-        $recruiter = auth('recruiter')->user();
+        // $user = auth()->user();
+        // $recruiter = auth('recruiter')->user();
+        $loggedInUser = auth()->user();
+        $user = $loggedInUser?->role == 'user' ? $loggedInUser : null;
+        $recruiter = $loggedInUser?->role != 'user' ? $loggedInUser : null;
 
         try {
             DB::beginTransaction();
@@ -59,6 +61,7 @@ class MessageService implements MessageServiceInterface
                     'message' => $messageData->message,
                     'attachment' => $filePath ?? null,
                     'attachment_public_id' => $publicId ?? null,
+                    'role' => $user?->role ?? 'recruiter',
                 ]);
 
             DB::commit();
@@ -82,8 +85,9 @@ class MessageService implements MessageServiceInterface
 
     public function getMessagesCount()
     {
-        $user = auth()->user();
-        $recruiter = auth('recruiter')->user();
+        $loggedInUser = auth()->user();
+        $user = $loggedInUser?->role == 'user' ? $loggedInUser : null;
+        $recruiter = $loggedInUser?->role != 'user' ? $loggedInUser : null;
 
         $conversations = Conversation::query()
             ->when($user, function (Builder $query) use ($user) {
@@ -100,7 +104,7 @@ class MessageService implements MessageServiceInterface
                 $query->where('is_user_read', 0);
             })
             ->when($recruiter, function (Builder $query) {
-            $query->where('is_recruiter_read', 0);
+                $query->where('is_recruiter_read', 0);
             });
 
         if ($conversations->count() < 2) {
@@ -112,7 +116,7 @@ class MessageService implements MessageServiceInterface
 
     public function findConversation(string $conversationId): ?Conversation
     {
-     
+
         try {
             $message = Conversation::query()
                 ->where('id', $conversationId)
@@ -132,8 +136,9 @@ class MessageService implements MessageServiceInterface
 
     public function markAsRead(string $id): null|bool
     {
-        $user = auth()->user();
-        $recruiter = auth('recruiter')->user();
+        $loggedInUser = auth()->user();
+        $user = $loggedInUser?->role == 'user' ? $loggedInUser : null;
+        $recruiter = $loggedInUser?->role != 'user' ? $loggedInUser : null;
 
         try {
             $conversation = Conversation::query()
@@ -167,15 +172,12 @@ class MessageService implements MessageServiceInterface
 
     public function fetchConversations(string $perPage): LengthAwarePaginator
     {
-        $user = auth()->user();
-        $recruiter = auth('recruiter')->user();
+        $loggedInUser = auth()->user();
+        $isUser = $loggedInUser?->role === 'user';
 
         $conversations = Conversation::query()
-            ->when($user, function (Builder $query) use ($user) {
-                $query->where('user_id', $user?->id);
-            })
-            ->when($recruiter, function (Builder $query) use ($recruiter) {
-                $query->where('user_id', $recruiter?->id);
+            ->when($loggedInUser, function (Builder $query) use ($loggedInUser, $isUser) {
+                $query->where($isUser ? 'user_id' : 'recruiter_id', $loggedInUser->id);
             })
             ->with(['user' => function ($query) {
                 return $query->select(['id', 'name'])->with('profile:user_id,image_path,phone,avatar,location');
@@ -200,15 +202,16 @@ class MessageService implements MessageServiceInterface
 
     public function deleteMessage(string $messageId, string $type)
     {
-        $user = auth()->user();
-        $recruiter = auth('recruiter')->user();
+        $loggedInUser = auth()->user();
+        $user = $loggedInUser?->role == 'user' ? $loggedInUser : null;
+        $recruiter = $loggedInUser?->role != 'user' ? $loggedInUser : null;
 
         try {
             if ($type === 'conversation') {
                 $deleted = Conversation::query()
                     ->where('id', $messageId)
-                    ->where('user_id', $user?->id)
-                    ->orWhere('recruiter_id', $recruiter?->id)
+                    // ->where('user_id', $user?->id)
+                    // ->orWhere('recruiter_id', $recruiter?->id)
                     ->delete();
 
                 return $deleted;
@@ -216,8 +219,8 @@ class MessageService implements MessageServiceInterface
 
             $message = Message::query()
                 ->where('id', $messageId)
-                ->where('sender_id', $user?->id ?? $recruiter?->id)
-                ->orWhere('recipient_id', $recruiter?->id ?? $user?->id)
+                // ->where('sender_id', $user?->id ?? $recruiter?->id)
+                // ->orWhere('recipient_id', $recruiter?->id ?? $user?->id)
                 ->with(['conversation' => function ($query) {
                     return $query->withCount('messages');
                 }])

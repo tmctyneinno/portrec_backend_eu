@@ -2,6 +2,9 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Company;
+use App\Models\Recruiter;
+use App\Models\RecruiterProfile;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,12 +17,22 @@ class ConversationResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+
+        // Getting Company_name
+        $company = null;
+        $recruiterProfile = RecruiterProfile::where('recruiter_id', $this->recruiter->id)->first();
+        if ($recruiterProfile && $recruiterProfile->company_id) {
+            $companyProfile = Company::find($recruiterProfile->company_id);
+            $company = $companyProfile?->name;
+        }
+
         return [
             'id' => $this->id,
             'is_user_read' => $this->is_user_read,
             'is_recruiter_read' => $this->is_recruiter_read,
             'user' => new UserResource($this->user),
             'recruiter' => new RecruiterResource($this->recruiter),
+            'company' => $company,
             'message' => new MessageResource($this->whenLoaded('message')),
             'messages_count' => $this->whenCounted('messages'),
             'unread_messages_count' => $this->whenCounted('unread_messages'),

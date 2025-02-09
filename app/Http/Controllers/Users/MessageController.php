@@ -15,8 +15,7 @@ class MessageController extends BaseController
 {
     public function __construct(
         public readonly MessageServiceInterface $messageService
-    ) {
-    }
+    ) {}
 
     /**
      * Display a listing of the resource.
@@ -66,10 +65,11 @@ class MessageController extends BaseController
         if (!$conversation) {
             return $this->errorMessage('We ran into an error while trying to handle your request, please try again');
         }
-  
+
         return $this->successMessage(
             [
-                'conversation' => new ConversationResource($conversation->load(['user' => function ($query) {
+                'conversation' => new ConversationResource($conversation->load([
+                    'user' => function ($query) {
                         return $query->select(['id', 'name'])->with('profile:user_id,image_path,phone,avatar,location');
                     },
                     'recruiter:id,name,location,recruiter_level',

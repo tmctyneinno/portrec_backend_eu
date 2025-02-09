@@ -17,6 +17,7 @@ class Message extends Model
         'message',
         'attachment',
         'attachment_public_id',
+        'role',
     ];
 
     public function conversation(): BelongsTo

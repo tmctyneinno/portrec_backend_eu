@@ -15,8 +15,7 @@ class MessageController extends BaseController
 {
     public function __construct(
         public readonly MessageServiceInterface $messageService
-    ) {
-    }
+    ) {}
 
     /**
      * Display a listing of the resource.
