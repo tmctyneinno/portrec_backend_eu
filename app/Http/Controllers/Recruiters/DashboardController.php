@@ -32,7 +32,6 @@ class DashboardController extends BaseController
 
     public function recruiterInfo(Request $request)
     {
-
         $info = $this->dashboardService->RecruiterDashboardInfo($request);
         return response()->json($info, 200);
     }

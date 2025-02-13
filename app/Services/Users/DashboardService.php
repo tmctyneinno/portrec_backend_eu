@@ -9,8 +9,11 @@ use App\Http\Controllers\Users\Trait\UserTrait;
 use App\Interfaces\DashboardServiceInterface;
 use App\Models\CoverLetter;
 use App\Models\JobApplication;
+use App\Models\JobOpening;
 use App\Models\User;
 use App\Models\Recruiter;
+use App\Models\RecruiterProfile;
+use App\Models\UserProfile;
 use App\Models\UserResume;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -21,10 +24,22 @@ use Illuminate\Support\Str;
 class DashboardService implements DashboardServiceInterface
 {
 
+    use RecruiterTrait;
     public function RecruiterDashboardInfo($request): array
     {
-        $id = $request->user()->id;
+        $id = $this->RecruiterID()->id;
+        $profile = RecruiterProfile::where('recruiter_id', $id)->first();
+        $jobsOpeningQuery = JobOpening::with(["recruiter:id,name,email,phone", "company"])
+            ->where('company_id', $profile->company_id);
         return [];
+
+        $allJobs = $jobsOpeningQuery->get();
+        $jobsOpen = $jobsOpeningQuery->where('deadline', '<=', Carbon::now())->get();
+
+        return [
+            'allJobs' => $allJobs,
+            'jobsOpen' => $jobsOpen,
+        ];
     }
 
     public function UserDashboardInfo($request): array
