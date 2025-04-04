@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\NewLetterEmailsController;
 use App\Http\Controllers\Recruiters\TopCareerController as RecruitersTopCareerController;
+use App\Http\Controllers\SummitController;
 use App\Http\Controllers\Users\CompanyController;
 use App\Http\Controllers\Users\SkillController;
 use Illuminate\Support\Facades\Route;
@@ -25,4 +26,11 @@ Route::prefix("newletters")->group(function () {
     Route::post("save/email", [NewLetterEmailsController::class, "saveEmail"]);
     Route::post("activate/deactivate/email", [NewLetterEmailsController::class, "activateDeactivateEmail"]);
     Route::get("get/emails", [NewLetterEmailsController::class, "getAllEmails"]);
+});
+
+
+Route::controller(SummitController::class)->group(function() 
+{
+    Route::get('/summits', 'getSummit');
+    Route::get('summit/{id}', 'summitDetails');
 });
