@@ -57,7 +57,7 @@ class NewLetterEmailsController extends BaseController
     public function getAllEmails()
     {
         $emails = DB::table('newsletter_emails')
-            ->select('email', 'is_active')
+            ->select('id', 'email', 'is_active')
             ->get()
             ->groupBy('is_active');
 
@@ -77,6 +77,6 @@ class NewLetterEmailsController extends BaseController
         }
 
         DB::table('newsletter_emails')->whereIn('id', $ids)->delete();
-        return response()->json(['success' => false, 'message' => 'deleted'], 200);
+        return response()->json(['success' => true, 'message' => 'deleted'], 200);
     }
 }

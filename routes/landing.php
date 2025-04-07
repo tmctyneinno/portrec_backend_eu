@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ContactMessageController;
 use App\Http\Controllers\NewLetterEmailsController;
 use App\Http\Controllers\Recruiters\TopCareerController as RecruitersTopCareerController;
 use App\Http\Controllers\SummitController;
@@ -26,6 +27,13 @@ Route::prefix("newletters")->group(function () {
     Route::post("save/email", [NewLetterEmailsController::class, "saveEmail"]);
     Route::post("activate/deactivate/email", [NewLetterEmailsController::class, "activateDeactivateEmail"]);
     Route::get("get/emails", [NewLetterEmailsController::class, "getAllEmails"]);
+});
+
+// New Letters
+Route::prefix("contact_message")->group(function () {
+    Route::post("send/message", [ContactMessageController::class, "saveMessage"]);
+    Route::get("get/messages", [ContactMessageController::class, "getMessages"]);
+    Route::post("read/message/{id}", [ContactMessageController::class, "readMessage"]);
 });
 
 
