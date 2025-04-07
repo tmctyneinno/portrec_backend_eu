@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('summit_date')->nullable();
             $table->integer('is_active')->nullable();
             $table->text('venue')->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

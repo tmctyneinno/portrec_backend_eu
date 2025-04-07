@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class SummitRegistration extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['email', 'phone', 'name'];
 }

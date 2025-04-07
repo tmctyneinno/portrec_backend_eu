@@ -11,5 +11,12 @@ class Summit extends Model
 
 
     protected $with = ['summit_registration'];
-    protected $fillable = ['title', 'link', 'summit_date', 'contents', 'is_active', 'image', 'venue'];
+    protected $fillable = ['title', 'link', 'summit_date', 'content', 'is_active', 'image', 'venue'];
+
+
+
+    public function summit_registration()
+    {
+        return $this->hasMany(SummitRegistration::class);
+    }
 }

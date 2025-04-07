@@ -22,7 +22,7 @@ class SummitSeeder extends Seeder
             'title' => 'GLOBAL WORKFORCE INTEGRITY: Innovation Technology, Compliance, and Trust in Recruitment & Cross-Border Engagement', 
            'link' => 'https://events.teams.microsoft.com/event/a9a41914-40b5-4070-91bd-4f1bdfa319ab@252fbfd9-7d72-47b6-bc0d-43af771c9b6e',
             'summit_date' => Carbon::now()->addDays(52),
-            'contents' => 'We shall be dissecting and analysing a crucial topic in the recruitment sector. The theme for this highly anticipated event is:
+            'content' => 'We shall be dissecting and analysing a crucial topic in the recruitment sector. The theme for this highly anticipated event is:
                     “GLOBAL WORKFORCE INTEGRITY: Innovation Technology, Compliance, and Trust in Recruitment & Cross-Border Engagement”
 
                     Are you ready to take the HR world by storm? The time has come to amplify your skills, ignite your career, and revolutionize HR management in Africa and across the globe!
@@ -45,7 +45,7 @@ class SummitSeeder extends Seeder
             'title' => 'GLOBAL WORKFORCE INTEGRITY: Innovation Technology, Compliance, and Trust in Recruitment & Cross-Border Engagement', 
            'link' => 'https://events.teams.microsoft.com/event/a9a41914-40b5-4070-91bd-4f1bdfa319ab@252fbfd9-7d72-47b6-bc0d-43af771c9b6e',
             'summit_date' => '',
-            'contents' => 'We shall be dissecting and analysing a crucial topic in the recruitment sector. The theme for this highly anticipated event is:
+            'content' => 'We shall be dissecting and analysing a crucial topic in the recruitment sector. The theme for this highly anticipated event is:
                     “GLOBAL WORKFORCE INTEGRITY: Innovation Technology, Compliance, and Trust in Recruitment & Cross-Border Engagement”
 
                     Are you ready to take the HR world by storm? The time has come to amplify your skills, ignite your career, and revolutionize HR management in Africa and across the globe!
