@@ -9,5 +9,5 @@ class SummitRegistration extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['email', 'phone', 'name'];
+    protected $fillable = ['email', 'name', 'summit_id'];
 }

@@ -41,4 +41,5 @@ Route::controller(SummitController::class)->group(function()
 {
     Route::get('/summits', 'getSummit');
     Route::get('summit/{id}', 'summitDetails');
+    Route::post('summit/register/users', 'summitDetailsRegistration');
 });
