@@ -4,21 +4,21 @@ use App\Http\Controllers\Users\Job\JobApplicationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Users\JobController;
 
-Route::middleware(['auth:sanctum'])->prefix('jobs')->group(function () {
+Route::middleware(['auth:sanctum'])->prefix('job')->group(function () {
     Route::post("apply", [JobApplicationController::class, 'apply']);
     Route::post("apply/cover-letter", [JobApplicationController::class, 'uploadCoverLetter']);
     Route::post("apply/answers", [JobApplicationController::class, 'uploadJobApplicationAnswers']);
     Route::post("user/applications", [JobApplicationController::class, 'myApplications']);
 });
 
-Route::controller(JobApplicationController::class)->prefix('jobs')->group(function () {
+Route::controller(JobApplicationController::class)->prefix('job')->group(function () {
     Route::post('apply/guest', 'guestApply');
     Route::post('apply/cover-letter/guest', 'guestUploadCoverLetter');
     Route::post('apply/answers/guest', 'guestUploadJobApplicationAnswers');
 });
 
 
-Route::controller(JobController::class)->prefix('jobs')->group(function () {
+Route::controller(JobController::class)->prefix('job')->group(function () {
     Route::get("all/{type?}/{id?}", "showJobs");
     Route::get("industries/{id?}",  "jobIndustries");
     Route::get("skills/{id?}",  "jobSkills");

@@ -33,12 +33,12 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix('api')
                 ->group(function () {
                     require base_path('routes/api.php');
-                    Route::prefix("recruiter")->group(function () {
-                        require base_path('routes/recruiter.php');
-                    });
-                    Route::prefix("job")->group(function () {
-                        require base_path('routes/job.php');
-                    });
+                    // Route::prefix("recruiter")->group(function () {
+                    //     require base_path('routes/recruiter.php');
+                    // });
+                    // Route::prefix("job")->group(function () {
+                    //     require base_path('routes/job.php');
+                    // });
                 });
 
             Route::middleware('web')
