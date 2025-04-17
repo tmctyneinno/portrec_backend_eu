@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 
 class FileUploadService implements FileUploadServiceInterface
 {
-    public function upload(UploadedFile $file, string $rootDirectory, string $fileName = null): array
+    public function upload(UploadedFile $file, string $rootDirectory, ?string $fileName = null): array
     {
         $fileName = $fileName ?? $file->getClientOriginalName();
 
