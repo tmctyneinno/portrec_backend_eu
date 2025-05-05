@@ -24,7 +24,7 @@ class JobApplicationRequest extends FormRequest
     {
         return [
             'job_id' => 'required|exists:job_openings,id',
-            'cover_letter' => 'required|string|max:10000',
+            // 'cover_letter' => 'required|string|max:10000',
             'portfolio_link' => 'nullable|string|url',
             'answers' => 'nullable',
             'name' => 'nullable',
