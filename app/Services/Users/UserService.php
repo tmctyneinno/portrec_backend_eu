@@ -28,14 +28,14 @@ class UserService implements UserServiceInterface
         return [$user, $plainTextPassword] ?? null;
     }
 
-    public function saveResume(string $uploadPath, ?string $name = null, ?User $user = null, string $publicId = null): ?UserResume
+    public function saveResume(string $uploadPath, ?string $name = null, ?User $user = null, ?string $publicId = null): ?UserResume
     {
         $user = $user ?? auth()->user();
         return UserResume::query()
             ->create([
                 'user_id' => $user->id,
                 'resume_url' => $uploadPath,
-                'resume_name' => $name ?? $user->name . "'s CV",
+                'resume_name' => $name ?? $user->name . " CV",
                 'public_id' => $publicId ?? null,
             ]);
     }

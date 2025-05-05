@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('title')->nullable();
             $table->string('link')->nullable();
-            $table->string('image')->nullable();
             $table->longText('content')->nullable();
             $table->string('summit_date')->nullable();
             $table->integer('is_active')->nullable();
