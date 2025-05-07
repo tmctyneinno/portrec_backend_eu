@@ -54,17 +54,4 @@ curl_setopt_array($curl, [
  return $res;
 }
 
-function AddUserToTopTalent($user_id)
-{
-    $profile = UserProfile::where('user_id', $user_id)->first();
-    if($profile)
-    {
-        TopCareer::create([
-            'user_id' => $profile->user_id,
-            'industry_id'  => $profile->industry_id,
-            'is_promoted',
-            'subscription_id'
-        ]);
-    }
-}
 

@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Users\Trait\UserTrait;
 use App\Models\FileUploadPath;
 use App\Models\Skill;
+use App\Models\TopCareer;
 use App\Models\User;
 use App\Services\Users\CloudinaryFileUploadService;
 use App\Models\UserProfile;
@@ -49,13 +50,21 @@ class ProfileController extends BaseController
         if ($profile) {
             $profile->fill($data)->save();
         } else {
-            // Create a new UserProfile if it doesn't exist
             $data['user_id'] = $id;
             UserProfile::create($data);
         }
-
         $user->update($request->all());
 
+         $talent = TopCareer::where('user_id', $user->id)->exists();
+        if(!$talent)
+        {
+        $ss =  TopCareer::create([
+                'user_id' => $user->id,
+                'industry_id'  => $profile->industries_id??1
+            ]);
+            return $this->successMessage(['user' => $ss,], "profile updated", 201);
+        }
+      
         return $this->successMessage(['user' => $user, 'profile' => $user->profile], "profile updated", 201);
     }
 
