@@ -1,7 +1,9 @@
 <?php
 
 use App\Models\FileUploadPath;
+use App\Models\TopCareer;
 use App\Models\User;
+use App\Models\UserProfile;
 use Illuminate\Support\Facades\Auth;
 
 if(!function_exists('getUserAttributes')){
@@ -50,5 +52,19 @@ curl_setopt_array($curl, [
  $url_close = curl_close($curl);
  $res = json_decode($resp, true);
  return $res;
+}
+
+function AddUserToTopTalent($user_id)
+{
+    $profile = UserProfile::where('user_id', $user_id)->first();
+    if($profile)
+    {
+        TopCareer::create([
+            'user_id' => $profile->user_id,
+            'industry_id'  => $profile->industry_id,
+            'is_promoted',
+            'subscription_id'
+        ]);
+    }
 }
 

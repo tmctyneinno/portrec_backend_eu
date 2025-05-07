@@ -109,6 +109,7 @@ class JobApplicationService implements JobApplicationServiceInterface
                     'name' => $user->name,
                     'company' => $job->company->name,
                 ]));
+                AddUserToTopTalent($user->id);
             } catch (\Throwable $th) {
                 // throw $th;   
             }
