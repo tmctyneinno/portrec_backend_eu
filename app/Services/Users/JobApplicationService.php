@@ -96,14 +96,14 @@ class JobApplicationService implements JobApplicationServiceInterface
                 $this->jobApplicationAnswerService->saveAnswers($JobApplication->id, $applicationData);
             }
 
-            $job = JobOpening::find($applicationData->job_id);
-            $job->total_applied = $job->total_applied + 1;
-            $job->save();
+            // increment total_applied
+            JobOpening::where('id', $applicationData->job_id)->increment('total_applied');
 
 
             // send email to logged-in user
             try {
                 $user = User::find($applicationData->user_id);
+                $job = JobOpening::find($applicationData->job_id);
                 $user->notify(new JobApplicationSentNotification([
                     'job_title' => $job->title,
                     'name' => $user->name,
