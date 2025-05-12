@@ -1,7 +1,9 @@
 <?php
 
 use App\Models\FileUploadPath;
+use App\Models\TopCareer;
 use App\Models\User;
+use App\Models\UserProfile;
 use Illuminate\Support\Facades\Auth;
 
 if(!function_exists('getUserAttributes')){
@@ -51,4 +53,5 @@ curl_setopt_array($curl, [
  $res = json_decode($resp, true);
  return $res;
 }
+
 
