@@ -14,6 +14,7 @@ use App\Models\CoverLetter;
 use App\Models\User;
 use App\Models\JobApplication;
 use App\Models\JobOpening;
+use App\Models\UserProfile;
 use App\Notifications\GuestUserRegistrationNotification;
 use App\Notifications\JobApplicationSentNotification;
 use Carbon\Carbon;
@@ -38,6 +39,8 @@ class JobApplicationService implements JobApplicationServiceInterface
         try {
             DB::beginTransaction();
 
+            $jobOpening = JobOpening::find($applicationData->job_id);
+
             if (!auth()->user()) {
                 $userData = UserRegistrationDto::fromRequest([
                     'name' => $applicationData->name,
@@ -46,6 +49,15 @@ class JobApplicationService implements JobApplicationServiceInterface
                 ]);
 
                 [$user, $plainTextPassword] = $this->userService->saveUser($userData);
+
+                // create User Profile & attach to industry
+                UserProfile::create([
+                    'user_id' => $user->id,
+                    'industries_id' => $jobOpening->industry_id,
+                    'phone' =>  $applicationData->phone_number
+                ]);
+
+
                 Auth::loginUsingId($user->id);
 
                 // Saving Resume to Local
