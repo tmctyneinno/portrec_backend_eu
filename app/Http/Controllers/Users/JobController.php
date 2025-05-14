@@ -50,6 +50,10 @@ class JobController extends BaseController
             $this->filter($query, "industry", $industry);
             $this->filter($query, "level", $level);
 
+            // only Active Jobs
+            $query->where('status', '0');
+
+
             $allJobs = $query->paginate(10);
 
             $allJobs->getCollection()->transform(function ($job) {

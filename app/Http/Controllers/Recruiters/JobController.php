@@ -185,4 +185,13 @@ class JobController extends BaseController
         }
         return response()->json($JobApplication, 200);
     }
+
+
+    public function toggleJobStatus($id)
+    {
+        $jobOpening = JobOpening::find($id);
+        $jobOpening->status = $jobOpening->status == '1' ? '0' : '1';
+        $jobOpening->save();
+        return response()->json($jobOpening, 200);
+    }
 }
